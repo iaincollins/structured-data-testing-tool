@@ -1,0 +1,23 @@
+{
+  "name": "structured-data-testing-tool",
+  "version": "0.0.1",
+  "description": "A library and command line tool to help test for Structured Data.",
+  "main": "index.js",
+  "bin": {
+    "sdtt": "bin/sdtt"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "jmespath": "^0.15.0",
+    "node-fetch": "^2.6.0",
+    "validator": "^11.0.0",
+    "web-auto-extractor": "^1.0.17",
+    "yargs": "^13.2.4"
+  }
+}
