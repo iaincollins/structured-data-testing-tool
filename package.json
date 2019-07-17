@@ -7,7 +7,7 @@
     "sdtt": "bin/sdtt"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +19,8 @@
     "validator": "^11.0.0",
     "web-auto-extractor": "^1.0.17",
     "yargs": "^13.2.4"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0"
   }
 }
