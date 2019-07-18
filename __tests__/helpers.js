@@ -1,18 +1,6 @@
 const { testForMetatags } = require('../helpers')
 
-beforeAll(() => {
-  return
-})
-
-afterAll(() => {
-  return
-})
-
-test('Can load helpers', () => {
-  expect(true).toBeTruthy()
-})
-
-test('Must pass name as option', () => {
+test('should throw exception if name argument not supplied', () => {
   let exceptionThrown = false
   try {
     testForMetatags({})
@@ -22,7 +10,7 @@ test('Must pass name as option', () => {
   expect(exceptionThrown).toBeTruthy()
 })
 
-test('Name must appear as schema in result', () => {
+test('should use name option as test schema in tests', () => {
   const result = testForMetatags({
     name: 'TestTag',
     required: [
@@ -32,7 +20,7 @@ test('Name must appear as schema in result', () => {
   expect(result.tests[0].schema).toEqual('TestTag')
 })
 
-test('Can pass required metatags', () => {
+test('should accept required metatags', () => {
   const result = testForMetatags({
     name: 'TestTag',
     required: [
@@ -47,7 +35,7 @@ test('Can pass required metatags', () => {
   expect(result.tests[0].warning).toBeFalsy()
 })
 
-test('Can pass suggested metatags', () => {
+test('should accept suggested metatags', () => {
   const result = testForMetatags({
     name: 'TestTag',
     suggested: [
@@ -62,7 +50,7 @@ test('Can pass suggested metatags', () => {
   expect(result.tests[0].warning).toBeTruthy()
 })
 
-test('Can pass both required and suggested metatags', () => {
+test('should accept both required and suggested metatags', () => {
   const result = testForMetatags({
     name: 'TestTag',
     required: [

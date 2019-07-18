@@ -9,12 +9,12 @@ const _articleSchemaTests = (schema) => {
       { test: `${schema}[*].datePublished`, expect: true, schema },
       { test: `${schema}[*].dateModified`, expect: true, schema, warning: true },
       { test: `${schema}[*].author`, expect: true, schema },
-      { test: `${schema}[*].author.name`, expect: true, schema },
+      { test: `${schema}[*].author.name`, expect: true, schema, warning: true },
       { test: `${schema}[*].image`, expect: true, schema },
       { test: `${schema}[*].headline`, expect: true, schema },
       { test: `${schema}[*].publisher`, expect: true, schema },
-      { test: `${schema}[*].publisher."@type"`, expect: true, schema },
-      { test: `${schema}[*].publisher.name`, expect: true, schema },
+      { test: `${schema}[*].publisher."@type"`, expect: true, schema, warning: true },
+      { test: `${schema}[*].publisher.name`, expect: true, schema, warning: true },
       { test: `${schema}[*].publisher.logo`, expect: true, schema, warning: true },
     ]
   }

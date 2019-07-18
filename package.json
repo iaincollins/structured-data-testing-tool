@@ -7,7 +7,7 @@
     "sdtt": "bin/sdtt"
   },
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --verbose --coverage"
   },
   "keywords": [],
   "author": "",
