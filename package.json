@@ -4,7 +4,7 @@
   "description": "A library and command line tool to help test for Structured Data.",
   "main": "index.js",
   "bin": {
-    "sdtt": "bin/sdtt"
+    "sdtt": "bin/cli.js"
   },
   "scripts": {
     "test": "jest --verbose --coverage"
