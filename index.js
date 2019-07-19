@@ -1,22 +1,34 @@
 const WAE = require('web-auto-extractor').default
 const fetch = require('node-fetch')
-const jmespath = require('jmespath');
+const jmespath = require('jmespath')
 const validator = require('validator')
+const isStream = require('is-stream')
+const getStream = require('get-stream')
+const presets = require('./presets')
 
 const _structuredDataTest = (structuredData, options) => {  
-  const presets = options.presets || []
+  const presetsSpecified = (options && options.presets) ? options.presets : []
+  const schemasFound = _findSchemas(structuredData)
 
   let tests = options.tests || [] // Contains all tests
   let testsPassed = [] // Only tests that passed
   let testsFailed = [] // Only tests that failed
   let warnings = [] // Warnings
-
-  presets.forEach(preset => {
+  
+  // Add tests for each preset specified to the tests to be performed
+  presetsSpecified.forEach(preset => {
     if (preset.tests) {
       tests = tests.concat(preset.tests)
     }
   })
   
+  // Add tests for each schema detected, if we have a preset for it
+  schemasFound.forEach(schema => {
+    if (presets[schema]) {
+      tests = tests.concat(presets[schema].tests)
+    }
+  })
+
   tests.forEach(test => {
     test.passed = false
     if (!test.type) test.type = 'any'
@@ -47,10 +59,12 @@ const _structuredDataTest = (structuredData, options) => {
       if (testError) test.error = testError
     } else {
       // Look for data in jsonld, then microdata then rdfa then metatags until found
+      // If a test passes, set the test type to reflect where it was found
       const { testPassed, testWarnings, testError } = _test(test, structuredData.jsonld)
       test.passed = testPassed
       if (testWarnings) test.warnings = testWarnings
       if (testError) test.error = testError
+      if (testPassed) test.type = 'jsonld'
 
       // If was not found in jsonld, look for data in microdata
       if (test.passed === false) {
@@ -58,6 +72,7 @@ const _structuredDataTest = (structuredData, options) => {
         test.passed = testPassed
         if (testWarnings) test.warnings = testWarnings
         if (testError) test.error = testError
+        if (testPassed) test.type = 'microdata'
       }
 
       // If was not found in jsonld or microdata, look for data in rdfa
@@ -66,6 +81,7 @@ const _structuredDataTest = (structuredData, options) => {
         test.passed = testPassed
         if (testWarnings) test.warnings = testWarnings
         if (testError) test.error = testError
+        if (testPassed) test.type = 'rdfa'
       }
 
       // If was not found in jsonld or microdata or rdfa, look for data in metatags
@@ -74,6 +90,7 @@ const _structuredDataTest = (structuredData, options) => {
         test.passed = testPassed
         if (testWarnings) test.warnings = testWarnings
         if (testError) test.error = testError
+        if (testPassed) test.type = 'metatags'
       }
     }
 
@@ -93,7 +110,8 @@ const _structuredDataTest = (structuredData, options) => {
       passed: testsPassed,
       failed: testsFailed,
       warnings,
-      structuredData
+      structuredData,
+      schemas: schemasFound
     })
   } else {
     // If any tests did not pass, reject
@@ -103,6 +121,7 @@ const _structuredDataTest = (structuredData, options) => {
     error.passed = testsPassed
     error.failed = testsFailed
     error.warnings = warnings
+    error.schemas = schemasFound
     error.structuredData = structuredData
     if (options.url) error.url = options.url
     if (options.res) error.res = options.res
@@ -167,6 +186,27 @@ const _test = (test, json) => {
   }
 }
 
+const _findSchemas = (structuredData) => {
+  const schemas = []
+
+  const rdfa = Object.keys(structuredData.rdfa)
+  rdfa.map(schema => {
+    if (schema !== 'undefined' && !schemas.includes(schema)) schemas.push(schema)
+  })
+
+  const microdata = Object.keys(structuredData.microdata)
+  microdata.map(schema => {
+    if (schema !== 'undefined' && !schemas.includes(schema)) schemas.push(schema)
+  })
+
+  const jsonld = Object.keys(structuredData.jsonld)
+  jsonld.map(schema => {
+    if (schema !== 'undefined' && !schemas.includes(schema)) schemas.push(schema)
+  })
+
+  return schemas
+}
+
 const structuredDataTestUrl = async (url, options) => {
   const res = await fetch(url)
   const html = await res.text()
@@ -179,12 +219,6 @@ const structuredDataTestHtml = async (html, options) => {
 }
 
 const structuredDataTest = async (input, options) => {
-  
-  // Convert 'buffer' object to strings
-  if (Buffer.isBuffer(input)) {
-    input = input.toString('utf8')
-  }
-
   if (typeof(input) === 'string') {
     if (validator.isURL(input)) {
       const url = input
@@ -200,6 +234,14 @@ const structuredDataTest = async (input, options) => {
       const html = input
       return structuredDataTestHtml(html, options)
     }
+  } else if (Buffer.isBuffer(input)) {
+    // Convert buffer to string
+    const html = input.toString('utf8')
+    return structuredDataTestHtml(html, options)
+  } else if (isStream.readable(input)) {
+    // Convert readable stream to string
+    const html = await getStream(input)
+    return structuredDataTestHtml(html, options)
   } else {
     const structuredData = input
     return _structuredDataTest(structuredData, options)

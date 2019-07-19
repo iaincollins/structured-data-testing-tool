@@ -10,71 +10,53 @@
     <meta name="twitter:domain" content="example.com">
   </head>
   <body>
-
-  <!-- Microdata -->
-  <div itemscope itemtype="http://schema.org/Article">
-    <strong>Title:</strong> <span itemprop="headline">Be Careful What You Wish For: FRBR, Some Lacunae, A Review</span><br />
-    <strong>Author:</strong> <span itemprop="author">Smiraglia, Richard P.</span><br />
-    <img itemprop="image" href="http://example.com/path-to-article-image.jpg" alt="Image description"/>
-    <p>
-      Published On: <span itemprop="datePublished">2012</span>
-    <p>
-    <p>
-      Article text…
-    </p>
-    <meta itemprop="publisher" content="ACME"/>
-    <link itemprop="url" href="http://example.com/path-to-article"/>
-  </div>
-
-  <!-- RDFa -->
-  <div vocab="http://schema.org/" typeof="Article">
-    <h1 property="name">The Lancet</h1>
-    <p>Volume 376, July 2010-December 2010</p>
-    <p>Published by <span property="publisher">Elsevier</span>
-    <ul>
-      <li>ISSN: <span property="issn">0140-6736</span></li>
-    </ul>
-    <h3>Issues:</h3>
-    <div property="hasPart" typeof="PublicationVolume" resource="#vol376">
-      <meta property="volumeNumber" content="376">
-      <ul>
-        <li property="hasPart" typeof="PublicationIssue" resource="#issue9734">No.
-          <span property="issueNumber">9734</span>
-          <time datetime="2010-07-03" property="datePublished">Jul 3, 2010</time>
-          p <span property="pageStart">1</span>-<span property="pageEnd">68</span>
-        </li>
-        <li property="hasPart" typeof="PublicationIssue" resource="#issue9735">No.
-          <span property="issueNumber">9735</span>
-          <time datetime="2010-07-03" property="datePublished">Jul 10, 2010</time>
-          p <span property="pageStart">69</span>-<span property="pageEnd">140</span>
-        </li>
-      </ul>
+    <!-- Microdata -->
+    <div itemscope itemtype="http://schema.org/Article">
+      <h1 itemprop="headline">Example Headline in Microdata</h1>
+      <p>
+        Author: <span itemprop="author">A Smith</span>
+      </p>
+      <p>
+        Published On: <span itemprop="datePublished">2019-01-01</span>
+      <p>
+      <img itemprop="image" href="http://example.com/path-to-article-image.jpg" alt="Image description"/>
+      <p>
+        Article text…
+      </p>
+      <meta itemprop="publisher" content="ACME News"/>
+      <link itemprop="url" href="http://example.com/path-to-article"/>
     </div>
-  </div>
 
-  <!-- JSON-LD -->
-  <script type="application/ld+json">
-    {
-      "@context": "http://schema.org",
-      "@graph": [
-        {
-            "@type": "Article",
-            "isPartOf": "#issue",
-            "description": "The library catalog as a catalog of works was an infectious idea, which together with research led to reconceptualization in the form of the FRBR conceptual model. Two categories of lacunae emerge--the expression entity, and gaps in the model such as aggregates and dynamic documents. Evidence needed to extend the FRBR model is available in contemporary research on instantiation. The challenge for the bibliographic community is to begin to think of FRBR as a form of knowledge organization system, adding a final dimension to classification. The articles in the present special issue offer a compendium of the promise of the FRBR model.",
-            "sameAs": "https://doi.org/10.1080/01639374.2012.682254",
-            "about": [
-                "Works",
-                "Catalog"
-            ],
-            "pageEnd": "368",
-            "pageStart": "360",
-            "name": "Be Careful What You Wish For: FRBR, Some Lacunae, A Review",
-            "author": "Smiraglia, Richard P.",
-            "url": "http://example.com/path-to-article",
-            "image": "http://example.com/path-to-article-image.jpg"
-        }
-      ]
-    }
+    <!-- RDFa -->
+    <div vocab="http://schema.org/" typeof="NewsArticle">
+      <h1 property="headline">Example Headline in RDFa</h1>
+      <p>
+        Author: <span property="author">B Smith</span>
+      </p>
+      <p>
+        Published On: <span property="datePublished">2019-01-01</span>
+      <p>
+      <img property="image" href="http://example.com/path-to-article-image.jpg" alt="Image description"/>
+      <p>
+        Article text…
+      </p>
+      <meta property="publisher" content="ACME News"/>
+      <link property="url" href="http://example.com/path-to-article"/>
+      </div>
+    </div>
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "ReportageNewsArticle",
+        "headline": "Example Headline in JSON-LD",
+        "author": "C Smith",
+        "url": "http://example.com/path-to-article",
+        "image": "http://example.com/path-to-article-image.jpg",
+        "datePublished": "2019-01-01",
+        "publisher": "ACME News"
+      }
     </script>
   </body>
 </html>
