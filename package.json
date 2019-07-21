@@ -1,6 +1,6 @@
 {
   "name": "structured-data-testing-tool",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "A library and command line tool to help test for Structured Data.",
   "repository": "https://github.com/glitchdigital/structured-data-testing-tool",
   "main": "index.js",
@@ -31,6 +31,7 @@
     "yargs": "^13.2.4"
   },
   "devDependencies": {
+    "husky": "^3.0.1",
     "jest": "^24.8.0",
     "jest-fetch-mock": "^2.1.2"
   },
@@ -39,5 +40,11 @@
     "setupFiles": [
       "./jest.setup.js"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test"
+    }
   }
 }
