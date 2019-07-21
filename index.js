@@ -221,6 +221,7 @@ const structuredDataTestHtml = async (html, options) => {
 const structuredDataTest = async (input, options) => {
   if (typeof(input) === 'string') {
     if (validator.isURL(input)) {
+      // @TODO Improve URL error handling
       const url = input
       const res = await fetch(url)
       const html = await res.text()

@@ -1,6 +1,6 @@
 {
   "name": "structured-data-testing-tool",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A library and command line tool to help test for Structured Data.",
   "main": "index.js",
   "bin": {

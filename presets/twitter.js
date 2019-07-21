@@ -1,4 +1,4 @@
-const { testForMetatags } = require('../helpers.js')
+const { testForMetatags } = require('../lib/metatags')
 
 // @TOOD Review required and suggested tags for Twitter
 const Twitter = testForMetatags({

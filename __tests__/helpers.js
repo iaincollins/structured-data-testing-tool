@@ -1,6 +1,6 @@
-const { testForMetatags } = require('../helpers')
+const { testForMetatags } = require('../lib/metatags')
 
-describe('helper functions', () => {
+describe('metatag helper functions', () => {
   test('should throw exception if name argument not supplied', () => {
     let exceptionThrown = false
     try {
