@@ -1,6 +1,6 @@
 {
   "name": "structured-data-testing-tool",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A library and command line tool to help test for Structured Data.",
   "repository": "https://github.com/glitchdigital/structured-data-testing-tool",
   "main": "index.js",
@@ -10,7 +10,13 @@
   "scripts": {
     "test": "jest --verbose --coverage"
   },
-  "keywords": ["Structured Data", "JSON-LD", "Microdata", "RDFa", "Testing"],
+  "keywords": [
+    "Structured Data",
+    "JSON-LD",
+    "Microdata",
+    "RDFa",
+    "Testing"
+  ],
   "author": "Iain Collins <iain.collins@glitch.digital>",
   "license": "ISC",
   "dependencies": {
