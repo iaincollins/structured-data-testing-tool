@@ -6,9 +6,9 @@ A library and command line tool to help inspect and test for Structured Data.
 * Checks `<meta>` tags for specific tags and values.
 * Comes with build-in presets, which you can copy and extend.
 
-_This is a new project and is still at the proof of concept stage._
+_This is a new project and and the API is subject to change._
 
-This tool was made possible thanks to `web-auto-extractor` and `jmespath`.
+This tool was made possible thanks to [web-auto-extractor](https://www.npmjs.com/package/web-auto-extractor) and [jmespath](https://www.npmjs.com/package/jmespath).
 
 ## Install
 
@@ -45,6 +45,17 @@ Examples:
   sdtt --presets                                         List supported presets
 ```
 
+The following presets are currently supported:
+
+```
+NAME                             DESCRIPTION
+Article                          Article schema dat
+NewsArticle                      NewsArticle schema data
+ReportageNewsArticle             ReportageNewsArticle schema data
+Twitter                          Twitter metatags
+Facebook                         Facebook metatags
+```
+
 Inspect a URL to see what markup is found:
 
     sdtt --url <url>
@@ -59,9 +70,44 @@ Test a URL contains specific markup:
 
 #### Example output from CLI
 
-<img width="508" alt="Example output 1" src="https://user-images.githubusercontent.com/595695/61585749-5cdef500-ab5b-11e9-8c07-edd82f3652b0.png">
+```
+$ sdtt -u https://www.bbc.co.uk/news/world-us-canada-49060410
+Tests
 
-<img width="566" alt="Example output 2" src="https://user-images.githubusercontent.com/595695/61585750-61a3a900-ab5b-11e9-9aec-a80e9b32cc63.png">
+  ReportageNewsArticle Passed 14 of 14 (100%)
+    ✓  ReportageNewsArticle
+    ✓  ReportageNewsArticle[*]."@type"
+    ✓  ReportageNewsArticle[*].url
+    ✓  ReportageNewsArticle[*].mainEntityOfPage
+    ✓  ReportageNewsArticle[*].datePublished
+    ✓  ReportageNewsArticle[*].dateModified
+    ✓  ReportageNewsArticle[*].author
+    ✓  ReportageNewsArticle[*].author.name
+    ✓  ReportageNewsArticle[*].image
+    ✓  ReportageNewsArticle[*].headline
+    ✓  ReportageNewsArticle[*].publisher
+    ✓  ReportageNewsArticle[*].publisher."@type"
+    ✓  ReportageNewsArticle[*].publisher.name
+    ✓  ReportageNewsArticle[*].publisher.logo
+
+Statistics
+
+  Number of Metatags: 38
+  Schemas in JSON-LD: 1
+     Schemas in HTML: 0
+      Schema in RDFa: 0
+       Schemas found: ReportageNewsArticle
+     Test suites run: ReportageNewsArticle
+     Total tests run: 14
+
+Results
+
+    Passed: 14 (100%)
+  Warnings: 0 (0%)
+    Failed: 0 (0%)
+
+  ✓ 14 tests passed.
+```
 
 ### API
 
@@ -84,6 +130,7 @@ structuredDataTest(url, { presets: [ ReportageNewsArticle, Twitter, Facebook ] }
   console.log('Warnings:',response.warnings.length)
 })
 .catch(err => {
+  // If any test fails, the promise is rejected
   if (err.type === 'VALIDATION_FAILED') {
     console.log("Some tests failed.")
     console.log('Passed:',err.passed.length)
@@ -94,7 +141,7 @@ structuredDataTest(url, { presets: [ ReportageNewsArticle, Twitter, Facebook ] }
       console.error(test)
     })
   } else {
-    // Handle other errors (e.g. error fetching URL)
+    // Handle other errors here (e.g. an error fetching a URL)
     console.log(err)
   }
 })
@@ -136,9 +183,9 @@ structuredDataTest(url, options)
 
 A preset is a collection of tests.
 
-You can easily define your own custom presets.
+There are built-in presets yuo can use, you can also easily define your own presets.
 
-It is recommended to specify a`schema` value for tests that matches the schema of the test,and to only test one schema per pre-set, but you can use any value and test as many things in a preset as you want.
+When creating a preset, it is recommended to specify a`schema` value for tests that matches the schema of the test,and to only test one schema per pre-set, but you can use any value and test as many things in a preset as you want.
 
 ```javascript
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
@@ -162,11 +209,9 @@ structuredDataTest(url, options)
 
 #### Option: Test
 
-The value for `test` should be a valid `jmespath` query.
+The value for `test` should be a valid [JMESPath query](http://jmespath.org).
 
-Use double quotes to escape characters in property names.
-
-Examples:
+Examples of JMESPath queries:
 
 `Article`  
 Test `Article` schema found.
@@ -186,7 +231,10 @@ Test `name` value of `publisher` on any `Article` schema found.
 `Article[*].publisher."@type"`  
 Test `@type` value of `publisher` on any `Article` schema found.
 
-Tip: You can `console.log()` the `stucturedData` property of the response object from `structuredDataTest()` to see what sort of meta tags and structured data was found to help with writing your own tests.
+Tips:
+
+* Use double quotes to escape characters in property names.
+* You can `console.log()` the `stucturedData` property of the response object from `structuredDataTest()` to see what sort of meta tags and structured data was found to help with writing your own tests.
 
 #### Option: Type
 
@@ -218,4 +266,4 @@ The default is `false`, meaning if the test fails it will be counted as a failur
 
 You can pass a `schema` value to group related tests together.
 
-The value passed to `schema` not have to match an actual schema name, but it is recommended that it does.
+The value passed to `schema` not have to match an actual schema name, but that is recommended.
