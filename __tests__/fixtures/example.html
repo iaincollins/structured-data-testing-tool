@@ -23,7 +23,12 @@
       <p>
         Article text…
       </p>
-      <meta itemprop="publisher" content="ACME News"/>
+      <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+        <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+          <meta itemprop="url" content="https://www.example.com/logo.png"/>
+        </div>
+        <meta itemprop="name" content="ACME"/>
+      </div>
       <link itemprop="url" href="http://example.com/path-to-article"/>
     </div>
 
@@ -40,7 +45,14 @@
       <p>
         Article text…
       </p>
-      <meta property="publisher" content="ACME News"/>
+      
+      <div property="publisher" vocab="https://schema.org/" typeof="Organization">
+        <div property="logo" vocab="https://schema.org/" typeof="ImageObject">
+          <meta property="url" content="https://www.example.com/logo.png"/>
+        </div>
+        <meta property="name" content="ACME"/>
+      </div>
+
       <link property="url" href="http://example.com/path-to-article"/>
       </div>
     </div>
@@ -55,7 +67,14 @@
         "url": "http://example.com/path-to-article",
         "image": "http://example.com/path-to-article-image.jpg",
         "datePublished": "2019-01-01",
-        "publisher": "ACME News"
+        "publisher": {
+          "@type": "Organization",
+          "name": "ACME News",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.example.com/logo.png"
+          }
+        }
       }
     </script>
   </body>
