@@ -6,8 +6,6 @@ A library and command line tool to help inspect and test for Structured Data.
 * Checks `<meta>` tags for specific tags and values.
 * Comes with build-in presets, which you can copy and extend.
 
-_This is a new project and and the API is subject to change._
-
 This tool was made possible thanks to [web-auto-extractor](https://www.npmjs.com/package/web-auto-extractor) and [jmespath](https://www.npmjs.com/package/jmespath).
 
 ## Install
@@ -48,12 +46,42 @@ Examples:
 The following presets are currently supported:
 
 ```
-NAME                             DESCRIPTION
-Article                          Article schema dat
-NewsArticle                      NewsArticle schema data
-ReportageNewsArticle             ReportageNewsArticle schema data
-Twitter                          Twitter metatags
-Facebook                         Facebook metatags
+NAME                      DESCRIPTION                                            
+Article                   An article, such as a news article or piece of         
+                          investigative report. Newspapers and magazines have    
+                          articles of many different types and this is intended  
+                          to cover them all.                                     
+NewsArticle               A NewsArticle is an article whose content reports news,
+                          or provides background context and supporting materials
+                          for understanding the news.                            
+AnalysisNewsArticle       An AnalysisNewsArticle is a NewsArticle that, while    
+                          based on factual reporting, incorporates the expertise 
+                          of the author/producer, offering interpretations and   
+                          conclusions.                                           
+AskPublicNewsArticle      A NewsArticle expressing an open call by a             
+                          NewsMediaOrganization asking the public for input,     
+                          insights, clarifications, anecdotes, documentation,    
+                          etc., on an issue, for reporting purposes.             
+BackgroundNewsArticle     A NewsArticle providing historical context, definition 
+                          and detail on a specific topic (aka "explainer" or     
+                          "backgrounder").                                       
+OpinionNewsArticle        An OpinionNewsArticle is a NewsArticle that primarily  
+                          expresses opinions rather than journalistic reporting  
+                          of news and events.                                    
+ReportageNewsArticle      The ReportageNewsArticle type is a subtype of          
+                          NewsArticle representing news articles which are the   
+                          result of journalistic news reporting conventions.     
+ReviewNewsArticle         A NewsArticle and CriticReview providing a professional
+                          critic's assessment of a service, product, performance,
+                          or artistic or literary work.                          
+SocialMediaPosting        SocialMediaPosting schema data                         
+DiscussionForumPosting    DiscussionForumPosting schema data                     
+BlogPosting               BlogPosting schema data                                
+LiveBlogPosting           LiveBlogPosting schema data                            
+ClaimReview               A fact-checking review of claims made (or reported) in 
+                          some creative work (referenced via itemReviewed).      
+Twitter                   Suggested meta tags for Twitter                        
+Facebook                  Suggested meta tags for Facebook   
 ```
 
 Inspect a URL to see what markup is found:
