@@ -6,7 +6,7 @@ A library and command line tool to help inspect and test for Structured Data.
 * Checks `<meta>` tags for specific tags and values.
 * Comes with build-in presets, which you can copy and extend.
 
-This tool was made possible thanks to [web-auto-extractor](https://www.npmjs.com/package/web-auto-extractor) and [jmespath](https://www.npmjs.com/package/jmespath).
+This tool uses [web-auto-extractor](https://www.npmjs.com/package/web-auto-extractor) and [jmespath](https://www.npmjs.com/package/jmespath).
 
 ## Install
 
@@ -17,9 +17,7 @@ This tool was made possible thanks to [web-auto-extractor](https://www.npmjs.com
 * You can pass in any URL or a file to test.
 * Any schemas found that are supported will be automatically tested.
 * You can optionally pass in specific presets to look for.
-* Presets can also test for non-schema markup.
-
-Presets can be useful to test if required markup for social media, app stores and other sites is present.
+* Presets can also test for non-schema markup (e.g. Twitter, Facebook, App Store tags).
 
 ## Usage
 
@@ -141,7 +139,7 @@ Results
 
 #### How to test a URL
 
-You can integrate with a CD/CI pipeline by using the API.
+You can integrate Structured Data Testing Tool with a CD/CI pipeline by using the API.
 
 ```javascript
 const { structuredDataTest } = require('structured-data-testing-tool')
@@ -187,9 +185,9 @@ structuredDataTest(html)
 
 ### How to define your own tests
 
-The built-in presets are only cover some use cases and are only able to check if values are defined and not what they contain.
+The built-in presets only cover some use cases and are only able to check if values are defined (not what they contain).
 
-With the API you can use `jmespath` query syntax to define your own tests to check for additional properties and specific values. You can mix and match your own test with the built-in presets, or define your own presets.
+With the API you can use [JMESPath query syntax](http://jmespath.org) to define your own tests to check for additional properties and specific values. You can mix and match your own test with the built-in presets, or define your own presets.
 
 ```javascript
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
@@ -211,9 +209,9 @@ structuredDataTest(url, options)
 
 A preset is a collection of tests.
 
-There are built-in presets yuo can use, you can also easily define your own presets.
+There are built-in presets you can use, you can also easily define your own presets.
 
-When creating a preset, it is recommended to specify a`schema` value for tests that matches the schema of the test,and to only test one schema per pre-set, but you can use any value and test as many things in a preset as you want.
+When creating a preset, it is recommended you specify a `schema` value for tests that matches the schema of the schema being tested and to only test one schema per preset. However this is not enforced, if you want you can use any value for the schema property and test as many different schemas in a preset as you like.
 
 ```javascript
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
@@ -261,7 +259,7 @@ Test `@type` value of `publisher` on any `Article` schema found.
 
 Tips:
 
-* Use double quotes to escape characters in property names.
+* Use double quotes to escape special characters in property names.
 * You can `console.log()` the `stucturedData` property of the response object from `structuredDataTest()` to see what sort of meta tags and structured data was found to help with writing your own tests.
 
 #### Option: Type
@@ -320,7 +318,7 @@ const puppeteer = require('puppeteer');
   const html = await page.evaluate(() => document.body.innerHTML);
   await browser.close();
   
-  await structuredDataTest(html)
+  structuredDataTest(html)
   .then(response => {
     console.log("All tests passed.")
   })
