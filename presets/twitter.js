@@ -17,7 +17,7 @@ const Twitter = testForMetatags({
   ]
 })
 
-Twitter.description = 'Twitter metatags'
+Twitter.description = 'Suggested meta tags for Twitter'
 
 module.exports = {
   Twitter

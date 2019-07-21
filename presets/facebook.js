@@ -16,7 +16,7 @@ const Facebook = testForMetatags({
   ]
 })
 
-Facebook.description = 'Facebook metatags'
+Facebook.description = 'Suggested meta tags for Facebook'
 
 module.exports = {
   Facebook
