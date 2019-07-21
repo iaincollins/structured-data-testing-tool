@@ -14,18 +14,36 @@ This tool was made possible thanks to `web-auto-extractor` and `jmespath`.
 
     npm i structured-data-testing-tool -g
 
+## Features
+
+* You can pass in any URL or a file to test.
+* Any schemas found that are supported will be automatically tested.
+* You can optionally pass in specific presets to look for.
+* Presets can also test for non-schema markup.
+
+Presets can be useful to test if required markup for social media, app stores and other sites is present.
+
 ## Usage
 
 ### Command Line Interface
 
-* You can pass in any URL to test.
-* Any schemas found will be tested.
-* You can optionally pass in specific presets to look for.
-* Presets can also test for non-schema markup (such as meta tags).
+_Note: The API supports additional options not currently exposed in the CLI tool._
 
-Presets can be useful to test if required markup for social media, app stores and other sites is present.
+```
+Usage: sdtt --url <url> [--presets <presets>]
 
-_Note: The command line interface is functional but not feature complete._
+Options:
+  -u, --url      Inspect a URL
+  -f, --file     Inspect a file
+  -p, --presets  Test a URL for specific markup from a list of presets
+  -h, --help     Show help
+  -v, --version  Show version number
+
+Examples:
+  sdtt --url "https://example.com/article"               Inspect a URL
+  sdtt --url <url> --presets "Article,Twitter,Facebook"  Test a URL for Article schema and social metatags
+  sdtt --presets                                         List supported presets
+```
 
 Inspect a URL to see what markup is found:
 
@@ -49,9 +67,7 @@ Test a URL contains specific markup:
 
 #### How to test a URL
 
-You can integrate with `structured-data-testing-tool` with your CD/CI pipeline by using the API.
-
-The API works just like the CLI, except you can more easily manage how you handle the response.
+You can integrate with a CD/CI pipeline by using the API.
 
 ```javascript
 const { sdtt } = require('structured-data-testing-tool')
@@ -98,21 +114,69 @@ structuredDataTest(html)
 
 The presets are limited as they only cover some use cases and are only able to check if values are defined and not what they contain.
 
-With the API you can use `jmespath` query syntax to define your own tests to check for additional properties and specific values.
-
-You can mix and match your own test with the built-in presets, or define your own presets.
+With the API you can use `jmespath` query syntax to define your own tests to check for additional properties and specific values. You can mix and match your own test with the built-in presets, or define your own presets.
 
 ```javascript
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
 
 const options = {
   tests: [
-    { test: 'NewsArticle', expect: true }, // Check 'NewsArticle' schema exists
-    { test: 'NewsArticle[*].url', expect: url }, // Expect specific value for property, fail if doesn't match
-    { test: 'NewsArticle[*].mainEntityOfPage', expect: url, warning: true } // Warn but don't fail if doesn't pass
+    { test: 'NewsArticle', expect: true, type: 'jsonld' }, // Check 'NewsArticle' schema exists in JSON-LD
+    { test: 'NewsArticle[*].url', expect: url }, // Expect specific value for 'url' property, fail if value doesn't match
+    { test: 'NewsArticle[*].mainEntityOfPage', expect: url, warning: true }, // Warn but don't fail if test doesn't pass
+    { test: '"twitter:domain"' expect: 'www.bbc.co.uk', type: 'metatag' } // Test for metatags
   ]
 }
 
 structuredDataTest(url, options)
 …
 ```
+
+#### Test options
+
+* Test
+
+The value for `test` should be a valid `jmespath` query.
+
+Use double quotes to escape characters in property names.
+
+Examples:
+
+- `Article` - Test `Article` schema found.
+- `Article[*].url` - Test `url` property of any `Article` schema found.
+- `Article[0].headline` - Test `headline` property of first `Article` schema found.
+- `Article[1].headline` - Test `headline` property of second `Article` schema found.
+- `Article[*].publisher.name` - Test `name` value of `publisher` on any `Article` schema found.
+- `Article[*].publisher."@type"` - Test `@type` value of `publisher` on any `Article` schema found.
+
+* Type
+
+You can specify a `type` to indicate if markup should be in `jsonld`, `rdfa` or `microdata` (HTML) format.
+
+If you do not specify a type for a test, a default type of `any` will be assumed and all types will be checked.
+
+You can also specify a type of `metatag` to check `<meta>` tags.
+
+* Expect
+
+You can specify a value for `expect` that is either `true`, `false` or a string.
+
+A value of `true` is a boolean that indicates the property must exist, but does not check value.
+
+A value of `false` is a boolean that indicates the value must not exist.
+
+Any other value is treated as a string that indicates the value should match the string found.
+
+_NB: Future releases may support passing functions to `expect`._
+
+* Warning
+
+If the `warning` option is is set to `true`, if the test does not pass it will not fail but instead result in a warning.
+
+The default is `false`, meaning if the test fails it will be counted as a failure.
+
+* Schema
+
+You can pass a `schema` value to group related tests together.
+
+This does not have to match an actual schema name.

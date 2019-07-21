@@ -33,7 +33,7 @@ const _structuredDataTest = (structuredData, options) => {
     test.passed = false
     if (!test.type) test.type = 'any'
 
-    if (test.type == 'metatags') {
+    if (test.type == 'metatag') {
       // Look for meta tags`
       const { testPassed, testWarnings, testError } = _test(test, structuredData.metatags)
       test.passed = testPassed
@@ -90,7 +90,7 @@ const _structuredDataTest = (structuredData, options) => {
         test.passed = testPassed
         if (testWarnings) test.warnings = testWarnings
         if (testError) test.error = testError
-        if (testPassed) test.type = 'metatags'
+        if (testPassed) test.type = 'metatag'
       }
     }
 
@@ -147,6 +147,16 @@ const _test = (test, json) => {
         testError = {
           type: 'MISSING_PROPERTY',
           message: `Could not find "${path}"`,
+        }
+      } else {
+        testPassed = true
+      }
+    } else if (test.expect === false) {
+      // If 'expect' is 'false' then a pathValue SHOULD NOT exist
+      if (pathValue !== null) {
+        testError = {
+          type: 'PROPERTY_SHOULD_NOT_EXIST',
+          message: `The property "${path}" should not be defined`,
         }
       } else {
         testPassed = true

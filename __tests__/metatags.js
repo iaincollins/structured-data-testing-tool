@@ -32,7 +32,7 @@ describe('metatag helper functions', () => {
     expect(result.tests[0].test).toEqual('"required-meta-tag"')
     expect(result.tests[0].expect).toBeTruthy()
     expect(result.tests[0].schema).toEqual('TestTag')
-    expect(result.tests[0].type).toEqual('metatags')
+    expect(result.tests[0].type).toEqual('metatag')
     expect(result.tests[0].warning).toBeFalsy()
   })
 
@@ -47,7 +47,7 @@ describe('metatag helper functions', () => {
     expect(result.tests[0].test).toEqual('"suggested-meta-tag"')
     expect(result.tests[0].expect).toBeTruthy()
     expect(result.tests[0].schema).toEqual('TestTag')
-    expect(result.tests[0].type).toEqual('metatags')
+    expect(result.tests[0].type).toEqual('metatag')
     expect(result.tests[0].warning).toBeTruthy()
   })
 
@@ -67,13 +67,13 @@ describe('metatag helper functions', () => {
     expect(result.tests[0].test).toEqual('"required-meta-tag"')
     expect(result.tests[0].expect).toBeTruthy()
     expect(result.tests[0].schema).toEqual('TestTag')
-    expect(result.tests[0].type).toEqual('metatags')
+    expect(result.tests[0].type).toEqual('metatag')
     expect(result.tests[0].warning).toBeFalsy()
 
     expect(result.tests[1].test).toEqual('"suggested-meta-tag"')
     expect(result.tests[1].expect).toBeTruthy()
     expect(result.tests[1].schema).toEqual('TestTag')
-    expect(result.tests[1].type).toEqual('metatags')
+    expect(result.tests[1].type).toEqual('metatag')
     expect(result.tests[1].warning).toBeTruthy()
   })
 })

@@ -123,7 +123,7 @@ describe('structured data parsing', () => {
         { test: 'ReportageNewsArticle[*].headline', expect: 'Example Headline in JSON-LD', type: 'jsonld' },
         { test: 'Article[*].headline', expect: 'Example Headline in Microdata', type: 'microdata' },
         { test: 'NewsArticle[*].headline', expect: 'Example Headline in RDFa', type: 'rdfa' },
-        { test: '"twitter:card"', expect: 'summary_large_image', type: 'metatags' }
+        { test: '"twitter:card"', expect: 'summary_large_image', type: 'metatag' }
       ]
     }
     try {
@@ -146,13 +146,14 @@ describe('structured data parsing', () => {
         { test: 'ReportageNewsArticle[*].headline', expect: 'Example Headline in JSON-LD', type: 'jsonld' },
         { test: 'Article[*].headline', expect: 'Example Headline in Microdata', type: 'microdata' },
         { test: 'NewsArticle[*].headline', expect: 'Example Headline in RDFa', type: 'rdfa' },
-        { test: '"twitter:card"', expect: 'summary_large_image', type: 'metatags' }
+        { test: '"twitter:card"', expect: 'summary_large_image', type: 'metatag' },
+        { test: '"should-not-exist"', expect: false, type: 'metatag' }
       ],
       presets: [ presets.Twitter ]
     }
     try {
       const result = await structuredDataTestUrl("https://example.com", options)
-      expect(result.passed.length).toEqual(40)
+      expect(result.passed.length).toEqual(41)
       expect(result.failed.length).toEqual(0)
     } catch (e) {
       console.error("Failing tests:", e.failed)
