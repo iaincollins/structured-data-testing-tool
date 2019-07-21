@@ -144,7 +144,7 @@ Results
 You can integrate with a CD/CI pipeline by using the API.
 
 ```javascript
-const { sdtt } = require('structured-data-testing-tool')
+const { structuredDataTest } = require('structured-data-testing-tool')
 const { ReportageNewsArticle, Twitter, Facebook } = require('./presets')
 
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
@@ -295,3 +295,37 @@ The default is `false`, meaning if the test fails it will be counted as a failur
 You can pass a `schema` value to group related tests together.
 
 The value passed to `schema` not have to match an actual schema name, but that is recommended.
+
+### Testing with client side rendering
+
+If a page uses JavaScript with client side rendering to generate Structured Data, you can use a tool like [Puppeteer](https://github.com/GoogleChrome/puppeteer) (a headless Chrome API) to fetch the HTML and allow any client side JavaScript to run and then test the rendered page with the Structured Data Testing Tool.
+
+Note:
+
+* Puppeteer is a large package (~272 MB) and must be installed separately.
+* You can only use Puppeteer with the API, not the Command Line Interface.
+
+Example of how to use `puppeteer` with `structured-data-testing-tool` :
+
+```javascript
+const { structuredDataTest } = require('structured-data-testing-tool')
+const puppeteer = require('puppeteer');
+
+(async () => {
+  const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
+  
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto(url, { waitUntil: 'networkidle2' });
+  const html = await page.evaluate(() => document.body.innerHTML);
+  await browser.close();
+  
+  await structuredDataTest(html)
+  .then(response => {
+    console.log("All tests passed.")
+  })
+  .catch(err => {
+    console.log("Some tests failed.")
+  })
+})();
+```
