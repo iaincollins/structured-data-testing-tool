@@ -39,6 +39,12 @@ Test a URL contains specific markup:
 
     sdtt --url <url> --presets "Article,Twitter,Facebook"
 
+#### Example output from CLI
+
+<img width="508" alt="Example output 1" src="https://user-images.githubusercontent.com/595695/61585749-5cdef500-ab5b-11e9-8c07-edd82f3652b0.png">
+
+<img width="566" alt="Example output 2" src="https://user-images.githubusercontent.com/595695/61585750-61a3a900-ab5b-11e9-9aec-a80e9b32cc63.png">
+
 ### API
 
 #### How to test a URL
