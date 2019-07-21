@@ -112,7 +112,7 @@ structuredDataTest(html)
 
 ### How to define your own tests
 
-The presets are limited as they only cover some use cases and are only able to check if values are defined and not what they contain.
+The built-in presets are only cover some use cases and are only able to check if values are defined and not what they contain.
 
 With the API you can use `jmespath` query syntax to define your own tests to check for additional properties and specific values. You can mix and match your own test with the built-in presets, or define your own presets.
 
@@ -124,7 +124,7 @@ const options = {
     { test: 'NewsArticle', expect: true, type: 'jsonld' }, // Check 'NewsArticle' schema exists in JSON-LD
     { test: 'NewsArticle[*].url', expect: url }, // Expect specific value for 'url' property, fail if value doesn't match
     { test: 'NewsArticle[*].mainEntityOfPage', expect: url, warning: true }, // Warn but don't fail if test doesn't pass
-    { test: '"twitter:domain"' expect: 'www.bbc.co.uk', type: 'metatag' } // Test for metatags
+    { test: '"twitter:domain"' expect: 'www.bbc.co.uk', type: 'metatag' } // Test for twitter meta tag with specific value
   ]
 }
 
@@ -132,9 +132,35 @@ structuredDataTest(url, options)
 …
 ```
 
-#### Test options
+### How to define your own presets
 
-* Test
+A preset is a collection of tests.
+
+You can easily define your own custom presets.
+
+It is recommended to specify a`schema` value for tests that matches the schema of the test,and to only test one schema per pre-set, but you can use any value and test as many things in a preset as you want.
+
+```javascript
+const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
+
+const CustomPreset = {
+  tests: [
+    { test: 'NewsArticle', expect: true, type: 'jsonld', schema: 'CustomPreset' },
+    { test: '"twitter:domain"' expect: 'www.bbc.co.uk', type: 'metatag', schema: 'CustomPreset' }
+  ]
+}
+
+const options = {
+  presets: [ CustomPreset ]
+}
+
+structuredDataTest(url, options)
+…
+```
+
+### Test options
+
+#### Option: Test
 
 The value for `test` should be a valid `jmespath` query.
 
@@ -142,22 +168,35 @@ Use double quotes to escape characters in property names.
 
 Examples:
 
-- `Article` - Test `Article` schema found.
-- `Article[*].url` - Test `url` property of any `Article` schema found.
-- `Article[0].headline` - Test `headline` property of first `Article` schema found.
-- `Article[1].headline` - Test `headline` property of second `Article` schema found.
-- `Article[*].publisher.name` - Test `name` value of `publisher` on any `Article` schema found.
-- `Article[*].publisher."@type"` - Test `@type` value of `publisher` on any `Article` schema found.
+`Article`  
+Test `Article` schema found.
 
-* Type
+`Article[*].url`  
+Test `url` property of any `Article` schema found.
+
+`Article[0].headline`  
+Test `headline` property of first `Article` schema found.
+
+`Article[1].headline`  
+Test `headline` property of second `Article` schema found.
+
+`Article[*].publisher.name`  
+Test `name` value of `publisher` on any `Article` schema found.
+
+`Article[*].publisher."@type"`  
+Test `@type` value of `publisher` on any `Article` schema found.
+
+Tip: You can `console.log()` the `stucturedData` property of the response object from `structuredDataTest()` to see what sort of meta tags and structured data was found to help with writing your own tests.
+
+#### Option: Type
 
 You can specify a `type` to indicate if markup should be in `jsonld`, `rdfa` or `microdata` (HTML) format.
 
+You can also specify a value of `metatag` to check `<meta>` tags.
+
 If you do not specify a type for a test, a default type of `any` will be assumed and all types will be checked.
 
-You can also specify a type of `metatag` to check `<meta>` tags.
-
-* Expect
+#### Option: Expect
 
 You can specify a value for `expect` that is either `true`, `false` or a string.
 
@@ -167,16 +206,16 @@ A value of `false` is a boolean that indicates the value must not exist.
 
 Any other value is treated as a string that indicates the value should match the string found.
 
-_NB: Future releases may support passing functions to `expect`._
+_NB: Future releases may support passing a function to `expect`._
 
-* Warning
+#### Option: Warning
 
-If the `warning` option is is set to `true`, if the test does not pass it will not fail but instead result in a warning.
+When `warning` is set to `true`, if the test does not pass it will only result in a warning.
 
 The default is `false`, meaning if the test fails it will be counted as a failure.
 
-* Schema
+#### Option: Schema
 
 You can pass a `schema` value to group related tests together.
 
-This does not have to match an actual schema name.
+The value passed to `schema` not have to match an actual schema name, but it is recommended that it does.
