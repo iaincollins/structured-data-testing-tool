@@ -5,7 +5,7 @@ const fs = require('fs')
 const { structuredDataTest } = require('../index')
 const presets = require('../presets')
 const Package = require('../package')
-const { error, printTestResults } = require('../lib/cli')
+const { info, error, printTestResults, printSupportedPresets } = require('../lib/cli')
 
 ;(async () => {
 
@@ -28,6 +28,13 @@ const { error, printTestResults } = require('../lib/cli')
 
   // Parse presets of provided, and halt on error when parsing them
   if (yargs.argv.presets || yargs.argv.p) {
+
+    // If --presets or -p is passed with no arguments, display supported preset
+    if ((yargs.argv.presets && yargs.argv.presets === true) || (yargs.argv.p && yargs.argv.p === true)) {
+      printSupportedPresets()
+      return
+    }
+
     let presetErrors = []
     const presetArgs = yargs.argv.presets || yargs.argv.p
     presetArgs.split(',').map(preset => {
@@ -40,6 +47,7 @@ const { error, printTestResults } = require('../lib/cli')
 
     // If errors, display them and exit
     if (presetErrors.length > 0) {
+      printSupportedPresets()
       presetErrors.map(err => console.error(error(err)))
       return
     }
@@ -65,19 +73,7 @@ const { error, printTestResults } = require('../lib/cli')
   // } else if (yargs.argv.config && yargs.argv.config !== true) {
   //   console.log("CONFIG TEST")
   //   return
-
-  // if ((yargs.argv.presets && yargs.argv.presets === true) || (yargs.argv.p && yargs.argv.p === true)) {
-  //   console.log('The following presets are supported:\n')
-  //   Object.keys(presets).map(preset => {
-  //     console.log(
-  //       chalk.white(`  ${preset}`),
-  //       chalk.grey(`- ${presets[preset].description}`)
-  //     )
-  //   })
-  //   console.log('')
-  //   return
-  // }
-
+ 
   yargs
   .usage(`Usage: ${ chalk.yellowBright('$0 --url <url> [--presets <presets>]')}`)
   // .option('c', {
