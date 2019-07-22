@@ -11,6 +11,7 @@ const _structuredDataTest = (structuredData, options) => {
   const schemasFound = _findSchemas(structuredData)
 
   let tests = options.tests || [] // Contains all tests
+  let disablePresets = (options && options.disablePresets) ? true : false
   let testsPassed = [] // Only tests that passed
   let testsFailed = [] // Only tests that failed
   let warnings = [] // Warnings
@@ -22,12 +23,14 @@ const _structuredDataTest = (structuredData, options) => {
     }
   })
   
-  // Add tests for each schema detected, if we have a preset for it
-  schemasFound.forEach(schema => {
-    if (presets[schema]) {
-      tests = tests.concat(presets[schema].tests)
-    }
-  })
+  if (disablePresets === false) {
+    // Add tests for each schema detected, if we have a preset for it
+    schemasFound.forEach(schema => {
+      if (presets[schema]) {
+        tests = tests.concat(presets[schema].tests)
+      }
+    })
+  }
 
   tests.forEach(test => {
     test.passed = false
@@ -137,8 +140,6 @@ const _test = (test, json) => {
 
   try {
     path = test.test
-    //const result = JSONPath({ path, json })
-    //const pathValue = result[0]
     const pathValue = jmespath.search(json, path)
 
     if (test.expect === true) {

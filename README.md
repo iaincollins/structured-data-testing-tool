@@ -29,11 +29,12 @@ _Note: The API supports additional options not currently exposed in the CLI tool
 Usage: sdtt --url <url> [--presets <presets>]
 
 Options:
-  -u, --url      Inspect a URL
-  -f, --file     Inspect a file
-  -p, --presets  Test a URL for specific markup from a list of presets
-  -h, --help     Show help
-  -v, --version  Show version number
+  -u, --url              Inspect a URL
+  -f, --file             Inspect a file
+  -p, --presets          Test a URL for specific markup from a list of presets
+  -d, --disable-presets  Disable auto-detection of presets - will only evaluate explicitly specified presets
+  -h, --help             Show help
+  -v, --version          Show version number
 
 Examples:
   sdtt --url "https://example.com/article"               Inspect a URL
@@ -233,7 +234,7 @@ structuredDataTest(url, options)
 
 ### Test options
 
-#### Option: Test
+#### Option: test (string)
 
 The value for `test` should be a valid [JMESPath query](http://jmespath.org).
 
@@ -262,15 +263,15 @@ Tips:
 * Use double quotes to escape special characters in property names.
 * You can `console.log()` the `stucturedData` property of the response object from `structuredDataTest()` to see what sort of meta tags and structured data was found to help with writing your own tests.
 
-#### Option: Type
+#### Option: type (json|rdfa|microdata|any)
 
 You can specify a `type` to indicate if markup should be in `jsonld`, `rdfa` or `microdata` (HTML) format.
 
 You can also specify a value of `metatag` to check `<meta>` tags.
 
-If you do not specify a type for a test, a default type of `any` will be assumed and all types will be checked.
+If you do not specify a type for a test, a default of `any` will be assumed and all types will be checked.
 
-#### Option: Expect
+#### Option: expect (boolean|string)
 
 You can specify a value for `expect` that is either `true`, `false` or a string.
 
@@ -282,17 +283,23 @@ Any other value is treated as a string that indicates the value should match the
 
 _NB: Future releases may support passing a function to `expect`._
 
-#### Option: Warning
+#### Option: warning (boolean)
 
 When `warning` is set to `true`, if the test does not pass it will only result in a warning.
 
 The default is `false`, meaning if the test fails it will be counted as a failure.
 
-#### Option: Schema
+#### Option: schema (string)
 
 You can pass a `schema` value to group related tests together.
 
 The value passed to `schema` not have to match an actual schema name, but that is recommended.
+
+#### Option: disablePresets (boolean)
+
+Set `disablePresets` to `true` to disable auto-detection of presets (defaults to `false`).
+
+If set to `true` will only evaluate presets explicitly specified via the `presets` argument.
 
 ### Testing with client side rendering
 
