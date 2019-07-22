@@ -224,7 +224,8 @@ const structuredDataTestUrl = async (url, options) => {
 }
 
 const structuredDataTestHtml = async (html, options) => {
-  const structuredData = WAE().parse(html)
+  let structuredData = WAE().parse(html)
+  structuredData = __transformStructuredData(structuredData)
   return _structuredDataTest(structuredData, { html, ...options })
 }
 
@@ -257,6 +258,29 @@ const structuredDataTest = async (input, options) => {
     const structuredData = input
     return _structuredDataTest(structuredData, options)
   }
+}
+
+// Fixes a big when finding itemprops in microdata, where the itemprop
+// contained more than more property (separated by a space).
+// Have not seen this behaviour in examples on Schema.org but is supported
+// by the Google Structured Data Testing Tool
+// For more info see this issue:
+// https://github.com/glitchdigital/structured-data-testing-tool/issues/4
+const __transformStructuredData = (structuredData) => {
+  let result = structuredData
+  Object.keys(result.microdata).forEach(schema => {
+    result.microdata[schema].forEach(object => {
+      Object.keys(object).forEach(key => {
+        if (key.includes(' ')) {
+          key.split(' ').forEach(newKey => {
+            object[newKey] = object[key]
+          })
+          delete object[key]
+        }
+      })
+    })
+  })
+  return result
 }
 
 module.exports = {

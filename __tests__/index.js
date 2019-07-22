@@ -40,7 +40,7 @@ describe('structured data parsing', () => {
   })
 
   test('should auto-detect and return structured data schemas found', async () => {
-    expect(structuredDataTestResult.schemas.length).toEqual(3)
+    expect(structuredDataTestResult.schemas.length).toEqual(4)
     expect(structuredDataTestResult.failed.length).toEqual(0)
   })
 
@@ -107,7 +107,7 @@ describe('structured data parsing', () => {
     .catch(err => {
       result = err
     })
-    expect(result.schemas.length).toEqual(3)
+    expect(result.schemas.length).toEqual(4)
     expect(result.schemas.includes('Facebook')).toBeFalsy()
     expect(result.passed.length).toBeGreaterThan(10)
     expect(result.failed.length).toBeGreaterThan(0)
@@ -159,5 +159,14 @@ describe('structured data parsing', () => {
       console.error("Failing tests:", e.failed)
       throw e
     }
+  })
+
+  // Test for fix that addresses issue:
+  // https://github.com/glitchdigital/structured-data-testing-tool/issues/4
+  test('should be able to detect complex structured data', async () => {
+    expect(structuredDataTestResult.structuredData.microdata.SocialMediaPosting[0].publisher).toEqual('ACME')
+    expect(structuredDataTestResult.structuredData.microdata.SocialMediaPosting[0].Organization).toEqual('ACME')
+    expect(structuredDataTestResult.structuredData.microdata.SocialMediaPosting[0].image.url).toEqual('http://example.com/path-to-article-image.jpg')
+    expect(structuredDataTestResult.structuredData.microdata.SocialMediaPosting[0].associatedMedia.url).toEqual('http://example.com/path-to-article-image.jpg')
   })
 })

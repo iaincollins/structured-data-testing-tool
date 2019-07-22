@@ -19,7 +19,7 @@
       <p>
         Published On: <span itemprop="datePublished">2019-01-01</span>
       <p>
-      <img itemprop="image" href="http://example.com/path-to-article-image.jpg" alt="Image description"/>
+      <img itemprop="image" src="http://example.com/path-to-article-image.jpg" alt="Image description"/>
       <p>
         Article text…
       </p>
@@ -32,6 +32,17 @@
       <link itemprop="url" href="http://example.com/path-to-article"/>
     </div>
 
+    <!-- Microdata with itemprop values that specify multiple properties -->
+    <div itemscope itemtype="http://schema.org/SocialMediaPosting">
+      <figure itemprop="associatedMedia image" itemscope itemtype="http://schema.org/ImageObject">
+        <meta itemprop="url" content="http://example.com/path-to-article-image.jpg"/>
+      </figure>
+      <meta itemprop="publisher Organization" content="ACME"/>
+      <p>
+        Author: <span itemprop="author">A Smith</span>
+      </p>
+    </div>
+
     <!-- RDFa -->
     <div vocab="http://schema.org/" typeof="NewsArticle">
       <h1 property="headline">Example Headline in RDFa</h1>
@@ -41,7 +52,7 @@
       <p>
         Published On: <span property="datePublished">2019-01-01</span>
       <p>
-      <img property="image" href="http://example.com/path-to-article-image.jpg" alt="Image description"/>
+      <img property="image" src="http://example.com/path-to-article-image.jpg" alt="Image description"/>
       <p>
         Article text…
       </p>
