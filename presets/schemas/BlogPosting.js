@@ -1,6 +1,6 @@
 const BlogPosting = {
   name: 'BlogPosting',
-  description: 'BlogPosting schema data',
+  description: 'A blog post.',
   schema: 'BlogPosting',
   tests: [
     // Expected by Google

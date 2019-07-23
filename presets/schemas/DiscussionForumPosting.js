@@ -1,6 +1,6 @@
 const DiscussionForumPosting = {
   name: 'DiscussionForumPosting',
-  description: 'DiscussionForumPosting schema data',
+  description: 'A posting to a discussion forum.',
   schema: 'DiscussionForumPosting',
   tests: [
     // Expected by Google

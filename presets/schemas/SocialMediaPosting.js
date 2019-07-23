@@ -1,6 +1,6 @@
 const SocialMediaPosting = {
   name: 'SocialMediaPosting',
-  description: 'SocialMediaPosting schema data',
+  description: 'A post to a social media platform, including blog posts, tweets, Facebook posts, etc.',
   schema: 'SocialMediaPosting',
   tests: [
     // Expected by Google

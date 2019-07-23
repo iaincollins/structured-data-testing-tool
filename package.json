@@ -1,6 +1,6 @@
 {
   "name": "structured-data-testing-tool",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A library and command line tool to help test for Structured Data.",
   "repository": "https://github.com/glitchdigital/structured-data-testing-tool",
   "main": "index.js",
