@@ -1,13 +1,15 @@
 const LiveBlogPosting = {
+  name: 'LiveBlogPosting',
+  description: 'LiveBlogPosting schema data',
+  schema: 'LiveBlogPosting',
   tests: [
     // Expected by Google
-    { test: `LiveBlogPosting`, expect: true, schema: 'LiveBlogPosting' },
-    { test: `LiveBlogPosting[*]."@type"`, expect: 'LiveBlogPosting', schema: 'LiveBlogPosting' },
+    { test: `LiveBlogPosting`, expect: true },
+    { test: `LiveBlogPosting[*]."@type"`, expect: 'LiveBlogPosting' },
     // Warnings
-    { test: `LiveBlogPosting[*].coverageEndTime`, expect: true, schema: 'LiveBlogPosting', warning: true },
-    { test: `LiveBlogPosting[*].coverageStartTime`, expect: true, schema: 'LiveBlogPosting', warning: true },
+    { test: `LiveBlogPosting[*].coverageEndTime`, expect: true, warning: true },
+    { test: `LiveBlogPosting[*].coverageStartTime`, expect: true, warning: true },
   ],
-  description: 'LiveBlogPosting schema data'
 }
 
 module.exports = {

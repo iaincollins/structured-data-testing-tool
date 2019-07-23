@@ -11,11 +11,12 @@ const _structuredDataTest = (structuredData, options) => {
   const schemasFound = _findSchemas(structuredData)
 
   let tests = options.tests || [] // Contains all tests
+  let testGroups = []
   let disablePresets = (options && options.disablePresets) ? true : false
   let testsPassed = [] // Only tests that passed
   let testsFailed = [] // Only tests that failed
   let warnings = [] // Warnings
-  
+
   // Add tests for each preset specified to the tests to be performed
   presetsSpecified.forEach(preset => {
     if (preset.tests) {
@@ -27,6 +28,28 @@ const _structuredDataTest = (structuredData, options) => {
     // Add tests for each schema detected, if we have a preset for it
     schemasFound.forEach(schema => {
       if (presets[schema]) {
+        presets[schema].tests.forEach(test => {
+          // Apply any default schema or group defined in the preset
+          // to any test in the preset that don't specify one
+          if (!test.schema && presets[schema].schema)
+            test.schema = presets[schema].schema
+
+          // If test does not explicitly have a group defined, use the
+          // the default one preset, if defined. If no default group is
+          // is defined for the preset, fallback to using the preset nam
+          // to group the results.
+          if (!test.group) {
+            if (presets[schema].group) {
+              test.group = presets[schema].group
+            } else if (presets[schema].name) {
+              test.group = presets[schema].name
+            } else {
+              test.group = 'DEFAULT'
+            }
+          }
+
+          tests.push(test)
+        })
         tests = tests.concat(presets[schema].tests)
       }
     })
@@ -35,6 +58,9 @@ const _structuredDataTest = (structuredData, options) => {
   tests.forEach(test => {
     test.passed = false
     if (!test.type) test.type = 'any'
+
+    if (test.group && !testGroups.includes(test.group))
+      testGroups.push(test.group)
 
     if (test.type == 'metatag') {
       // Look for meta tags`
@@ -113,8 +139,9 @@ const _structuredDataTest = (structuredData, options) => {
       passed: testsPassed,
       failed: testsFailed,
       warnings,
-      structuredData,
-      schemas: schemasFound
+      schemas: schemasFound,
+      groups: testGroups,
+      structuredData
     })
   } else {
     // If any tests did not pass, reject
@@ -125,6 +152,7 @@ const _structuredDataTest = (structuredData, options) => {
     error.failed = testsFailed
     error.warnings = warnings
     error.schemas = schemasFound
+    error.groups = testGroups
     error.structuredData = structuredData
     if (options.url) error.url = options.url
     if (options.res) error.res = options.res
@@ -142,8 +170,9 @@ const _test = (test, json) => {
     path = test.test
     const pathValue = jmespath.search(json, path)
 
-    if (test.expect === true) {
+    if (typeof test.expect === 'undefined' || test.expect === true) {
       // If 'expect' is 'true' then a pathValue should exist
+      // (If no value for expect then assume is a simple check to see it exists)
       if (pathValue.length === 0) {
         testError = {
           type: 'MISSING_PROPERTY',

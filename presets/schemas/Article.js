@@ -1,21 +1,23 @@
-
+// There are multiple types of Article but they are identical in terms of core fields
 const _articleSchemaTests = (schema) => {
   return {
+    name: schema,
+    schema,
     tests: [
       // Expected by Google
-      { test: `${schema}`, expect: true, schema },
-      { test: `${schema}[*]."@type"`, expect: schema, schema },
-      { test: `${schema}[*].author`, expect: true, schema },
-      { test: `${schema}[*].datePublished`, expect: true, schema },
-      { test: `${schema}[*].headline`, expect: true, schema },
-      { test: `${schema}[*].image`, expect: true, schema },
-      { test: `${schema}[*].publisher."@type"`, expect: true, schema },
-      { test: `${schema}[*].publisher.name`, expect: true, schema },
-      { test: `${schema}[*].publisher.logo`, expect: true, schema },
-      { test: `${schema}[*].publisher.logo.url`, expect: true, schema },
+      { test: `${schema}`, expect: true },
+      { test: `${schema}[*]."@type"`, expect: schema },
+      { test: `${schema}[*].author`, expect: true },
+      { test: `${schema}[*].datePublished`, expect: true },
+      { test: `${schema}[*].headline`, expect: true },
+      { test: `${schema}[*].image`, expect: true },
+      { test: `${schema}[*].publisher."@type"`, expect: true },
+      { test: `${schema}[*].publisher.name`, expect: true },
+      { test: `${schema}[*].publisher.logo`, expect: true },
+      { test: `${schema}[*].publisher.logo.url`, expect: true },
       // Warnings
-      { test: `${schema}[*].dateModified`, expect: true, schema, warning: true },
-      { test: `${schema}[*].mainEntityOfPage`, expect: true, schema, warning: true },
+      { test: `${schema}[*].dateModified`, expect: true, warning: true },
+      { test: `${schema}[*].mainEntityOfPage`, expect: true, warning: true },
     ]
   }
 }

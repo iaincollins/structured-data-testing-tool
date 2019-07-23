@@ -3,6 +3,7 @@ const { testForMetatags } = require('../lib/metatags')
 // @TOOD Review required and suggested tags for Facebook
 const Facebook = testForMetatags({
   name: 'Facebook',
+  description: 'Suggested meta tags for Facebook',
   required: [
     'og:type',
     'og:site_name',
@@ -15,8 +16,6 @@ const Facebook = testForMetatags({
     'og:image:alt'
   ]
 })
-
-Facebook.description = 'Suggested meta tags for Facebook'
 
 module.exports = {
   Facebook

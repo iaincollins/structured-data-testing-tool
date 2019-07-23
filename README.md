@@ -212,20 +212,29 @@ A preset is a collection of tests.
 
 There are built-in presets you can use, you can also easily define your own presets.
 
-When creating a preset, it is recommended you specify a `schema` value for tests that matches the schema of the schema being tested and to only test one schema per preset. However this is not enforced, if you want you can use any value for the schema property and test as many different schemas in a preset as you like.
+Presets must have a `name` (which should ideally be unique, but does not have to be) and `description` and an array of `test` objects in `tests`. These can be arbitrary strings.
+
+You can optionally group tests by specifying a value for `group` and set a default schema to use for all tests in `schema`. These can be arbitrary strings, though it's recommended schemas reflect Schema.org schema names.
+
+Note: If a test explicitly defines it's own `group` or `schema` that will override the default value for the preset for that specific test (which may impact how results are grouped).
 
 ```javascript
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
 
-const CustomPreset = {
-  tests: [
-    { test: 'NewsArticle', expect: true, type: 'jsonld', schema: 'CustomPreset' },
-    { test: '"twitter:domain"' expect: 'www.bbc.co.uk', type: 'metatag', schema: 'CustomPreset' }
-  ]
+const MyCustomPreset = {
+  name: 'My Custom Preset', // Required
+  description: 'Test NewsArticle JSON-LD data is defined and twitter metadata was found', // Required
+  tests: [ // Required
+    { test: 'NewsArticle', type: 'jsonld', schema: 'NewsArticle' },
+    { test: '"twitter:card"', type: 'metatag' },
+    { test: '"twitter:domain"', expect: 'www.bbc.co.uk', type: 'metatag', }
+  ],
+  // group: 'A Group Name', // Optional: A group name can be used to group test results (defaults to preset name)
+  // schema: 'NewsArticle', // Optional: A default schema for tests (useful if all tests in a preset are for the same schema)
 }
 
 const options = {
-  presets: [ CustomPreset ]
+  presets: [ MyCustomPreset ]
 }
 
 structuredDataTest(url, options)
@@ -234,7 +243,11 @@ structuredDataTest(url, options)
 
 ### Test options
 
-#### Option: test (string)
+#### test
+```
+Type: string
+Required: true
+```
 
 The value for `test` should be a valid [JMESPath query](http://jmespath.org).
 
@@ -263,7 +276,12 @@ Tips:
 * Use double quotes to escape special characters in property names.
 * You can `console.log()` the `stucturedData` property of the response object from `structuredDataTest()` to see what sort of meta tags and structured data was found to help with writing your own tests.
 
-#### Option: type (json|rdfa|microdata|any)
+#### type
+```
+Type: string ('json'|'rdfa'|'microdata'|'any')
+Required: false
+Default: 'any'
+```
 
 You can specify a `type` to indicate if markup should be in `jsonld`, `rdfa` or `microdata` (HTML) format.
 
@@ -271,7 +289,12 @@ You can also specify a value of `metatag` to check `<meta>` tags.
 
 If you do not specify a type for a test, a default of `any` will be assumed and all types will be checked.
 
-#### Option: expect (boolean|string)
+#### expect
+```
+Type: boolean|string
+Required: false
+Default: true
+```
 
 You can specify a value for `expect` that is either `true`, `false` or a string.
 
@@ -281,25 +304,57 @@ A value of `false` is a boolean that indicates the value must not exist.
 
 Any other value is treated as a string that indicates the value should match the string found.
 
-_NB: Future releases may support passing a function to `expect`._
+The default is `true`.
 
-#### Option: warning (boolean)
+_NB: Future releases may support passing an evaluating function to `expect`._
+
+#### warning
+```
+Type: boolean
+Required: false
+Default: false
+```
 
 When `warning` is set to `true`, if the test does not pass it will only result in a warning.
 
 The default is `false`, meaning if the test fails it will be counted as a failure.
 
-#### Option: schema (string)
+#### schema
+```
+Type: string
+Required: false
+Default: undefined
+```
 
-You can pass a `schema` value to group related tests together.
+You can pass a `schema` value that indicates what schema a test is for.
 
-The value passed to `schema` not have to match an actual schema name, but that is recommended.
+This is only used to group test results and the value is not checked for validity.
 
-#### Option: disablePresets (boolean)
+Tests in different presets can test the same schema. This allows test results by schema or group.
+
+If a test is part of a preset and the preset has a schema specifed, then the value for a test will override the preset's schema value for the test
+
+#### group
+```
+Type: string
+Required: false
+Default: undefined
+```
+
+You can pass a a value for `group` value to indicate how tests should be grouped in results. This value can be any string.
+
+If a test is part of a preset and the preset has a group specifed, then the value for a test will override the preset's group value for the test.
+
+#### disablePresets
+```
+Type: boolean
+Required: false
+Default: false
+```
 
 Set `disablePresets` to `true` to disable auto-detection of presets (defaults to `false`).
 
-If set to `true` will only evaluate presets explicitly specified via the `presets` argument.
+If set to `true` will only run tests for presets explicitly specified via the `presets` argument and will not test other schemas it finds.
 
 ### Testing with client side rendering
 

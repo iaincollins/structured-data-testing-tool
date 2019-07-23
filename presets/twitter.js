@@ -3,6 +3,7 @@ const { testForMetatags } = require('../lib/metatags')
 // @TOOD Review required and suggested tags for Twitter
 const Twitter = testForMetatags({
   name: 'Twitter',
+  description: 'Suggested meta tags for Twitter',
   required: [
     'twitter:card',
     'twitter:description',
@@ -16,8 +17,6 @@ const Twitter = testForMetatags({
     'twitter:domain'
   ]
 })
-
-Twitter.description = 'Suggested meta tags for Twitter'
 
 module.exports = {
   Twitter

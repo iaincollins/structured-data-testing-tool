@@ -147,6 +147,7 @@ describe('structured data parsing', () => {
         { test: 'Article[*].headline', expect: 'Example Headline in Microdata', type: 'microdata' },
         { test: 'NewsArticle[*].headline', expect: 'Example Headline in RDFa', type: 'rdfa' },
         { test: '"twitter:card"', expect: 'summary_large_image', type: 'metatag' },
+        { test: '"twitter:description"', }, // Should find and assume is expected
         { test: '"should-not-exist"', expect: false, type: 'metatag' }
       ],
       presets: [ presets.Twitter ]

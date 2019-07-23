@@ -1,13 +1,15 @@
 const SocialMediaPosting = {
+  name: 'SocialMediaPosting',
+  description: 'SocialMediaPosting schema data',
+  schema: 'SocialMediaPosting',
   tests: [
     // Expected by Google
-    { test: `SocialMediaPosting`, expect: true, schema: 'SocialMediaPosting' },
-    { test: `SocialMediaPosting[*]."@type"`, expect: 'SocialMediaPosting', schema: 'SocialMediaPosting' },
+    { test: `SocialMediaPosting`, expect: true },
+    { test: `SocialMediaPosting[*]."@type"`, expect: 'SocialMediaPosting' },
     // Warnings
-    { test: `SocialMediaPosting[*].headline`, expect: true, schema: 'SocialMediaPosting', warning: true },
-    { test: `SocialMediaPosting[*].image`, expect: true, schema: 'SocialMediaPosting', warning: true },
+    { test: `SocialMediaPosting[*].headline`, expect: true, warning: true },
+    { test: `SocialMediaPosting[*].image`, expect: true, warning: true },
   ],
-  description: 'SocialMediaPosting schema data'
 }
 
 module.exports = {

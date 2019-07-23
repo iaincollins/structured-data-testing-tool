@@ -5,7 +5,7 @@ const fs = require('fs')
 const { structuredDataTest } = require('../index')
 const presets = require('../presets')
 const Package = require('../package')
-const { info, error, printTestResults, printSupportedPresets } = require('../lib/cli')
+const { error, printTestResults, printSupportedPresets } = require('../lib/cli')
 
 ;(async () => {
 
