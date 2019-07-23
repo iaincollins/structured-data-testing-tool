@@ -1,10 +1,12 @@
 # Structured Data Testing Tool
 
-A library and command line tool to help inspect and test for Structured Data.
+Helps inspect and test web pages for Structured Data.
 
-* Checks for Schema.org markup in HTML with microdata, JSONLD and RDFA.
+* Checks pages for Schema.org markup in HTML (with microdata), JSON-LD and RDFa.
 * Checks `<meta>` tags for specific tags and values.
-* Comes with build-in presets, which you can copy and extend.
+* Comes with common build-in presets, which you can extend - or you can create your own.
+* Has both a Command Line Interface (`sdtt`) and an API.
+* API can be used with a headless browser to test Structured Data injected client side (e.g. via Google Tag Manager).
 
 This tool uses [web-auto-extractor](https://www.npmjs.com/package/web-auto-extractor) and [jmespath](https://www.npmjs.com/package/jmespath).
 
@@ -15,9 +17,9 @@ This tool uses [web-auto-extractor](https://www.npmjs.com/package/web-auto-extra
 ## Features
 
 * You can pass in any URL or a file to test.
-* Any schemas found that are supported will be automatically tested.
+* Any schemas found that are supported will be automatically tested (unless otherwise specified).
 * You can optionally pass in specific presets to look for.
-* Presets can also test for non-schema markup (e.g. Twitter, Facebook, App Store tags).
+* Using custom presets with the API you can also easily test for non-schema markup (e.g. Twitter, Facebook, App Store tags…).
 
 ## Usage
 
@@ -40,47 +42,6 @@ Examples:
   sdtt --url "https://example.com/article"               Inspect a URL
   sdtt --url <url> --presets "Article,Twitter,Facebook"  Test a URL for Article schema and social metatags
   sdtt --presets                                         List supported presets
-```
-
-The following presets are currently supported:
-
-```
-NAME                      DESCRIPTION                                            
-Article                   An article, such as a news article or piece of         
-                          investigative report. Newspapers and magazines have    
-                          articles of many different types and this is intended  
-                          to cover them all.                                     
-NewsArticle               A NewsArticle is an article whose content reports news,
-                          or provides background context and supporting materials
-                          for understanding the news.                            
-AnalysisNewsArticle       An AnalysisNewsArticle is a NewsArticle that, while    
-                          based on factual reporting, incorporates the expertise 
-                          of the author/producer, offering interpretations and   
-                          conclusions.                                           
-AskPublicNewsArticle      A NewsArticle expressing an open call by a             
-                          NewsMediaOrganization asking the public for input,     
-                          insights, clarifications, anecdotes, documentation,    
-                          etc., on an issue, for reporting purposes.             
-BackgroundNewsArticle     A NewsArticle providing historical context, definition 
-                          and detail on a specific topic (aka "explainer" or     
-                          "backgrounder").                                       
-OpinionNewsArticle        An OpinionNewsArticle is a NewsArticle that primarily  
-                          expresses opinions rather than journalistic reporting  
-                          of news and events.                                    
-ReportageNewsArticle      The ReportageNewsArticle type is a subtype of          
-                          NewsArticle representing news articles which are the   
-                          result of journalistic news reporting conventions.     
-ReviewNewsArticle         A NewsArticle and CriticReview providing a professional
-                          critic's assessment of a service, product, performance,
-                          or artistic or literary work.                          
-SocialMediaPosting        SocialMediaPosting schema data                         
-DiscussionForumPosting    DiscussionForumPosting schema data                     
-BlogPosting               BlogPosting schema data                                
-LiveBlogPosting           LiveBlogPosting schema data                            
-ClaimReview               A fact-checking review of claims made (or reported) in 
-                          some creative work (referenced via itemReviewed).      
-Twitter                   Suggested meta tags for Twitter                        
-Facebook                  Suggested meta tags for Facebook   
 ```
 
 Inspect a URL to see what markup is found:
@@ -188,7 +149,7 @@ structuredDataTest(html)
 
 The built-in presets only cover some use cases and are only able to check if values are defined (not what they contain).
 
-With the API you can use [JMESPath query syntax](http://jmespath.org) to define your own tests to check for additional properties and specific values. You can mix and match your own test with the built-in presets, or define your own presets.
+With the API you can use [JMESPath query syntax](http://jmespath.org) to define your own tests to check for additional properties and specific values. You can mix and match tests with presets.
 
 ```javascript
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
@@ -212,11 +173,11 @@ A preset is a collection of tests.
 
 There are built-in presets you can use, you can also easily define your own presets.
 
-Presets must have a `name` (which should ideally be unique, but does not have to be) and `description` and an array of `test` objects in `tests`. These can be arbitrary strings.
+Presets must have a `name` (which should ideally be unique, but does not have to be) and `description` and an array of `test` objects in `tests`. Both `name` and `description` be arbitrary strings, `tests` should be an array of valid `test` objects.
 
 You can optionally group tests by specifying a value for `group` and set a default schema to use for all tests in `schema`. These can be arbitrary strings, though it's recommended schemas reflect Schema.org schema names.
 
-Note: If a test explicitly defines it's own `group` or `schema` that will override the default value for the preset for that specific test (which may impact how results are grouped).
+If a test explicitly defines it's own `group` or `schema`, that will override the default value for the preset for that specific test (which may impact how results are grouped).
 
 ```javascript
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
