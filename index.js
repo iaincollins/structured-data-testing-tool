@@ -64,64 +64,59 @@ const _structuredDataTest = (structuredData, options) => {
 
     if (test.type == 'metatag') {
       // Look for meta tags`
-      const { testPassed, testWarnings, testError } = _test(test, structuredData.metatags)
+      const { testPassed, testError } = _test(test, structuredData.metatags)
       test.passed = testPassed
-      if (testWarnings) test.warnings = testWarnings
-      if (testError) test.error = testError
+      test.error = testError
     } else if (test.type == 'jsonld') {
       // Look for data in jsonld
-      const { testPassed, testWarnings, testError } = _test(test, structuredData.jsonld)
+      const { testPassed, testError } = _test(test, structuredData.jsonld)
       test.passed = testPassed
-      if (testWarnings) test.warnings = testWarnings
-      if (testError) test.error = testError
+      test.error = testError
     } else if (test.type == 'microdata') {
       // Look for data in microdata
-      const { testPassed, testWarnings, testError } = _test(test, structuredData.microdata)
+      const { testPassed, testError } = _test(test, structuredData.microdata)
       test.passed = testPassed
-      if (testWarnings) test.warnings = testWarnings
-      if (testError) test.error = testError
+      test.error = testError
     } else if (test.type == 'rdfa') {
       // Look for data in rdfa
-      const { testPassed, testWarnings, testError } = _test(test, structuredData.rdfa)
+      const { testPassed, testError } = _test(test, structuredData.rdfa)
       test.passed = testPassed
-      if (testWarnings) test.warnings = testWarnings
-      if (testError) test.error = testError
+      test.error = testError
     } else {
       // Look for data in jsonld, then microdata then rdfa then metatags until found
       // If a test passes, set the test type to reflect where it was found
-      const { testPassed, testWarnings, testError } = _test(test, structuredData.jsonld)
+      const { testPassed, testError } = _test(test, structuredData.jsonld)
       test.passed = testPassed
-      if (testWarnings) test.warnings = testWarnings
-      if (testError) test.error = testError
+      test.error = testError
       if (testPassed) test.type = 'jsonld'
 
       // If was not found in jsonld, look for data in microdata
       if (test.passed === false) {
-        const { testPassed, testWarnings, testError } = _test(test, structuredData.microdata)
+        const { testPassed, testError } = _test(test, structuredData.microdata)
         test.passed = testPassed
-        if (testWarnings) test.warnings = testWarnings
-        if (testError) test.error = testError
+        test.error = testError
         if (testPassed) test.type = 'microdata'
       }
 
       // If was not found in jsonld or microdata, look for data in rdfa
       if (test.passed === false) {
-        const { testPassed, testWarnings, testError } = _test(test, structuredData.rdfa)
+        const { testPassed, testError } = _test(test, structuredData.rdfa)
         test.passed = testPassed
-        if (testWarnings) test.warnings = testWarnings
-        if (testError) test.error = testError
+        test.error = testError
         if (testPassed) test.type = 'rdfa'
       }
 
       // If was not found in jsonld or microdata or rdfa, look for data in metatags
       if (test.passed === false) {
-        const { testPassed, testWarnings, testError } = _test(test, structuredData.metatags)
+        const { testPassed, testError } = _test(test, structuredData.metatags)
         test.passed = testPassed
-        if (testWarnings) test.warnings = testWarnings
-        if (testError) test.error = testError
+        test.error = testError
         if (testPassed) test.type = 'metatag'
       }
     }
+
+    // Delete test.error property if it is null
+    if (test.error === null) delete test.error
 
     if (test.passed === true) {
       testsPassed.push(test)
@@ -162,7 +157,6 @@ const _structuredDataTest = (structuredData, options) => {
 
 const _test = (test, json) => {
   let testPassed = false
-  let testWarnings = null
   let testError = null
   let path = null
 
@@ -173,7 +167,7 @@ const _test = (test, json) => {
     if (typeof test.expect === 'undefined' || test.expect === true) {
       // If 'expect' is 'true' then a pathValue should exist
       // (If no value for expect then assume is a simple check to see it exists)
-      if (pathValue.length === 0) {
+      if (!pathValue || pathValue.length === 0) {
         testError = {
           type: 'MISSING_PROPERTY',
           message: `Could not find "${path}"`,
@@ -191,11 +185,32 @@ const _test = (test, json) => {
       } else {
         testPassed = true
       }
-    } else if (pathValue.length === 0) {
+    } else if (pathValue && test.expect instanceof RegExp) {
+      // If test is a Regular Expression…
+      if (Array.isArray(pathValue)) {
+        // If value is array and any key matches then test passes
+        pathValue.map(value => {
+          if (value.match(test.expect))
+            testPassed = true
+        })
+      } else {
+        // If value is not an array, treat as a string
+        testPassed = pathValue.match(test.expect)
+      }
+
+      if (!testPassed) {
+        testError = {
+          type: 'REGEXP_FAILED',
+          message: `Failed RegExp test for "${path}"`,
+          expected: test.expect,
+          found: pathValue
+        }
+      }
+    } else if (!pathValue || pathValue.length === 0) {
       // If item not found (or has no value) then error
       testError = {
-        type: 'MISSING_VALUE',
-        message: `Could not find value for "${path}"`,
+        type: 'TEST_FAILED',
+        message: `Test "${path}" failed`,
       }
     } else if (pathValue == test.expect || (Array.isArray(pathValue) && pathValue.includes(test.expect))) {
       // If value is found and matches what we expect…
@@ -208,20 +223,19 @@ const _test = (test, json) => {
         type: 'INCORRECT_VALUE',
         message: `Incorrect value for "${path}"`,
         expected: test.expect,
-        found: pathValue
+        found: pathValuele
       }
     }
   } catch (e) {
     testError = {
-      type: 'TEST_FAILED',
-      message: `Test "${path}" failed`,
+      type: 'TEST_ERROR',
+      message: `Error evaluating test "${path}", check test syntax`,
       e
     }
   }
 
   return {
     testPassed,
-    testWarnings,
     testError
   }
 }

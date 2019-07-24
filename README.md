@@ -2,11 +2,15 @@
 
 Helps inspect and test web pages for Structured Data.
 
-* Checks pages for Schema.org markup in HTML (with microdata), JSON-LD and RDFa.
-* Checks `<meta>` tags for specific tags and values.
-* Comes with common build-in presets, which you can extend - or you can create your own.
-* Has both a Command Line Interface (`sdtt`) and an API.
-* API can be used with a headless browser to test Structured Data injected client side (e.g. via Google Tag Manager).
+* Accepts any URL or a file to test (via string, buffer, stream…).
+* Has both a Command Line Interface (`sdtt`) and an API for CD/CI integration.
+* Tests pages for Schema.org markup in HTML (with microdata), JSON-LD and RDFa.
+* Tests `<meta>` tags for specific tags and values (e.g. for Twitter and Facebook sharing data, OpenGraph tags, App Store tags).
+* Tests if properties exist, should not exist and/or if they match a Regular Expression.
+* Comes with built-in support for testing some of the common schema types.
+* Any schemas found that are have built-in support are automatically tested by default.
+* You can define your own re-useable custom presets for testing any schema.
+* API can be used with a headless browser to test Structured Data injected by client side JavaScript (e.g. via Google Tag Manager).
 
 This tool uses [web-auto-extractor](https://www.npmjs.com/package/web-auto-extractor) and [jmespath](https://www.npmjs.com/package/jmespath).
 
@@ -15,11 +19,6 @@ This tool uses [web-auto-extractor](https://www.npmjs.com/package/web-auto-extra
     npm i structured-data-testing-tool -g
 
 ## Features
-
-* You can pass in any URL or a file to test.
-* Any schemas found that are supported will be automatically tested (unless otherwise specified).
-* You can optionally pass in specific presets to look for.
-* Using custom presets with the API you can also easily test for non-schema markup (e.g. Twitter, Facebook, App Store tags…).
 
 ## Usage
 
@@ -142,7 +141,8 @@ You can also test HTML in a file by passing it as a string, a stream or a readab
 ```javascript
 const html = fs.readFileSync('./example.html')
 structuredDataTest(html)
-…
+.then(response => { /* … */ })
+.catch(err => { /* … */ })
 ```
 
 ### How to define your own tests
@@ -164,7 +164,8 @@ const options = {
 }
 
 structuredDataTest(url, options)
-…
+.then(response => { /* … */ })
+.catch(err => { /* … */ })
 ```
 
 ### How to define your own presets
@@ -199,7 +200,8 @@ const options = {
 }
 
 structuredDataTest(url, options)
-…
+.then(response => { /* … */ })
+.catch(err => { /* … */ })
 ```
 
 ### Test options
@@ -235,7 +237,7 @@ Test `@type` value of `publisher` on any `Article` schema found.
 Tips:
 
 * Use double quotes to escape special characters in property names.
-* You can `console.log()` the `stucturedData` property of the response object from `structuredDataTest()` to see what sort of meta tags and structured data was found to help with writing your own tests.
+* You can `console.log()` the `structuredData` property of the response object from `structuredDataTest()` to see what sort of meta tags and structured data was found to help with writing your own tests.
 
 #### type
 ```
@@ -244,30 +246,35 @@ Required: false
 Default: 'any'
 ```
 
-You can specify a `type` to indicate if markup should be in `jsonld`, `rdfa` or `microdata` (HTML) format.
+You can can a `type` to indicate if markup should be in `jsonld`, `rdfa` or `microdata` (HTML) format.
 
 You can also specify a value of `metatag` to check `<meta>` tags.
 
-If you do not specify a type for a test, a default of `any` will be assumed and all types will be checked.
+If you do not specify a type for a test, a default of `any` will be assumed and all types will be checked (and if any source matches, the test will pass).
+
+If you specifically want to test for a value and you know if it is JSON-LD, RDFa or microdata you should specify the explicit type for the test to check.
 
 #### expect
 ```
-Type: boolean|string
+Type: boolean|string|RexExp
 Required: false
 Default: true
 ```
 
-You can specify a value for `expect` that is either `true`, `false` or a string.
+You can specify a value for `expect` that is either `true`, `false`, a string or a Regular Expression object (defaults to `true`).
 
-A value of `true` is a boolean that indicates the property must exist, but does not check value.
+* A value of `true` indicates the property must exist (but does not check it's value).
+* A value of `false` that indicates the value must not exist.
+* A Regular Expression is evaluated against the test query.
+* Any other value is treated as a string and the value of the property should exactly match it.
 
-A value of `false` is a boolean that indicates the value must not exist.
+When using a Regular Expression, if the query points to an array item, the test will pass if any item in the array matches the Regular Expression.
 
-Any other value is treated as a string that indicates the value should match the string found.
+Examples of [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp):
 
-The default is `true`.
-
-_NB: Future releases may support passing an evaluating function to `expect`._
+* `expect: /^[0-9]+$/g` // Value being tested should only contain numbers
+* `expect: /^[A-z]+$/g` // Value being tested should only contain letters
+* `expect: /^[A-z0-9 ]+$/g` //  Value being tested should only contain letters and spaces
 
 #### warning
 ```
@@ -341,13 +348,9 @@ const puppeteer = require('puppeteer');
   const html = await page.evaluate(() => document.body.innerHTML);
   await browser.close();
   
-  structuredDataTest(html)
-  .then(response => {
-    console.log("All tests passed.")
-  })
-  .catch(err => {
-    console.log("Some tests failed.")
-  })
+  await structuredDataTest(html)
+  .then(response => { console.log("All tests passed.") })
+  .catch(err => { console.log("Some tests failed.") })
 })();
 ```
 

@@ -1,6 +1,23 @@
+
+const fs = require('fs')
+const { structuredDataTest } = require('../index')
 const presets = require('../presets')
 
-describe('preset schema tests', () => {
+const testFile = '__tests__/fixtures/example.html'
+const html = fs.readFileSync(testFile)
+
+const CustomPreset = {
+  name: 'Custom Preset',
+  description: 'Custom preset for testing…',
+  tests: [
+    { test: `Article[*].author` }, // Should pass
+    { test: `Article[*].doesNotExist` }, // Should fail
+    { test: `Article[*].headline`, expect: /^[A-z0-9!? ]+$/g }, // Should pass
+    { test: `Article[*].headline`, expect: /^[0-9]+$/g, }, // Should fail
+  ]
+}
+
+describe('Presets', () => {
   for (let preset in presets) {
     test(`should have valid tests for ${preset} preset`, () => {
       expect(presets).toHaveProperty(preset)
@@ -17,4 +34,12 @@ describe('preset schema tests', () => {
       })
     })
   }
+
+  test(`should handle tests in custom preset correctly`, async () => { 
+    const result = await structuredDataTest(html, { disablePresets: true, presets: [ CustomPreset ] })
+    .then(response => { return response })
+    .catch(err => { return err })
+    expect(result.passed.length).toEqual(2)
+    expect(result.failed.length).toEqual(2)
+  })
 })

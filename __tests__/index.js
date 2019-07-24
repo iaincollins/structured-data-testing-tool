@@ -16,7 +16,7 @@ const html = fs.readFileSync(testFile)
 
 let structuredDataTestResult = null
 
-describe('structured data parsing', () => {
+describe('Structured Data parsing', () => {
   beforeAll(async () => {
     // Mock fetch request
     fetch.resetMocks()

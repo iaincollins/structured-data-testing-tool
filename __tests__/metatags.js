@@ -1,6 +1,6 @@
 const { testForMetatags } = require('../lib/metatags')
 
-describe('metatag helper functions', () => {
+describe('Metatag helper functions', () => {
   test('should throw exception if name argument not supplied', () => {
     let exceptionThrown = false
     try {
