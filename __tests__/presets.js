@@ -30,7 +30,6 @@ describe('Presets', () => {
       expect(presets[preset].tests.length).toBeGreaterThan(0)
       presets[preset].tests.map(test => {
         expect(test).toHaveProperty('test')
-        expect(test).toHaveProperty('expect')
       })
     })
   }

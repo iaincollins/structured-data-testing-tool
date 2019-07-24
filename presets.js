@@ -7,11 +7,6 @@ const ClaimReview = require('./presets/schemas/ClaimReview')
 const Twitter = require('./presets/twitter')
 const Facebook = require('./presets/facebook')
 
-SocialMediaPosting,
-DiscussionForumPosting,
-BlogPosting,
-LiveBlogPosting
-
 module.exports = {
   ...ArticlePresets,
   ...SocialMediaPosting,

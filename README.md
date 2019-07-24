@@ -234,6 +234,9 @@ Test `name` value of `publisher` on any `Article` schema found.
 `Article[*].publisher."@type"`  
 Test `@type` value of `publisher` on any `Article` schema found.
 
+`"twitter:image" || "twitter:image:src"`  
+Check for a metatag named either `twitter:image` -or- `twitter:image:src`
+
 Tips:
 
 * Use double quotes to escape special characters in property names.
