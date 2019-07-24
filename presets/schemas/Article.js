@@ -5,19 +5,19 @@ const _articleSchemaTests = (schema) => {
     schema,
     tests: [
       // Expected by Google
-      { test: `${schema}`, expect: true },
+      { test: `${schema}` },
       { test: `${schema}[*]."@type"`, expect: schema },
-      { test: `${schema}[*].author`, expect: true },
-      { test: `${schema}[*].datePublished`, expect: true },
-      { test: `${schema}[*].headline`, expect: true },
-      { test: `${schema}[*].image`, expect: true },
-      { test: `${schema}[*].publisher."@type"`, expect: true },
-      { test: `${schema}[*].publisher.name`, expect: true },
-      { test: `${schema}[*].publisher.logo`, expect: true },
-      { test: `${schema}[*].publisher.logo.url`, expect: true },
+      { test: `${schema}[*].author` },
+      { test: `${schema}[*].datePublished` },
+      { test: `${schema}[*].headline` },
+      { test: `${schema}[*].image` },
+      { test: `${schema}[*].publisher."@type"` },
+      { test: `${schema}[*].publisher.name` },
+      { test: `${schema}[*].publisher.logo` },
+      { test: `${schema}[*].publisher.logo.url` },
       // Warnings
-      { test: `${schema}[*].dateModified`, expect: true, warning: true },
-      { test: `${schema}[*].mainEntityOfPage`, expect: true, warning: true },
+      { test: `${schema}[*].dateModified`, warning: true },
+      { test: `${schema}[*].mainEntityOfPage`, warning: true },
     ]
   }
 }

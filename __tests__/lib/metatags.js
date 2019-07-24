@@ -1,6 +1,6 @@
-const { testForMetatags } = require('../lib/metatags')
+const { testForMetatags } = require('../../lib/metatags')
 
-describe('Metatag helper functions', () => {
+describe('Metatag library', () => {
   test('should throw exception if name argument not supplied', () => {
     let exceptionThrown = false
     try {
@@ -30,7 +30,6 @@ describe('Metatag helper functions', () => {
     })
     expect(result.tests.length).toEqual(1)
     expect(result.tests[0].test).toEqual('"required-meta-tag"')
-    expect(result.tests[0].expect).toBeTruthy()
     expect(result.tests[0].schema).toEqual('TestTag')
     expect(result.tests[0].type).toEqual('metatag')
     expect(result.tests[0].warning).toBeFalsy()
@@ -45,7 +44,6 @@ describe('Metatag helper functions', () => {
     })
     expect(result.tests.length).toEqual(1)
     expect(result.tests[0].test).toEqual('"suggested-meta-tag"')
-    expect(result.tests[0].expect).toBeTruthy()
     expect(result.tests[0].schema).toEqual('TestTag')
     expect(result.tests[0].type).toEqual('metatag')
     expect(result.tests[0].warning).toBeTruthy()
@@ -65,13 +63,11 @@ describe('Metatag helper functions', () => {
     expect(result.tests.length).toEqual(2)
 
     expect(result.tests[0].test).toEqual('"required-meta-tag"')
-    expect(result.tests[0].expect).toBeTruthy()
     expect(result.tests[0].schema).toEqual('TestTag')
     expect(result.tests[0].type).toEqual('metatag')
     expect(result.tests[0].warning).toBeFalsy()
 
     expect(result.tests[1].test).toEqual('"suggested-meta-tag"')
-    expect(result.tests[1].expect).toBeTruthy()
     expect(result.tests[1].schema).toEqual('TestTag')
     expect(result.tests[1].type).toEqual('metatag')
     expect(result.tests[1].warning).toBeTruthy()

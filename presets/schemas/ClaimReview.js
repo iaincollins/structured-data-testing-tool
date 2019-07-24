@@ -5,15 +5,15 @@ const ClaimReview = {
   group: 'ClaimReview',
   tests: [
     // Expected by Google
-    { test: `ClaimReview`, expect: true },
+    { test: `ClaimReview` },
     { test: `ClaimReview[*]."@type"`, expect: 'ClaimReview' },
-    { test: `ClaimReview[*].url`, expect: true },
-    { test: `ClaimReview[*].reviewRating`, expect: true },
-    { test: `ClaimReview[*].claimReviewed`, expect: true },
+    { test: `ClaimReview[*].url` },
+    { test: `ClaimReview[*].reviewRating` },
+    { test: `ClaimReview[*].claimReviewed` },
     // Warnings
-    { test: `ClaimReview[*].author`, expect: true, warning: true },
-    { test: `ClaimReview[*].datePublished`, expect: true, warning: true },
-    { test: `ClaimReview[*].itemReviewed`, expect: true, warning: true },
+    { test: `ClaimReview[*].author`, warning: true },
+    { test: `ClaimReview[*].datePublished`, warning: true },
+    { test: `ClaimReview[*].itemReviewed`, warning: true },
   ],
 }
 

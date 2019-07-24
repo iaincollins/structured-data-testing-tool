@@ -4,19 +4,19 @@ const BlogPosting = {
   schema: 'BlogPosting',
   tests: [
     // Expected by Google
-    { test: `BlogPosting`, expect: true },
+    { test: `BlogPosting` },
     { test: `BlogPosting[*]."@type"`, expect: 'BlogPosting' },
-    { test: `BlogPosting[*].author`, expect: true },
-    { test: `BlogPosting[*].datePublished`, expect: true },
-    { test: `BlogPosting[*].headline`, expect: true },
-    { test: `BlogPosting[*].image`, expect: true },
-    { test: `BlogPosting[*].publisher."@type"`, expect: true },
-    { test: `BlogPosting[*].publisher.name`, expect: true },
-    { test: `BlogPosting[*].publisher.logo`, expect: true },
-    { test: `BlogPosting[*].publisher.logo.url`, expect: true },
+    { test: `BlogPosting[*].author` },
+    { test: `BlogPosting[*].datePublished` },
+    { test: `BlogPosting[*].headline` },
+    { test: `BlogPosting[*].image` },
+    { test: `BlogPosting[*].publisher."@type"` },
+    { test: `BlogPosting[*].publisher.name` },
+    { test: `BlogPosting[*].publisher.logo` },
+    { test: `BlogPosting[*].publisher.logo.url` },
     // Warnings
-    { test: `BlogPosting[*].dateModified`, expect: true, warning: true },
-    { test: `BlogPosting[*].mainEntityOfPage`, expect: true, warning: true },
+    { test: `BlogPosting[*].dateModified`, warning: true },
+    { test: `BlogPosting[*].mainEntityOfPage`, warning: true },
   ]
 }
 
