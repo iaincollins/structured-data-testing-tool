@@ -11,6 +11,7 @@ Helps inspect and test web pages for Structured Data.
 * Any schemas found that are have built-in support are automatically tested by default.
 * You can define your own re-useable custom presets for testing any schema.
 * API can be used with a headless browser to test Structured Data injected by client side JavaScript (e.g. via Google Tag Manager).
+* Can return list of all valid Schema.org schemas
 
 This tool uses [web-auto-extractor](https://www.npmjs.com/package/web-auto-extractor) and [jmespath](https://www.npmjs.com/package/jmespath).
 
@@ -34,6 +35,7 @@ Options:
   -f, --file             Inspect a file
   -p, --presets          Test a URL for specific markup from a list of presets
   -d, --disable-presets  Disable auto-detection of presets - will only evaluate explicitly specified presets
+  -s, --schemas          List valid schemas
   -h, --help             Show help
   -v, --version          Show version number
 

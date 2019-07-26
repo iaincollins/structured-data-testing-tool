@@ -5,7 +5,7 @@ const fs = require('fs')
 const { structuredDataTest } = require('../index')
 const presets = require('../presets')
 const Package = require('../package')
-const { error, printTestResults, printSupportedPresets } = require('../lib/cli')
+const { error, printTestResults, printSupportedPresets, printListSchemas } = require('../lib/cli')
 
 ;(async () => {
 
@@ -22,6 +22,12 @@ const { error, printTestResults, printSupportedPresets } = require('../lib/cli')
 
   // Get input arguments
   if (yargs.argv.file || yargs.argv.f) {
+
+    if (yargs.argv.url || yargs.argv.u) {
+      console.error(error(`Error: Must provide either URL (-u/--url) *or* file (-f/--file) to test, not both`))
+      return process.exit(1)
+    }
+
     // Get path to file input
     try {
       testInput = fs.readFileSync(yargs.argv.file || yargs.argv.f)
@@ -34,10 +40,16 @@ const { error, printTestResults, printSupportedPresets } = require('../lib/cli')
     testInput = yargs.argv.url || yargs.argv.u
   }
 
+  // If --schemas or -s is passed display supported schemas
+  if (yargs.argv.schemas || yargs.argv.s) {
+    printListSchemas()
+    return process.exit()
+  }
+
   // Parse presets of provided, and halt on error when parsing them
   if (yargs.argv.presets || yargs.argv.p) {
 
-    // If --presets or -p is passed with no arguments, display supported preset
+    // If --presets or -p is passed with no arguments, display supported presets
     if ((yargs.argv.presets && yargs.argv.presets === true) || (yargs.argv.p && yargs.argv.p === true)) {
       printSupportedPresets()
       return process.exit()
@@ -109,6 +121,10 @@ const { error, printTestResults, printSupportedPresets } = require('../lib/cli')
     alias: 'disable-presets',
     description: 'Disable auto-detection of presets - will only evaluate explicitly specified presets',
     boolean: true
+  })
+  .option('s', {
+    alias: 'schemas',
+    description: 'List valid schemas'
   })
   .help('h')
   .alias('h', 'help')

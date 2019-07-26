@@ -1,6 +1,6 @@
 {
   "name": "structured-data-testing-tool",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "A library and command line tool to help test for Structured Data.",
   "repository": "https://github.com/glitchdigital/structured-data-testing-tool",
   "main": "index.js",
@@ -8,6 +8,7 @@
     "sdtt": "bin/cli.js"
   },
   "scripts": {
+    "update": "node bin/update-schema-list.js",
     "test": "jest --verbose --coverage"
   },
   "keywords": [
