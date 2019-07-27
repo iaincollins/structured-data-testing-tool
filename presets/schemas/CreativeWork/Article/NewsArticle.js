@@ -1,69 +1,41 @@
-// There are multiple types of Article but they are identical in terms of core fields
-const _articleSchemaTests = (schema) => {
-  return {
-    name: schema,
-    schema,
-    tests: [
-      // Expected by Google
-      { test: `${schema}` },
-      { test: `${schema}[*]."@type"`, expect: schema },
-      { test: `${schema}[*].author` },
-      { test: `${schema}[*].datePublished` },
-      { test: `${schema}[*].headline` },
-      { test: `${schema}[*].image` },
-      { test: `${schema}[*].publisher."@type"` },
-      { test: `${schema}[*].publisher.name` },
-      { test: `${schema}[*].publisher.logo` },
-      { test: `${schema}[*].publisher.logo.url` },
-      // Warnings
-      { test: `${schema}[*].dateModified`, warning: true },
-      { test: `${schema}[*].mainEntityOfPage`, warning: true },
-    ]
-  }
-}
-
-const Article = {
-  ..._articleSchemaTests('Article'),
-  description: 'An article, such as a news article or piece of investigative report. Newspapers and magazines have articles of many different types and this is intended to cover them all.'
-}
+const { _articlePrototype } = require('../Article')
 
 const NewsArticle = {
-  ..._articleSchemaTests('NewsArticle'),
+  ..._articlePrototype('NewsArticle'),
   description: 'A NewsArticle is an article whose content reports news, or provides background context and supporting materials for understanding the news.'
 }
 
 const AnalysisNewsArticle = {
-  ..._articleSchemaTests('AnalysisNewsArticle'),
+  ..._articlePrototype('AnalysisNewsArticle'),
   description: 'An AnalysisNewsArticle is a NewsArticle that, while based on factual reporting, incorporates the expertise of the author/producer, offering interpretations and conclusions.'
 }
 
 const AskPublicNewsArticle = {
-  ..._articleSchemaTests('AskPublicNewsArticle'),
+  ..._articlePrototype('AskPublicNewsArticle'),
   description: 'A NewsArticle expressing an open call by a NewsMediaOrganization asking the public for input, insights, clarifications, anecdotes, documentation, etc., on an issue, for reporting purposes.'
 }
 
 const BackgroundNewsArticle = {
-  ..._articleSchemaTests('BackgroundNewsArticle'),
+  ..._articlePrototype('BackgroundNewsArticle'),
   description: 'A NewsArticle providing historical context, definition and detail on a specific topic (aka "explainer" or "backgrounder"). '
 }
 
 const OpinionNewsArticle = {
-  ..._articleSchemaTests('OpinionNewsArticle'),
+  ..._articlePrototype('OpinionNewsArticle'),
   description: 'An OpinionNewsArticle is a NewsArticle that primarily expresses opinions rather than journalistic reporting of news and events.'
 }
 
 const ReportageNewsArticle = {
-  ..._articleSchemaTests('ReportageNewsArticle'),
+  ..._articlePrototype('ReportageNewsArticle'),
   description: 'The ReportageNewsArticle type is a subtype of NewsArticle representing news articles which are the result of journalistic news reporting conventions.'
 }
 
 const ReviewNewsArticle = {
-  ..._articleSchemaTests('ReviewNewsArticle'),
+  ..._articlePrototype('ReviewNewsArticle'),
   description: "A NewsArticle and CriticReview providing a professional critic's assessment of a service, product, performance, or artistic or literary work."
 }
 
 module.exports = {
-  Article,
   NewsArticle,
   AnalysisNewsArticle,
   AskPublicNewsArticle,

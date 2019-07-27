@@ -19,6 +19,7 @@ const CustomPreset = {
 
 describe('Presets', () => {
   for (let preset in presets) {
+    if (preset.startsWith('_')) continue
     test(`should have valid tests for ${preset} preset`, () => {
       expect(presets).toHaveProperty(preset)
       // Every preset should define a name, a description and a test group
