@@ -2,18 +2,23 @@
 
 Helps inspect and test web pages for Structured Data.
 
+Designed to allow automation and quick ad-hoc testing of structured data - especially in bulk or as part of a CD/CI pipeline.
+
+## Features
+
+* A Command Line Interface (`sdtt`) and an API for CD/CI integration.
 * Accepts any URL or a file to test (via string, buffer, stream…).
-* Has both a Command Line Interface (`sdtt`) and an API for CD/CI integration.
 * Tests pages for Schema.org markup in HTML (with microdata), JSON-LD and RDFa.
 * Tests `<meta>` tags for specific tags and values (e.g. for Twitter and Facebook sharing data, OpenGraph tags, App Store tags).
-* Tests if properties exist, should not exist and/or if they match a Regular Expression.
-* Comes with built-in support for testing some of the common schema types.
-* Any schemas found that are have built-in support are automatically tested by default.
-* You can define your own re-useable custom presets for testing any schema.
-* API can be used with a headless browser to test Structured Data injected by client side JavaScript (e.g. via Google Tag Manager).
-* Can return list of all valid Schema.org schemas
+* Tests if properties exist, should not exist and/or if they match a Regular Expression check.
+* Built-in 'presets' for testing common schema types (including all types of Article schemas).
+* API: Define your own re-useable, custom presets to write specific tests for your own site.
+* API: Use with a headless browser to test Structured Data injected by client side JavaScript (e.g. via Google Tag Manager).
+* CLI: Recognizes and displays info for all 1000+ schemas on Schema.org.
 
 This tool uses [web-auto-extractor](https://www.npmjs.com/package/web-auto-extractor) and [jmespath](https://www.npmjs.com/package/jmespath).
+
+Note: Schema.org does not define 'optional' and 'required' fields for schemas, it describes valid properties and what they may contain. Recommendations and tests in the built-in presets are based on practical errors and warnings returned by search engine providers.
 
 ## Install
 
@@ -193,8 +198,8 @@ const MyCustomPreset = {
     { test: '"twitter:card"', type: 'metatag' },
     { test: '"twitter:domain"', expect: 'www.bbc.co.uk', type: 'metatag', }
   ],
-  // group: 'A Group Name', // Optional: A group name can be used to group test results (defaults to preset name)
-  // schema: 'NewsArticle', // Optional: A default schema for tests (useful if all tests in a preset are for the same schema)
+  group: 'A Group Name', // Optional: A group name can be used to group tests in a preset (defaults to preset name)
+  // schema: 'NewsArticle', // Optional: A default schema for tests (useful if tests in a preset are all for the same schema)
 }
 
 const options = {
@@ -251,7 +256,7 @@ Required: false
 Default: 'any'
 ```
 
-You can can a `type` to indicate if markup should be in `jsonld`, `rdfa` or `microdata` (HTML) format.
+You can specify a `type` to indicate if markup should be in `jsonld`, `rdfa` or `microdata` (HTML) format.
 
 You can also specify a value of `metatag` to check `<meta>` tags.
 
@@ -266,16 +271,16 @@ Required: false
 Default: true
 ```
 
-You can specify a value for `expect` that is either `true`, `false`, a string or a Regular Expression object (defaults to `true`).
+You can specify a value for `expect` that is either a boolean, a string or a Regular Expression object (defaults to `true`).
 
 * A value of `true` indicates the property must exist (but does not check it's value).
 * A value of `false` that indicates the value must not exist.
-* A Regular Expression is evaluated against the test query.
+* A Regular Expression is evaluated against the test query (the test passes if a test for expression passes).
 * Any other value is treated as a string and the value of the property should exactly match it.
 
-When using a Regular Expression, if the query points to an array item, the test will pass if any item in the array matches the Regular Expression.
+When using a Regular Expression if the query points to an array then the test will pass if any item in the array matches the Regular Expression.
 
-Examples of [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp):
+Examples of how to use [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) with the `expect` option:
 
 * `expect: /^[0-9]+$/g` // Value being tested should only contain numbers
 * `expect: /^[A-z]+$/g` // Value being tested should only contain letters
@@ -301,11 +306,9 @@ Default: undefined
 
 You can pass a `schema` value that indicates what schema a test is for.
 
-This is only used to group test results and the value is not checked for validity.
+This is only used to group tests when displaying results, the value is not checked for validity.
 
-Tests in different presets can test the same schema. This allows test results by schema or group.
-
-If a test is part of a preset and the preset has a schema specifed, then the value for a test will override the preset's schema value for the test
+Tests in different presets can test the same schema, tests in the same preset can also test multiple schemas.
 
 #### group
 ```
@@ -314,9 +317,7 @@ Required: false
 Default: undefined
 ```
 
-You can pass a a value for `group` value to indicate how tests should be grouped in results. This value can be any string.
-
-If a test is part of a preset and the preset has a group specifed, then the value for a test will override the preset's group value for the test.
+You can pass a a value for `group` value to indicate how tests should be grouped when displaying results. This value can be any string.
 
 #### disablePresets
 ```
@@ -361,10 +362,10 @@ const puppeteer = require('puppeteer');
 
 ### Contributing
 
-Contributions are welcome!
+Contributions are welcome - especially additions and improvements to the built-in presets.
 
 This can include bug reports, feature requests, ideas, pull requests, examples of how you have used this tool (etc).
 
 Please see the [Code of Conduct](https://github.com/glitchdigital/structured-data-testing-tool/blob/master/CODE_OF_CONDUCT.md) and complete the issue and/or Pull Request templates when reporting bugs, requesting enhancements or contributing code.
 
-General feedback on how you use Structured Data Testing Tool is also very helpful.
+Feedback and insight on how you use Structured Data Testing Tool is also very helpful.
