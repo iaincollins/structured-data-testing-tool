@@ -13,7 +13,10 @@ A clear and concise description of what the problem you have is and how the tool
 **Describe the solution you'd like**
 A clear and concise description of what you want to happen.
 
-**Describe alternatives you've considered**
+**Potential problems**
+Describe any potential problems, potential limitations caveats of the proposed solution.
+
+**Describe any alternatives you've considered**
 A clear and concise description of any alternative solutions or features you've considered.
 
 **Additional context**
