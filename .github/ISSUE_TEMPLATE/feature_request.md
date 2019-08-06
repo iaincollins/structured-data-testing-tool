@@ -7,14 +7,17 @@ assignees: ''
 
 ---
 
-**How could the tool be better? Please describe.**
-A clear and concise description of what the problem you have is and how the tool could help.
+**Summary of proposed feature**
+A clear and concise description of the feature being proposed.
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**Purpose of proposed feature**
+A clear and concise description description of why this feature is nesseary and what problems it solves.
+
+**Detail of the proposed**
+A detailed description of how the proposal might work (if you have one).
 
 **Potential problems**
-Describe any potential problems, potential limitations caveats of the proposed solution.
+Describe any potential problems or potential limitations or caveats of the proposed solution you can think of.
 
 **Describe any alternatives you've considered**
 A clear and concise description of any alternative solutions or features you've considered.
