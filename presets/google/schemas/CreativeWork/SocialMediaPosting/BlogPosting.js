@@ -2,6 +2,9 @@ const BlogPosting = {
   name: 'BlogPosting',
   description: 'A blog post.',
   schema: 'BlogPosting',
+  conditional: {
+    test: 'BlogPosting'
+  },
   tests: [
     // Expected by Google
     { test: `BlogPosting` },

@@ -1,27 +1,17 @@
-const { testForMetatags } = require('../lib/metatags')
-
 // See https://developer.twitter.com/ for latest documentation
-const Twitter = testForMetatags({
+const Twitter = {
   name: 'Twitter',
-  description: 'Suggested meta tags for Twitter',
-  required: [
-    'twitter:card',
-    'twitter:title',
-    'twitter:description',
-    'twitter:image:alt'
+  description: 'Suggested metatags for Twitter',
+  tests: [
+    { test: `"twitter:card"`, type: 'metatag', description: 'must have card type' },
+    { test: `"twitter:title"`, type: 'metatag', description: 'must have title' },
+    { test: `"twitter:description"`, type: 'metatag', description: 'must have description' },
+    { test: `"twitter:image" || "twitter:image:src"`, type: 'metatag', description: 'must have image url' },
+    { test: `"twitter:image:alt"`, type: 'metatag', description: 'must have image alt text' },
+    { test: `"twitter:site"`, type: 'metatag', warning: true, description: 'should have account username' },
+    { test: `"twitter:creator"`, type: 'metatag', warning: true, description: 'should have username of content creator' },
   ],
-  suggested: [
-    'twitter:site',
-    'twitter:creator'
-  ]
-})
-
-// Image can be twitter:image or twitter:image:src
-Twitter.tests.push({
-  test: '"twitter:image" || "twitter:image:src"',
-  type: 'metatag',
-  group: 'Twitter'
-})
+}
 
 module.exports = {
   Twitter

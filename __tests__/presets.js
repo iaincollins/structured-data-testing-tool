@@ -27,19 +27,15 @@ describe('Presets', () => {
       // They can optionally define a group as well (if none specified, name will be used).
       expect(presets[preset]).toHaveProperty('name')
       expect(presets[preset]).toHaveProperty('description')
-      expect(presets[preset]).toHaveProperty('tests')
-      expect(presets[preset].tests.length).toBeGreaterThan(0)
-      presets[preset].tests.map(test => {
-        expect(test).toHaveProperty('test')
-      })
     })
   }
 
-  test(`should handle tests in custom preset correctly`, async () => { 
-    const result = await structuredDataTest(html, { disablePresets: true, presets: [ CustomPreset ] })
+  // @FIXME This test covers too much at once, should split out error handling checks
+  test(`should handle tests in custom preset correctly and handle errors properly`, async () => { 
+    const result = await structuredDataTest(html, { presets: [ CustomPreset ] })
     .then(response => { return response })
     .catch(err => { return err })
-    expect(result.passed.length).toEqual(2)
-    expect(result.failed.length).toEqual(2)
+    expect(result.res.passed.length).toEqual(6)
+    expect(result.res.failed.length).toEqual(2)
   })
 })

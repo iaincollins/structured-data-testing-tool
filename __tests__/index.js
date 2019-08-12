@@ -26,7 +26,7 @@ describe('Structured Data parsing', () => {
     // Ideally there would be multiple different fixtures that more robustly
     // test different scenarios, but this is is a practical approach that
     // improves coverage easily for now with minimal effort
-    await structuredDataTest(html)
+    await structuredDataTest(html, { presets: [ presets.Google ]})
     .then(response => {
       structuredDataTestResult = response
     })
@@ -50,7 +50,7 @@ describe('Structured Data parsing', () => {
   })
   
   test('should auto-detect when input is a string', async () => {
-    const result = await structuredDataTest(html.toString())
+    const result = await structuredDataTest(html.toString(), { presets: [ presets.Google ]})
     expect(result.passed.length).toBeGreaterThan(10)
     expect(result.failed.length).toEqual(0)
   })
@@ -58,7 +58,7 @@ describe('Structured Data parsing', () => {
   test('should auto-detect when input is a buffer', async () => {
     const result = await new Promise((resolve) => {
       fs.readFile(testFile, async (err, buffer) => {
-        return resolve(await structuredDataTest(buffer))
+        return resolve(await structuredDataTest(buffer, { presets: [ presets.Google ]}))
       })
     })
     expect(result.passed.length).toBeGreaterThan(10)
@@ -67,50 +67,51 @@ describe('Structured Data parsing', () => {
 
   test('should auto-detect when input is a readable stream', async () => {
     const buffer = fs.createReadStream(testFile)
-    const result = await structuredDataTest(buffer)
+    const result = await structuredDataTest(buffer, { presets: [ presets.Google ]})
     expect(result.passed.length).toBeGreaterThan(10)
     expect(result.failed.length).toEqual(0)
   })
 
   test('should auto-detect when input is an HTTP URL', async () => {
-    const result = await structuredDataTest('http://example.com')
+    const result = await structuredDataTest('http://example.com', { presets: [ presets.Google ]})
     expect(result.passed.length).toBeGreaterThan(10)
     expect(result.failed.length).toEqual(0)
   })
 
   test('should auto-detect when input is an HTTPS URL', async () => {
-    const result = await structuredDataTest('https://example.com')
+    const result = await structuredDataTest('https://example.com', { presets: [ presets.Google ]})
     expect(result.passed.length).toBeGreaterThan(10)
     expect(result.failed.length).toEqual(0)
   })  
 
   test('should work when explicitly invoked with HTML', async () => {
-    const result = await structuredDataTestHtml(html)
+    const result = await structuredDataTestHtml(html, { presets: [ presets.Google ]})
     expect(result.passed.length).toBeGreaterThan(10)
     expect(result.failed.length).toEqual(0)
   })
 
   test('should work when explicitly invoked with a URL', async () => {
-    const result = await structuredDataTestUrl('https://example.com')
+    const result = await structuredDataTestUrl('https://example.com', { presets: [ presets.Google ]})
     expect(result.passed.length).toBeGreaterThan(10)
     expect(result.failed.length).toEqual(0)
   })
 
-  test('should validate all structured data schemas found as well as any presets specified', async () => {
+  // @FIXME This test covers too much at once, should split out error handling checks
+  test('should validate all structured data schemas found as well as any presets specified and handle errors correctly', async () => {
     // Should validate schemas found, but also find errors as Facebook schema should not
     // be present in the example, but is passed as a preset so the test should fail.
     let result = ''
-    await structuredDataTest(html, { presets: [ presets.Facebook ] })
+    await structuredDataTest(html, { presets: [ presets.Facebook, presets.Google ] })
     .then(response => {
       result = response
     })
     .catch(err => {
       result = err
     })
-    expect(result.schemas.length).toEqual(4)
-    expect(result.schemas.includes('Facebook')).toBeFalsy()
-    expect(result.passed.length).toBeGreaterThan(10)
-    expect(result.failed.length).toBeGreaterThan(0)
+    expect(result.res.schemas.length).toEqual(4)
+    expect(result.res.schemas.includes('Facebook')).toBeFalsy()
+    expect(result.res.passed.length).toBeGreaterThan(10)
+    expect(result.res.failed.length).toBeGreaterThan(0)
   })
 
   test('should run all tests passed as options and for any schemas found', async () => {

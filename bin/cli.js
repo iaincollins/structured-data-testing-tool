@@ -4,6 +4,7 @@ const chalk = require('chalk')
 const fs = require('fs')
 const { structuredDataTest } = require('../index')
 const presets = require('../presets')
+const { schemas } = require('../lib/schemas')
 const Package = require('../package')
 const { error, printTestResults, printSupportedPresets, printListSchemas } = require('../lib/cli')
 
@@ -12,8 +13,8 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
   let showHelp = false
   let testInput = null
   let testOptions = {
-    disablePresets: false,
-    presets: []
+    presets: [],
+    schemas: []
    }
 
    if (yargs.argv.help || yargs.argv.h) {
@@ -42,8 +43,33 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
 
   // If --schemas or -s is passed display supported schemas
   if (yargs.argv.schemas || yargs.argv.s) {
-    printListSchemas()
-    return process.exit()
+    if ((yargs.argv.schemas && yargs.argv.schemas === true) || (yargs.argv.s && yargs.argv.s === true)) {
+      printListSchemas()
+      return process.exit()
+    }
+
+    let schemaErrors = []
+    const schemaArgs = yargs.argv.schemas || yargs.argv.s
+    schemaArgs.split(',').map(schema => {
+      let [ structuredDataType, schemaName ] = schema.trim().split(':')
+      if (!schemaName) {
+        schemaName = structuredDataType
+        structuredDataType = null
+      }
+      
+      if (schemas[schemaName]) {
+        testOptions.schemas.push(schema)
+      } else {
+        schemaErrors.push(`Error: "${schemaName}" is not a valid schema.`)
+      }
+    })
+
+    // If errors, display them and exit
+    if (schemaErrors.length > 0) {
+      printListSchemas()
+      schemaErrors.map(err => console.error(error(err)))
+      return process.exit(1)
+    }
   }
 
   // Parse presets of provided, and halt on error when parsing them
@@ -73,20 +99,16 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
     }
   }
 
-  if (yargs.argv['disable-presets'] || yargs.argv.d) {
-    testOptions.disablePresets = true
-  }
-
   if (testInput && !showHelp) {
     // Run test
     await structuredDataTest(testInput, testOptions)
-    .then(response => {
-      printTestResults(response)
+    .then(res => {
+      printTestResults(res)
       return process.exit()
     })
     .catch(err => {
       if (err.type === 'VALIDATION_FAILED') {
-        printTestResults(err)
+        printTestResults(err.res)
       } else {
         // Handle other errors (e.g. fetching URL)
         throw err
@@ -98,33 +120,32 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
   // if (yargs.argv.config && yargs.argv.config !== true) { }
 
   yargs
-  .usage(`Usage: ${ chalk.yellowBright('$0 --url <url> [--presets <presets>]')}`)
+  .usage(`Usage: ${ chalk.yellowBright('$0 --url <url> [--presets <presets>] [--schemas <schemas]')}`)
   // .option('c', {
   //   alias: 'config',
   //   description: 'Use configuration file'
   // })
   .option('u', {
     alias: 'url',
+    type: 'string',
     description: 'Inspect a URL'
   })
   .implies('--url', '--presets')
   .option('f', {
     alias: 'file',
+    type: 'string',
     description: 'Inspect a file'
   })
   .implies('--file', '--presets')
   .option('p', {
     alias: 'presets',
-    description: 'Test a URL for specific markup from a list of presets'
-  })
-  .option('d', {
-    alias: 'disable-presets',
-    description: 'Disable auto-detection of presets - will only evaluate explicitly specified presets',
-    boolean: true
+    type: 'string',
+    description: 'Test for specific markup from a list of presets'
   })
   .option('s', {
     alias: 'schemas',
-    description: 'List valid schemas'
+    type: 'string',
+    description: 'Test for a specific schema from a list of schemas'
   })
   .help('h')
   .alias('h', 'help')
@@ -135,8 +156,15 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
   .hide('--url or --file')
   //.example(chalk.cyan(`$0 --config path/to/config.js`), chalk.grey('Load URL(s) and tests from a configuration file'))
   .example(chalk.cyan(`$0 --url "https://example.com/article"`), chalk.grey('Inspect a URL'))
-  .example(chalk.cyan(`$0 --url <url> --presets "Article,Twitter,Facebook"`), chalk.grey('Test a URL for Article schema and social metatags'))
-  .example(chalk.cyan(`$0 --presets`), chalk.grey('List supported presets'))
+  .example(chalk.cyan(`$0 --url <url> --presets "Twitter,Facebook"`), chalk.grey('Test a URL for specific metatags'))
+  .example(chalk.cyan(`$0 --url <url> --presets "SocialMedia"`), chalk.grey('Test a URL for social media metatags'))
+  .example(chalk.cyan(`$0 --url <url> --presets "Google"`), chalk.grey('Test a URL for markup inspected by Google'))
+  .example(chalk.cyan(`$0 --url <url> --schemas "Article"`), chalk.grey('Test a URL for the Article schema'))
+  .example(chalk.cyan(`$0 --url <url> --schemas "jsonld:Article"`), chalk.grey('Test a URL for the Article schema in JSON-LD'))
+  .example(chalk.cyan(`$0 --url <url> --schemas "microdata:Article"`), chalk.grey('Test a URL for the Article schema in microdata/HTML'))
+  .example(chalk.cyan(`$0 --url <url> --schemas "rdfa:Article"`), chalk.grey('Test a URL for the Article schema in RDFa'))
+  .example(chalk.cyan(`$0 --presets`), chalk.grey('List all built-in presets'))
+  .example(chalk.cyan(`$0 --schemas`), chalk.grey('List all supported schemas'))
   .wrap(120)
   .argv
   
