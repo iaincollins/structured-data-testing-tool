@@ -2,52 +2,58 @@
 
 Helps inspect and test web pages for Structured Data.
 
-Designed to allow automation and quick ad-hoc testing of structured data - especially in bulk or as part of a CD/CI pipeline.
+This tool is designed to allow automation and quick ad-hoc testing of structured data - especially in bulk or as part of a CD/CI pipeline.
 
 ## Features
 
-* A Command Line Interface (`sdtt`) and an API for CD/CI integration.
+* Command Line Interface (`sdtt`) and an API for CD/CI integration.
 * Accepts any URL or a file to test (via string, buffer, stream…).
-* Tests pages for Schema.org markup in HTML (with microdata), JSON-LD and RDFa.
-* Tests `<meta>` tags for specific tags and values (e.g. for Twitter and Facebook sharing data, OpenGraph tags, App Store tags).
-* Tests if properties exist, should not exist and/or if they match a Regular Expression check.
-* Built-in 'presets' for testing common schema types (including all types of Article schemas).
+* Detects Schema.org markup in HTML (`microdata`), `JSON-LD` and `RDFa`.
+* Tests `<meta>` tags for specific tags and values (e.g. for social media / sharing).
+* Built-in presets for Twitter and Facebook tags.
+* Built-in presets for for testing and validating common structured data expected by Google.
 * API: Define your own re-useable, custom presets to write specific tests for your own site.
 * API: Use with a headless browser to test Structured Data injected by client side JavaScript (e.g. via Google Tag Manager).
 * CLI: Recognizes and displays info for all 1000+ schemas on Schema.org.
 
-This tool uses [web-auto-extractor](https://www.npmjs.com/package/web-auto-extractor) and [jmespath](https://www.npmjs.com/package/jmespath).
+Notes:
 
-Note: Schema.org does not define 'optional' and 'required' fields for schemas, it describes valid properties and what they may contain. Recommendations and tests in the built-in presets are based on practical errors and warnings returned by search engine providers.
+* Version 3 includes major changes to the `--presets` and `--schemas` options.
+* To validate Schema.org objects are found use `--schemas` option (e.g. `--schemas Article`, `--schemas jsonld:Article`, etc).
+* To validate objects are structured as expected by Google, use the Google preset (e.g. `--presets Google`).
+* Schema.org does not define 'optional' and 'required' fields for schemas, it describes valid properties and what they may contain. The built-in 'Google' preset is able to validate many common schema objects, as expected by Google.
+* This tool uses [web-auto-extractor](https://www.npmjs.com/package/web-auto-extractor) and [jmespath](https://www.npmjs.com/package/jmespath).
 
 ## Install
 
     npm i structured-data-testing-tool -g
 
-## Features
-
 ## Usage
 
 ### Command Line Interface
 
-_Note: The API supports additional options not currently exposed in the CLI tool._
-
 ```
-Usage: sdtt --url <url> [--presets <presets>]
+Usage: sdtt --url <url> [--presets <presets>] [--schemas <schemas>]
 
 Options:
-  -u, --url              Inspect a URL
-  -f, --file             Inspect a file
-  -p, --presets          Test a URL for specific markup from a list of presets
-  -d, --disable-presets  Disable auto-detection of presets - will only evaluate explicitly specified presets
-  -s, --schemas          List valid schemas
-  -h, --help             Show help
-  -v, --version          Show version number
+  -u, --url      Inspect a URL
+  -f, --file     Inspect a file
+  -p, --presets  Test for specific markup from a list of presets
+  -s, --schemas  Test for a specific schema from a list of schemas
+  -h, --help     Show help
+  -v, --version  Show version number
 
 Examples:
-  sdtt --url "https://example.com/article"               Inspect a URL
-  sdtt --url <url> --presets "Article,Twitter,Facebook"  Test a URL for Article schema and social metatags
-  sdtt --presets                                         List supported presets
+  sdtt --url "https://example.com/article"       Inspect a URL
+  sdtt --url <url> --presets "Twitter,Facebook"  Test a URL for specific metatags
+  sdtt --url <url> --presets "SocialMedia"       Test a URL for social media metatags
+  sdtt --url <url> --presets "Google"            Test a URL for markup inspected by Google
+  sdtt --url <url> --schemas "Article"            Test a URL for the Article schema
+  sdtt --url <url> --schemas "jsonld:Article"     Test a URL for the Article schema in JSON-LD
+  sdtt --url <url> --schemas "microdata:Article"  Test a URL for the Article schema in microdata/HTML
+  sdtt --url <url> --schemas "rdfa:Article"       Test a URL for the Article schema in RDFa
+  sdtt --presets                                 List all built-in presets
+  sdtt --schemas                                 List all supported schemas
 ```
 
 Inspect a URL to see what markup is found:
@@ -60,29 +66,57 @@ Inspect a file to see what markup is found:
 
 Test a URL contains specific markup:
 
-    sdtt --url <url> --presets "Article,Twitter,Facebook"
+    sdtt --url <url> --presets "Twitter,Facebook"
+
+Test a URL contains specific schema:
+
+    sdtt --url <url> --schemas "Article"
+
+Test a URL contains specific schema in both JSON-LD and in microdata/HTML:
+
+    sdtt --url <url> --schemas "jsonld:Article,microdata:Article"
 
 #### Example output from CLI
 
 ```
-$ sdtt -u https://www.bbc.co.uk/news/world-us-canada-49060410
+$ sdtt --url https://www.bbc.co.uk/news/world-us-canada-49060410 --presets Google,SocialMedia
 Tests
 
-  ReportageNewsArticle Passed 14 of 14 (100%)
+  Schema.org > ReportageNewsArticle - 100% (1 passed, 1 total)
+    ✓  schema in jsonld
+
+  Google > ReportageNewsArticle - 100% (12 passed, 12 total)
     ✓  ReportageNewsArticle
     ✓  ReportageNewsArticle[*]."@type"
-    ✓  ReportageNewsArticle[*].url
-    ✓  ReportageNewsArticle[*].mainEntityOfPage
-    ✓  ReportageNewsArticle[*].datePublished
-    ✓  ReportageNewsArticle[*].dateModified
     ✓  ReportageNewsArticle[*].author
-    ✓  ReportageNewsArticle[*].author.name
-    ✓  ReportageNewsArticle[*].image
+    ✓  ReportageNewsArticle[*].datePublished
     ✓  ReportageNewsArticle[*].headline
-    ✓  ReportageNewsArticle[*].publisher
+    ✓  ReportageNewsArticle[*].image
     ✓  ReportageNewsArticle[*].publisher."@type"
     ✓  ReportageNewsArticle[*].publisher.name
     ✓  ReportageNewsArticle[*].publisher.logo
+    ✓  ReportageNewsArticle[*].publisher.logo.url
+    ✓  ReportageNewsArticle[*].dateModified
+    ✓  ReportageNewsArticle[*].mainEntityOfPage
+
+  SocialMedia > Facebook - 100% (8 passed, 8 total)
+    ✓  must have page title
+    ✓  must have page type
+    ✓  must have url
+    ✓  must have image url
+    ✓  must have image alt text
+    ✓  should have page description
+    ✓  should have account username
+    ✓  should have locale
+
+  SocialMedia > Twitter - 100% (7 passed, 7 total)
+    ✓  must have card type
+    ✓  must have title
+    ✓  must have description
+    ✓  must have image url
+    ✓  must have image alt text
+    ✓  should have account username
+    ✓  should have username of content creator
 
 Statistics
 
@@ -90,17 +124,18 @@ Statistics
   Schemas in JSON-LD: 1
      Schemas in HTML: 0
       Schema in RDFa: 0
-       Schemas found: ReportageNewsArticle
-     Test suites run: ReportageNewsArticle
-     Total tests run: 14
+  Schema.org schemas: ReportageNewsArticle
+       Other schemas: 0
+    Test groups run : 4
+     Total tests run: 28
 
 Results
 
-    Passed: 14 (100%)
+    Passed: 28 (100%)
   Warnings: 0 (0%)
     Failed: 0 (0%)
 
-  ✓ 14 tests passed.
+  ✓ 28 tests passed with 0 warnings.
 ```
 
 ### API
@@ -116,20 +151,20 @@ const { ReportageNewsArticle, Twitter, Facebook } = require('./presets')
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
 
 structuredDataTest(url, { presets: [ ReportageNewsArticle, Twitter, Facebook ] })
-.then(response => {
+.then(res => {
   // If you end up here, then there were no errors
   console.log("All tests passed.")
-  console.log('Passed:',response.passed.length)
-  console.log('Failed:',response.failed.length)
-  console.log('Warnings:',response.warnings.length)
+  console.log('Passed:',res.passed.length)
+  console.log('Failed:',res.failed.length)
+  console.log('Warnings:',res.warnings.length)
 })
 .catch(err => {
   // If any test fails, the promise is rejected
   if (err.type === 'VALIDATION_FAILED') {
     console.log("Some tests failed.")
-    console.log('Passed:',err.passed.length)
-    console.log('Failed:',err.failed.length)
-    console.log('Warnings:',err.warnings.length)  
+    console.log('Passed:',err.res.passed.length)
+    console.log('Failed:',err.res.failed.length)
+    console.log('Warnings:',err.res.warnings.length)  
     // Loop over validation errors
     err.failed.forEach(test => {
       console.error(test)

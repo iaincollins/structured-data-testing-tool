@@ -1,8 +1,10 @@
 const ClaimReview = {
-  name: 'BlogPosting',
+  name: 'ClaimReview',
   description: 'A fact-checking review of claims made (or reported) in some creative work (referenced via itemReviewed).',
   schema: 'ClaimReview',
-  group: 'ClaimReview',
+  conditional: {
+    test: 'ClaimReview'
+  },
   tests: [
     // Expected by Google
     { test: `ClaimReview` },

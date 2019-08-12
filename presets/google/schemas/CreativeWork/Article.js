@@ -3,6 +3,9 @@ const _articlePrototype = (schema) => {
   return {
     name: schema,
     schema,
+    conditional: {
+      test: schema 
+    },
     tests: [
       // Expected by Google
       { test: `${schema}` },
@@ -27,6 +30,9 @@ const _simpleArticlePrototype = (schema) => {
   return {
     name: schema,
     schema,
+    conditional: {
+      test: schema 
+    },
     tests: [
       // Expected by Google
       { test: `${schema}` },
