@@ -27,7 +27,7 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
    }
 
   // Get input arguments
-  if (yargs.argv.file || yargs.argv.f) {
+  if ((yargs.argv.file && args.argv.file !== true) || (yargs.argv.f && yargs.argv.f !== true)) {
     if (yargs.argv.url || yargs.argv.u) {
       console.error(error(`Error: Must provide either URL (-u/--url) *or* file (-f/--file) to test, not both`))
       return process.exit(1)
@@ -40,7 +40,7 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
       console.error(error(`Error: Unable to open file '${yargs.argv.file || yargs.argv.f}'`))
       return process.exit(1)
     }
-  } else if (yargs.argv.url || yargs.argv.u) {
+  } else if ((yargs.argv.url && yargs.argv.url !== true) || (yargs.argv.u && yargs.argv.u !== true)) {
     // Get URL argument
     testInput = yargs.argv.url || yargs.argv.u
   }
@@ -119,7 +119,13 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
         printTestResults(err.res, { showInfo })
       } else {
         // Handle other errors (e.g. fetching URL)
-        throw err
+        if (yargs.argv.file || yargs.argv.f) {
+          console.error(error(`Unable to open file "${yargs.argv.file || yargs.argv.f}"`))
+        } else if (yargs.argv.url || yargs.argv.u) {
+          console.error(error(`Unable to fetch content from "${yargs.argv.url || yargs.argv.u}"`))
+        } else {
+          throw err
+        }
       }
       return process.exit(1)
     })
