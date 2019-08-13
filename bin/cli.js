@@ -11,19 +11,23 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
 ;(async () => {
 
   let showHelp = false
+  let showInfo = false
   let testInput = null
   let testOptions = {
     presets: [],
-    schemas: []
+    schemas: [],
    }
 
    if (yargs.argv.help || yargs.argv.h) {
     showHelp = true
    }
 
+   if (yargs.argv.info || yargs.argv.i) {
+    showInfo = true
+   }
+
   // Get input arguments
   if (yargs.argv.file || yargs.argv.f) {
-
     if (yargs.argv.url || yargs.argv.u) {
       console.error(error(`Error: Must provide either URL (-u/--url) *or* file (-f/--file) to test, not both`))
       return process.exit(1)
@@ -49,8 +53,11 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
     }
 
     let schemaErrors = []
-    const schemaArgs = yargs.argv.schemas || yargs.argv.s
-    schemaArgs.split(',').map(schema => {
+    let schemaArgs = yargs.argv.schemas || yargs.argv.s
+    if (!Array.isArray(schemaArgs))
+      schemaArgs = schemaArgs.split(',')
+
+    schemaArgs.map(schema => {
       let [ structuredDataType, schemaName ] = schema.trim().split(':')
       if (!schemaName) {
         schemaName = structuredDataType
@@ -74,7 +81,6 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
 
   // Parse presets of provided, and halt on error when parsing them
   if (yargs.argv.presets || yargs.argv.p) {
-
     // If --presets or -p is passed with no arguments, display supported presets
     if ((yargs.argv.presets && yargs.argv.presets === true) || (yargs.argv.p && yargs.argv.p === true)) {
       printSupportedPresets()
@@ -82,8 +88,10 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
     }
 
     let presetErrors = []
-    const presetArgs = yargs.argv.presets || yargs.argv.p
-    presetArgs.split(',').map(preset => {
+    let presetArgs = yargs.argv.presets || yargs.argv.p
+    if (!Array.isArray(presetArgs))
+      presetArgs = presetArgs.split(',')
+    presetArgs.map(preset => {
       if (presets[preset.trim()]) {
         testOptions.presets.push(presets[preset.trim()])
       } else {
@@ -103,12 +111,12 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
     // Run test
     await structuredDataTest(testInput, testOptions)
     .then(res => {
-      printTestResults(res)
+      printTestResults(res, { showInfo })
       return process.exit()
     })
     .catch(err => {
       if (err.type === 'VALIDATION_FAILED') {
-        printTestResults(err.res)
+        printTestResults(err.res, { showInfo })
       } else {
         // Handle other errors (e.g. fetching URL)
         throw err
@@ -146,6 +154,11 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
     alias: 'schemas',
     type: 'string',
     description: 'Test for a specific schema from a list of schemas'
+  })
+  .option('i', {
+    alias: 'info',
+    type: 'boolean',
+    description: 'Show more detailed information about structured data found'
   })
   .help('h')
   .alias('h', 'help')

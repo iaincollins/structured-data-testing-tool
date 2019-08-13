@@ -34,6 +34,7 @@ Options:
   -f, --file     Inspect a file
   -p, --presets  Test for specific markup from a list of presets
   -s, --schemas  Test for a specific schema from a list of schemas
+  -i, --info     Show more detailed information about structured data found
   -h, --help     Show help
   -v, --version  Show version number
 
@@ -69,6 +70,16 @@ Test a URL contains specific schema:
 Test a URL contains specific schema in both JSON-LD and in microdata/HTML:
 
     sdtt --url <url> --schemas "jsonld:Article,microdata:Article"
+
+Run `sdtt --presets` to list the built-in-presets:
+
+```
+NAME                      DESCRIPTION
+Google                    Check for common markup used by Google
+Twitter                   Suggested metatags for Twitter
+Facebook                  Suggested metatags for Facebook
+SocialMedia               Suggested markup for integration with social media sites
+```
 
 #### Example output from CLI
 

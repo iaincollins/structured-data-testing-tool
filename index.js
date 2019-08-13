@@ -15,7 +15,8 @@ const _structuredDataTest = (structuredData, options) => {
   let testGroups = []
   let testsPassed = [] // Only tests that passed
   let testsFailed = [] // Only tests that failed
-  let testsWarning = [] // Only tests that generated warnings
+  let testsWarning = [] // Only tests that generated warnings (technically non critical failures)
+  let testsInfo = [] // Only tests that generate info messages (technically passed, but not necessarily positive)
   let testsSkipped = [] // Only that were skipped
 
   const arrayOfSchemas = schemasSpecified.concat(
@@ -32,6 +33,26 @@ const _structuredDataTest = (structuredData, options) => {
     })
   )
 
+  const metatags = {}
+  Object.keys(structuredData.metatags).map(tag => {
+    if (tag !== 'undefined')
+      metatags[tag] = structuredData.metatags[tag]
+  })
+
+  if (Object.keys(metatags).length > 0) {
+    Object.keys(metatags).map(tag => {
+      tests.push({
+        test: `"${tag}"`,
+        type: 'metatag',
+        group: 'Metatags',
+        description: tag,
+        info: true
+      })
+    })
+  }
+
+  let schemaTestsWithoutType = []
+  let schemaTestsWithType = []
   arrayOfSchemas.forEach(schema => {
     // Schema names can optionally have a suffix to indicate how it should be declared.
     // A schema can just be the schema name like 'Article', but it can also be 
@@ -47,15 +68,68 @@ const _structuredDataTest = (structuredData, options) => {
     // Add schema name to list of schemas
     schemas.push(schemaName)
 
-    // Add a test for any schema explicitly specified (or that was detected)
-    tests.push({
-      test: schemaName,
-      schema: schemaName,
-      type: structuredDataType || 'any',
-      group: schemaName,
-      groups: (Object(validSchemas).hasOwnProperty(schemaName)) ? ['Schema.org', schemaName] : [schemaName],
-      description: (structuredDataType) ? `schema in ${structuredDataType}` : `schema found`
-    })
+    let schemaGroups = (Object(validSchemas).hasOwnProperty(schemaName)) ? ['Schema.org', schemaName] : [schemaName]
+    
+    const _addTestsForProperties = (name, groups, type, props, path) => {
+      Object.keys(props).map(propName => {
+        // @TODO Add test to check if prop contents is valid
+        const propValue = props[propName]
+        const pathToProp =  (Array.isArray(path)) ? path.concat(propName) : [propName]
+
+        if (typeof(propValue) === 'object') {
+          _addTestsForProperties(name, groups, type, propValue, pathToProp)
+        } else {
+          let testPath = `${name}[0]` + pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `."${pathItem}"`).join('')
+          let description = pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `.${pathItem}`).join('').replace(/^\./, '')
+          tests.push({
+            test: testPath,
+            schema: name,
+            type: structuredDataType || 'any',
+            group: name,
+            groups: groups,
+            description,
+            info: true
+          })
+        }
+      })
+    }
+
+
+    // If there is more than one schema of the same type on a page, then group
+    // them by putting them in subgroups named #0, #1, #2… etc. so that the results
+    // for each instances of a schema are easy to iterate over.
+
+
+    if (structuredDataType) {
+      if (!schemaTestsWithType.includes(schemaName))
+        schemaTestsWithType.push(schemaName)
+
+      if (structuredData[structuredDataType][schemaName]) {
+        const schemaInstances = structuredData[structuredDataType][schemaName]
+
+        if (schemaInstances.length === 1) {
+          _addTestsForSchema(tests, schemaName, schemaGroups, structuredDataType)
+          _addTestsForProperties(schemaName, schemaGroups, structuredDataType, schemaInstances[0])
+        } else {
+          schemaInstances.map((schemaInstance, i) => {
+            _addTestsForSchema(tests, schemaName, schemaGroups.concat(`#${i}`), structuredDataType)
+            _addTestsForProperties(schemaName, schemaGroups.concat(`#${i}`), structuredDataType, schemaInstance)
+          })
+        }
+      } else {
+        _addTestsForSchema(tests, schemaName, schemaGroups, structuredDataType)
+      }
+    } else {
+      if (!schemaTestsWithoutType.includes(schemaName))
+        schemaTestsWithoutType.push(schemaName)
+    }
+  })
+
+  schemaTestsWithoutType.forEach(schemaName => {
+    if (!schemaTestsWithType.includes(schemaName)) {
+      const schemaGroups = (Object(validSchemas).hasOwnProperty(schemaName)) ? ['Schema.org', schemaName] : [schemaName]
+      _addTestsForSchema(tests, schemaName, schemaGroups)
+    }
   })
 
   // This is a recursive function scoped to this function
@@ -128,7 +202,10 @@ const _structuredDataTest = (structuredData, options) => {
     // Delete test.error property if it is null
     if (test.error === null) delete test.error
 
-    if (test.passed === true) {
+    // Put test into appropriate array for response object
+    if (test.passed === true && test.info === true) {
+      testsInfo.push(test)
+    } else if (test.passed === true) {
       testsPassed.push(test)
     } else if (test.warning) {
       testsWarning.push(test)
@@ -143,6 +220,7 @@ const _structuredDataTest = (structuredData, options) => {
     passed: testsPassed,
     failed: testsFailed,
     warnings: testsWarning,
+    info: testsInfo,
     skipped: testsSkipped,
     groups: testGroups,
     schemas: schemasFound.map(schema => { 
@@ -175,9 +253,10 @@ const _test = (test, json) => {
     const pathValue = jmespath.search(json, path)
 
     if (typeof test.expect === 'undefined' || test.expect === true) {
-      // If 'expect' is 'true' then a pathValue should exist
-      // (If no value for expect then assume is a simple check to see it exists)
-      if (!pathValue || pathValue.length === 0) {
+      // If 'expect' is 'true' then a pathValue should exist.
+      // If no value for expect then assume is a simple check to see it exists.
+      // Note: It's okay if the value is zero, but it should not be empty!
+      if (pathValue !== 0 && (!pathValue || pathValue.length === 0)) {
         testError = {
           type: 'MISSING_PROPERTY',
           message: `Could not find "${path}"`,
@@ -428,6 +507,18 @@ const getTestsFromPreset = (preset) => {
     })
   }
   return tests
+}
+
+// Add a test for any schema explicitly specified (or that was detected)
+const _addTestsForSchema = (tests, name, groups, type) => {
+  tests.push({
+    test: name,
+    schema: name,
+    type: type || 'any',
+    group: name,
+    groups: groups,
+    description: (type) ? `schema in ${type}` : `schema found`
+  })
 }
 
 module.exports = {

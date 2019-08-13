@@ -32,6 +32,14 @@
       <link itemprop="url" href="http://example.com/path-to-article"/>
     </div>
 
+    <!-- Second article with microdata to test handling of multiple instances of the same type -->
+    <div itemscope itemtype="http://schema.org/Article">
+      <h1 itemprop="headline">Second Headline in Microdata</h1>
+      <p>
+        Author: <span itemprop="author">A Smith</span>
+      </p>
+    </div>
+
     <!-- Microdata with itemprop values that specify multiple properties -->
     <div itemscope itemtype="http://schema.org/SocialMediaPosting">
       <figure itemprop="associatedMedia image" itemscope itemtype="http://schema.org/ImageObject">

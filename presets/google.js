@@ -13,7 +13,7 @@ const ClaimReview = require('./google/schemas/ClaimReview')
 
 const Google = {
   name: 'Google',
-  description: 'Checks for markup used by Google',
+  description: 'Check for common markup used by Google',
   presets: [
     ...Object.keys(AdvertiserContentArticle).map(schema => AdvertiserContentArticle[schema]),
     ...Object.keys(Article).map(schema => Article[schema]),

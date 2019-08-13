@@ -35,7 +35,7 @@ describe('Presets', () => {
     const result = await structuredDataTest(html, { presets: [ CustomPreset ] })
     .then(response => { return response })
     .catch(err => { return err })
-    expect(result.res.passed.length).toEqual(6)
+    expect(result.res.passed.length).toEqual(7)
     expect(result.res.failed.length).toEqual(2)
   })
 })
