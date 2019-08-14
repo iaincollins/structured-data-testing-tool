@@ -71,35 +71,34 @@ const _structuredDataTest = (structuredData, options) => {
     let schemaGroups = (Object(validSchemas).hasOwnProperty(schemaName)) ? ['Schema.org', schemaName] : [schemaName]
     
     const _addTestsForProperties = (name, groups, type, props, path) => {
-      Object.keys(props).map(propName => {
-        // @TODO Add test to check if prop contents is valid
-        const propValue = props[propName]
-        const pathToProp =  (Array.isArray(path)) ? path.concat(propName) : [propName]
+      if (props) {
+        Object.keys(props).map(propName => {
+          // @TODO Add test to check if prop contents is valid
+          const propValue = props[propName]
+          const pathToProp =  (Array.isArray(path)) ? path.concat(propName) : [propName]
 
-        if (typeof(propValue) === 'object') {
-          _addTestsForProperties(name, groups, type, propValue, pathToProp)
-        } else {
-          let testPath = `${name}[0]` + pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `."${pathItem}"`).join('')
-          let description = pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `.${pathItem}`).join('').replace(/^\./, '')
-          tests.push({
-            test: testPath,
-            schema: name,
-            type: structuredDataType || 'any',
-            group: name,
-            groups: groups,
-            description,
-            info: true
-          })
-        }
-      })
+          if (typeof(propValue) === 'object') {
+            _addTestsForProperties(name, groups, type, propValue, pathToProp)
+          } else {
+            let testPath = `${name}[0]` + pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `."${pathItem}"`).join('')
+            let description = pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `.${pathItem}`).join('').replace(/^\./, '')
+            tests.push({
+              test: testPath,
+              schema: name,
+              type: structuredDataType || 'any',
+              group: name,
+              groups: groups,
+              description,
+              info: true
+            })
+          }
+        })
+      }
     }
-
 
     // If there is more than one schema of the same type on a page, then group
     // them by putting them in subgroups named #0, #1, #2… etc. so that the results
     // for each instances of a schema are easy to iterate over.
-
-
     if (structuredDataType) {
       if (!schemaTestsWithType.includes(schemaName))
         schemaTestsWithType.push(schemaName)
@@ -255,8 +254,8 @@ const _test = (test, json) => {
     if (typeof test.expect === 'undefined' || test.expect === true) {
       // If 'expect' is 'true' then a pathValue should exist.
       // If no value for expect then assume is a simple check to see it exists.
-      // Note: It's okay if the value is zero, but it should not be empty!
-      if (pathValue !== 0 && (!pathValue || pathValue.length === 0)) {
+      // Note: It's okay if the value is zero, or false but it should not be empty!
+      if (pathValue !== 0 && pathValue !== false && (!pathValue || pathValue.length === 0)) {
         testError = {
           type: 'MISSING_PROPERTY',
           message: `Could not find "${path}"`,
