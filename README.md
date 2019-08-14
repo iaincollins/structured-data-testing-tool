@@ -203,10 +203,14 @@ const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
 
 const options = {
   tests: [
-    { test: 'NewsArticle', expect: true, type: 'jsonld' }, // Check 'NewsArticle' schema exists in JSON-LD
-    { test: 'NewsArticle[*].url', expect: url }, // Expect specific value for 'url' property, fail if value doesn't match
-    { test: 'NewsArticle[*].mainEntityOfPage', expect: url, warning: true }, // Warn but don't fail if test doesn't pass
-    { test: '"twitter:domain"' expect: 'www.bbc.co.uk', type: 'metatag' } // Test for twitter meta tag with specific value
+    // Check 'NewsArticle' schema exists in JSON-LD
+    { test: 'NewsArticle', expect: true, type: 'jsonld' },
+     // Expect specific value for 'url' property, fail if value doesn't 
+    { test: 'NewsArticle[*].url', expect: url },match
+    // Warn but don't fail if test doesn't pass
+    { test: 'NewsArticle[*].mainEntityOfPage', expect: url, warning: true },
+    // Test for twitter meta tag with specific value
+    { test: '"twitter:domain"' expect: 'www.bbc.co.uk', type: 'metatag' }
   ]
 }
 
@@ -236,12 +240,12 @@ const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
 const MyCustomPreset = {
   name: 'My Custom Preset', // Required
   description: 'Test NewsArticle JSON-LD data is defined and twitter metadata was found', // Required
-  tests: [ // Required (unless 'presets' specified)
+  tests: [ // Required (unless 'presets' is specified)
     { test: 'NewsArticle', type: 'jsonld', schema: 'NewsArticle' },
     { test: '"twitter:card"', type: 'metatag' },
     { test: '"twitter:domain"', expect: 'www.bbc.co.uk', type: 'metatag', }
   ],
-  // Options:
+  // Other preset options:
   // group: 'My Group Name', // A group name can be used to group tests in a preset (defaults to preset name)
   // schema: 'NewsArticle', // Specify a schema if all the tests in the preset apply to a specific schema
   // presets: [] // Any preset can also contain other presets
@@ -373,7 +377,9 @@ Examples of how to use [Regular Expressions](https://developer.mozilla.org/en-US
 
 * `expect: /^[0-9]+$/g` // Value being tested should only contain numbers
 * `expect: /^[A-z]+$/g` // Value being tested should only contain letters
-* `expect: /^[A-z0-9 ]+$/g` //  Value being tested should only contain letters and spaces
+* `expect: /^[A-z0-9 ]+$/g` //  Value should only contain letters, numbers and spaces
+
+You can use regular expressions to validate dates, specific values, URLs, etc.
 
 #### warning
 ```
@@ -386,18 +392,29 @@ When `warning` is set to `true`, if the test does not pass it will only result i
 
 The default is `false`, meaning if the test fails it will be counted as a failure.
 
-#### schema
+#### info
 ```
-Type: string
+Type: boolean
+Required: false
+Default: false
+```
+
+When `info` is set to `true`, if the test passes it will not register as pass, but you can use `--info/-i` on the CLI or inspect the `info` property on the response from the API to see it.
+
+The default is `false`. This option can be used in conjunction with `warning` if it should not be counted as a failed test if it does not pass.
+
+#### conditional
+```
+Type: object
 Required: false
 Default: undefined
 ```
 
-You can pass a `schema` value that indicates what schema a test is for.
+A `conditional` object can contain a conditional test to be run, to determine if the test itself should be run.
 
-This is only used to group tests when displaying results, the value is not checked for validity.
+If the conditional test fails, the test will not be run (and it will not be included in the test results). If the conditional test passes, the test will be run and the pass / fail / info / warning included in the results.
 
-Tests in different presets can test the same schema, tests in the same preset can also test multiple schemas.
+This is considered advanced usage, to help avoid having to write overly complex test statements. Conditional test objects use the same syntax as regular test objects, but conditional tests are not included in the results.
 
 #### group
 ```
@@ -406,7 +423,27 @@ Required: false
 Default: undefined
 ```
 
-You can pass a a value for `group` value to indicate how tests should be grouped when displaying results. This value can be any string.
+You can pass a string for `group` value to indicate how tests should be grouped when displaying results. You do not need to specify a group if tests an in a preset, by default the preset name will be used.
+
+#### groups
+```
+Type: array of strings
+Required: false
+Default: undefined
+```
+
+You can pass an array of strings to be used to group tests. This used internally to group tests by the structured data testing tool and is considered advanced usage for edge case situations like creating tests dynamically.
+
+#### schema
+```
+Type: string
+Required: false
+Default: undefined
+```
+
+You can pass a `schema` value that indicates what schema a test is for. Tests in different presets can test the same schema, tests in the same preset can also test multiple schemas.
+
+This is intended as an option to control how tests are grouped when displaying results, the value is not checked for validity and is considered advanced usage for edge case situations.
 
 ### Testing with client side rendering
 
