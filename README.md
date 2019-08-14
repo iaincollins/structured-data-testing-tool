@@ -232,7 +232,7 @@ If a test explicitly defines it's own `group` or `schema`, that will override th
 ```javascript
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
 
-// This test shows how you can mix and match different types of test in one preset, if desired.
+// This test shows how you can use different types of tests in one preset.
 const MyCustomPreset = {
   name: 'My Custom Preset', // Required
   description: 'Test NewsArticle JSON-LD data is defined and twitter metadata was found', // Required
@@ -243,9 +243,9 @@ const MyCustomPreset = {
   ],
   // Options:
   // group: 'My Group Name', // A group name can be used to group tests in a preset (defaults to preset name)
-  // schema: 'NewsArticle', // Specify a schema if a test applies to a schema.
+  // schema: 'NewsArticle', // Specify a schema if all the tests in the preset apply to a specific schema
   // presets: [] // Any preset can also contain other presets
-  // conditional: {} // Both Presets and Tests can define a conditional `test`, which is evaluated to determine if they should run
+  // conditional: {} // Define a conditional `test`, which is evaluated to determine if the preset should run
 }
 
 const options = {
@@ -260,6 +260,12 @@ structuredDataTest(url, options)
 #### Preset Example 2
 
 This is the code for a real built-in preset for the **ClaimReview** schema.
+
+It shows how to write a preset that will automatically run against all instances of a given schema found.
+
+This is useful to be able to do when you have multiple instances of the same schema on page.
+
+NB: This example is quite simple and doesn't try and validate the contents of the properties in the schema.
 
 ```javascript
 const ClaimReview = {
