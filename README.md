@@ -408,17 +408,6 @@ Default: undefined
 
 You can pass a a value for `group` value to indicate how tests should be grouped when displaying results. This value can be any string.
 
-#### disablePresets
-```
-Type: boolean
-Required: false
-Default: false
-```
-
-Set `disablePresets` to `true` to disable auto-detection of presets (defaults to `false`).
-
-If set to `true` will only run tests for presets explicitly specified via the `presets` argument and will not test other schemas it finds.
-
 ### Testing with client side rendering
 
 If a page uses JavaScript with client side rendering to generate Structured Data, you can use a tool like [Puppeteer](https://github.com/GoogleChrome/puppeteer) (a headless Chrome API) to fetch the HTML and allow any client side JavaScript to run and then test the rendered page with the Structured Data Testing Tool.
