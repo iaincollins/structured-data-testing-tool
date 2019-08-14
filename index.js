@@ -154,8 +154,7 @@ const _structuredDataTest = (structuredData, options) => {
       if (!ignorePreset) {
         // Loop through all tests in preset, but only add the ones that either don't have
         // a conditional tests or where the conditional test passes.
-        
-        getTestsFromPreset(preset).forEach(test => {
+        getTestsFromPreset(preset, structuredData, groups).forEach(test => {
           let skipTest = false
 
           // Evaluate `test.conditional` test against structuredData to see if
@@ -165,8 +164,6 @@ const _structuredDataTest = (structuredData, options) => {
             if (!testPassed)
               skipTest = true
           }
-
-          test.groups = groups
 
           if (skipTest) {
             testsSkipped.push(test)
@@ -479,32 +476,59 @@ const __transformStructuredData = (structuredData) => {
   return result
 }
 
-const getTestsFromPreset = (preset) => {
+const getTestsFromPreset = (preset, structuredData, testGroup) => {
   const tests = []
-  if (preset.tests) {
-    preset.tests.forEach(test => {
-      // Apply any default schema or group defined in the preset to any test in the preset
-      // that don't specify one. This is used to make it easier to group results of tests
-      // and is not actually evaluated when running tests.
-      if (!test.schema && preset.schema)
-        test.schema = preset.schema
 
-      // If test does not explicitly have a group defined, use the the default one preset,
-      // if defined. If no default group is is defined for the preset, fallback to using
-      // the preset name to group the results (every preset SHOULD have a name!)
-      if (!test.group) {
-        if (preset.group) {
-          test.group = preset.group
-        } else if (preset.name) {
-          test.group = preset.name
-        } else {
-          test.group = 'DEFAULT'
-        }
+  if (!preset.tests)
+    return tests
+
+  const _setTestGroup = (test, preset) => {
+    // If test does not explicitly have a group defined, use the the default one preset,
+    // if defined. If no default group is is defined for the preset, fallback to using
+    // the preset name to group the results (every preset SHOULD have a name!)
+    if (!test.group) {
+      if (preset.group) {
+        test.group = preset.group
+      } else if (preset.name) {
+        test.group = preset.name
+      } else {
+        test.group = 'DEFAULT'
       }
+    }
+  }
 
+  if (preset.schema) {
+    // If preset has a schema, return tests that check every instance of that schema
+    Object.keys(structuredData).map(dataType => {
+      if (dataType === 'metatags')
+        return
+      Object.keys(structuredData[dataType]).map((schemaName) => {
+        if (schemaName === preset.schema) {
+          structuredData[dataType][schemaName].forEach((instance, i) => {
+            const groups = testGroup.concat(`#${i} (${dataType})`)
+
+            preset.tests.forEach(t => {
+              // Note: Must copy object so we can re-use tests objects from a preset in different tests
+              const test = Object.assign({}, t)
+              test.schema = preset.schema
+              test.test = test.test.replace(/(.*)?\[\*\]/, `${preset.schema}[${i}]`)
+              test.type = dataType
+              test.groups = groups
+              test.description = test.test.replace(/(.*)?\[\d\]\./, '').replace(/"/g, '')
+              tests.push(test)
+            })
+          })
+        }
+      })
+    })
+  } else {
+    // If preset does not have a schema, then return only the tests in the preset
+    preset.tests.forEach(test => {
+      _setTestGroup(test, preset)
       tests.push(test)
     })
   }
+
   return tests
 }
 

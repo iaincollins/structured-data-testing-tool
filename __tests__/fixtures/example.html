@@ -36,8 +36,22 @@
     <div itemscope itemtype="http://schema.org/Article">
       <h1 itemprop="headline">Second Headline in Microdata</h1>
       <p>
-        Author: <span itemprop="author">A Smith</span>
+        Author: <span itemprop="author">B Smith</span>
       </p>
+      <p>
+        Published On: <span itemprop="datePublished">2019-02-01</span>
+      <p>
+      <img itemprop="image" src="http://example.com/path-to-article-2-image.jpg" alt="Image description"/>
+      <p>
+        Article text…
+      </p>
+      <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+        <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+          <meta itemprop="url" content="https://www.example.com/logo.png"/>
+        </div>
+        <meta itemprop="name" content="ACME"/>
+      </div>
+      <link itemprop="url" href="http://example.com/path-to-article-2"/>
     </div>
 
     <!-- Microdata with itemprop values that specify multiple properties -->

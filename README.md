@@ -227,9 +227,12 @@ You can optionally group tests by specifying a value for `group` and set a defau
 
 If a test explicitly defines it's own `group` or `schema`, that will override the default value for the preset for that specific test (which may impact how results are grouped).
 
+#### Preset Example 1
+
 ```javascript
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
 
+// This test shows how you can mix and match different types of test in one preset, if desired.
 const MyCustomPreset = {
   name: 'My Custom Preset', // Required
   description: 'Test NewsArticle JSON-LD data is defined and twitter metadata was found', // Required
@@ -240,7 +243,7 @@ const MyCustomPreset = {
   ],
   // Options:
   // group: 'My Group Name', // A group name can be used to group tests in a preset (defaults to preset name)
-  // schema: 'NewsArticle', // A default schema for tests (useful if tests in a preset are all for the same schema)
+  // schema: 'NewsArticle', // Specify a schema if a test applies to a schema.
   // presets: [] // Any preset can also contain other presets
   // conditional: {} // Both Presets and Tests can define a conditional `test`, which is evaluated to determine if they should run
 }
@@ -252,6 +255,43 @@ const options = {
 structuredDataTest(url, options)
 .then(response => { /* … */ })
 .catch(err => { /* … */ })
+```
+
+#### Preset Example 2
+
+This is the code for a real built-in preset for the **ClaimReview** schema.
+
+```javascript
+const ClaimReview = {
+  name: 'ClaimReview',
+  description: 'A fact-checking review of claims made (or reported) in some creative work (referenced via itemReviewed).',
+  // If you add 'schema' property to a preset **and** write tests that start with a selector like `ClaimReview[*]`
+  // (i.e. with the schema name followed by an asterisk in the selector) then those tests will automatically
+  // be run against every instance of that schema found, so you can easily find where an error is if there are
+  // multiple instances of the same schema on a page.
+  schema: 'ClaimReview',
+  // A 'conditional' on a preset or test is just a normal test object. If it fails to pass, the tests in the
+  // preset (or the individual test, if it is used on a test) will not be run.
+  conditional: {
+    test: 'ClaimReview'
+  },
+  tests: [
+    // Expected by Google
+    { test: `ClaimReview` },
+    { test: `ClaimReview[*]."@type"`, expect: 'ClaimReview' },
+    { test: `ClaimReview[*].url` },
+    { test: `ClaimReview[*].reviewRating` },
+    { test: `ClaimReview[*].claimReviewed` },
+    // Warnings
+    { test: `ClaimReview[*].author`, warning: true },
+    { test: `ClaimReview[*].datePublished`, warning: true },
+    { test: `ClaimReview[*].itemReviewed`, warning: true },
+  ],
+}
+
+module.exports = {
+  ClaimReview
+}
 ```
 
 ### Test options

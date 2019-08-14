@@ -31,7 +31,7 @@ describe('Structured Data parsing', () => {
       structuredDataTestResult = response
     })
     .catch(err => {
-      structuredDataTestResult = err
+      structuredDataTestResult = err.res
     })
   })
 
@@ -40,6 +40,7 @@ describe('Structured Data parsing', () => {
   })
 
   test('should auto-detect and return structured data schemas found', async () => {
+    console.log(structuredDataTestResult.failed)
     expect(structuredDataTestResult.schemas.length).toEqual(4)
     expect(structuredDataTestResult.failed.length).toEqual(0)
   })
