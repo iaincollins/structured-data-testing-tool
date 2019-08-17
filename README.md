@@ -2,25 +2,23 @@
 
 Helps inspect and test web pages for Structured Data.
 
-The structured data testing tool is designed to allow automation and quick ad-hoc testing of structured data - especially in bulk or as part of a CD/CI pipeline.
+This tool is designed to allow both easy ad-hoc testing and automated testing of structured data - especially in bulk or as part of a CD/CI pipeline.
 
 This utility uses [web-auto-extractor](https://www.npmjs.com/package/web-auto-extractor) and [jmespath](https://www.npmjs.com/package/jmespath).
-
-## Features
-
-* Command Line Interface (`sdtt`) and an API for CD/CI integration.
-* Accepts any URL or a file to test (via string, buffer, stream…).
-* Detects Schema.org markup in HTML (`microdata`), `JSON-LD` and `RDFa`.
-* Tests `<meta>` tags for specific tags and values (e.g. for social media / sharing).
-* Built-in presets for Twitter and Facebook tags.
-* Built-in presets for for testing and validating common structured data expected by Google.
-* API: Define your own re-useable, custom presets to write specific tests for your own site.
-* API: Use with a headless browser to test Structured Data injected by client side JavaScript (e.g. via Google Tag Manager).
-* CLI: Recognizes and displays info for all 1000+ schemas on Schema.org.
 
 ## Install
 
     npm i structured-data-testing-tool -g
+
+## Features
+
+* Command Line Interface (`sdtt`) and API that can be used with any test framework.
+* Input can be URL, load markup from a file or be passed HTML via a string, buffer or stream.
+* Automatically detects all Schema.org schemas, in HTML (`microdata`), `JSON-LD` and `RDFa`.
+* Can test `<meta>` tags (and custom schemas) for specific tags / fields / values.
+* Built-in presets for testing for Twitter, Facebook and Google structured data.
+* Create your own re-useable, custom presets to test custom schemas or write tests specific to your site.
+* Use with a headless browser to test Structured Data injected by client side JavaScript (e.g. Google Tag Manager).
 
 ## Usage
 
@@ -230,13 +228,17 @@ structuredDataTest(url, options)
 
 A preset is a collection of tests.
 
-There are built-in presets you can use, you can also easily define your own presets.
+There are built-in presets you can use, you can list them with `--presets` option using the CLI. You can also easily define your own custom presets.
 
 Presets must have a `name` (which should ideally be unique, but does not have to be) and `description` and an array of `test` objects in `tests`. Both `name` and `description` be arbitrary strings, `tests` should be an array of valid `test` objects.
 
 You can optionally group tests by specifying a value for `group` and set a default schema to use for all tests in `schema`. These can be arbitrary strings, though it's recommended schemas reflect Schema.org schema names.
 
 If a test explicitly defines it's own `group` or `schema`, that will override the default value for the preset for that specific test (which may impact how results are grouped).
+
+Presets can contain other presets using the `presets` property (an array).
+
+Presets can have `conditional` property, which contains a `test` object, in which case the tests in the preset will only only be run if the conditional test passes.
 
 #### Preset Example 1
 
@@ -270,13 +272,13 @@ structuredDataTest(url, options)
 
 #### Preset Example 2
 
-This is the code for a real built-in preset for the **ClaimReview** schema.
+This is the code for one of the built-in presets, it tests for the **ClaimReview** schema.
 
 It shows how to write a preset that will automatically run against all instances of a given schema found.
 
 This is useful to be able to do when you have multiple instances of the same schema on page.
 
-NB: This example is quite simple and doesn't try and validate the contents of the properties in the schema.
+NB: This example is quite simple and doesn't try and validate the contents of the properties in the schema or check for invalid properties on the schema.
 
 ```javascript
 const ClaimReview = {
