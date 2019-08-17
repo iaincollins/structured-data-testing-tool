@@ -13,6 +13,7 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
   let showHelp = false
   let showInfo = false
   let testInput = null
+  let testOutput = null
   let testOptions = {
     presets: [],
     schemas: [],
@@ -26,8 +27,17 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
     showInfo = true
    }
 
+   if (yargs.argv.output || yargs.argv.o) {
+    if ((yargs.argv.output && yargs.argv.output !== true) || (yargs.argv.o && yargs.argv.o !== true)) {
+      testOutput = yargs.argv.output || yargs.argv.o
+    } else {
+      console.error(error(`Error: Must specify a file to output to when using -o/--output`))
+      return process.exit(1)
+    }
+   }
+
   // Get input arguments
-  if ((yargs.argv.file && args.argv.file !== true) || (yargs.argv.f && yargs.argv.f !== true)) {
+  if ((yargs.argv.file && yargs.argv.file !== true) || (yargs.argv.f && yargs.argv.f !== true)) {
     if (yargs.argv.url || yargs.argv.u) {
       console.error(error(`Error: Must provide either URL (-u/--url) *or* file (-f/--file) to test, not both`))
       return process.exit(1)
@@ -63,20 +73,11 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
         schemaName = structuredDataType
         structuredDataType = null
       }
-      
-      if (schemas[schemaName]) {
-        testOptions.schemas.push(schema)
-      } else {
-        schemaErrors.push(`Error: "${schemaName}" is not a valid schema.`)
+      testOptions.schemas.push(schema)
+      if (!schemas[schemaName]) {
+        schemaErrors.push(`Warning: "${schemaName}" is not a valid schema.`)
       }
     })
-
-    // If errors, display them and exit
-    if (schemaErrors.length > 0) {
-      printListSchemas()
-      schemaErrors.map(err => console.error(error(err)))
-      return process.exit(1)
-    }
   }
 
   // Parse presets of provided, and halt on error when parsing them
@@ -112,11 +113,15 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
     await structuredDataTest(testInput, testOptions)
     .then(res => {
       printTestResults(res, { showInfo })
+      if (testOutput)
+        fs.writeFileSync(testOutput, JSON.stringify(err.res))
       return process.exit()
     })
     .catch(err => {
       if (err.type === 'VALIDATION_FAILED') {
         printTestResults(err.res, { showInfo })
+        if (testOutput)
+          fs.writeFileSync(testOutput, JSON.stringify(err.res))
       } else {
         // Handle other errors (e.g. fetching URL)
         if (yargs.argv.file || yargs.argv.f) {
@@ -166,6 +171,11 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
     type: 'boolean',
     description: 'Show more detailed information about structured data found'
   })
+  .option('o', {
+    alias: 'output',
+    type: 'string',
+    description: 'Output test results to a file'
+  })
   .help('h')
   .alias('h', 'help')
   .version(Package.version)
@@ -175,13 +185,17 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
   .hide('--url or --file')
   //.example(chalk.cyan(`$0 --config path/to/config.js`), chalk.grey('Load URL(s) and tests from a configuration file'))
   .example(chalk.cyan(`$0 --url "https://example.com/article"`), chalk.grey('Inspect a URL'))
-  .example(chalk.cyan(`$0 --url <url> --presets "Twitter,Facebook"`), chalk.grey('Test a URL for specific metatags'))
-  .example(chalk.cyan(`$0 --url <url> --presets "SocialMedia"`), chalk.grey('Test a URL for social media metatags'))
-  .example(chalk.cyan(`$0 --url <url> --presets "Google"`), chalk.grey('Test a URL for markup inspected by Google'))
-  .example(chalk.cyan(`$0 --url <url> --schemas "Article"`), chalk.grey('Test a URL for the Article schema'))
+  .example(chalk.cyan(`$0 --url <url> --presets SocialMedia`), chalk.grey('Test a URL for social media metatags'))
+  .example(chalk.cyan(`$0 --url <url> --presets Google`), chalk.grey('Test a URL for markup inspected by Google'))
+  .example(chalk.cyan(`$0 --url <url> --presets "Twitter,Facebook"`), chalk.grey('Test a URL with multiple presets'))
+  .example(chalk.cyan(`$0 --url <url> -p Twitter -p Facebook`), chalk.grey('Test a URL with multiple presets (alternative)'))
+  .example(chalk.cyan(`$0 --url <url> --schemas Article`), chalk.grey('Test a URL for the Article schema'))
   .example(chalk.cyan(`$0 --url <url> --schemas "jsonld:Article"`), chalk.grey('Test a URL for the Article schema in JSON-LD'))
   .example(chalk.cyan(`$0 --url <url> --schemas "microdata:Article"`), chalk.grey('Test a URL for the Article schema in microdata/HTML'))
   .example(chalk.cyan(`$0 --url <url> --schemas "rdfa:Article"`), chalk.grey('Test a URL for the Article schema in RDFa'))
+  .example(chalk.cyan(`$0 --url <url> --schemas "Article,WPHeader,WPFooter"`), chalk.grey('Test a URL for multiple schemas'))
+  .example(chalk.cyan(`$0 --url <url> -s Article -s WPHeader -s WPFooter`), chalk.grey('Test a URL for multiple schemas (alternative)'))
+  .example(chalk.cyan(`$0 --url <url> --output results.json`), chalk.grey('Output test results to a JSON file'))
   .example(chalk.cyan(`$0 --presets`), chalk.grey('List all built-in presets'))
   .example(chalk.cyan(`$0 --schemas`), chalk.grey('List all supported schemas'))
   .wrap(120)

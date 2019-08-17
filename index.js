@@ -19,13 +19,16 @@ const _structuredDataTest = (structuredData, options) => {
   let testsInfo = [] // Only tests that generate info messages (technically passed, but not necessarily positive)
   let testsSkipped = [] // Only that were skipped
 
-  const arrayOfSchemas = schemasSpecified.concat(
-    schemasFound.filter(schemaFound => {
-      let [ structuredDataType, schemaName ] = schemaFound.split(':')
+  // Combine schemas found with any schemas specified.
+  // Schemas found automatically take precedent, as we know the type for them already
+  // (jsonld, microdata, rdfa, etc) so can easily add the specific tests for them.
+  const arrayOfSchemas = schemasFound.concat(
+    schemasSpecified.filter(schemaSpecified => {
+      let [ structuredDataType, schemaName ] = schemaSpecified.split(':')
       if (!schemaName)
         schemaName = structuredDataType
 
-      if (schemasSpecified.includes(schemaName) || schemasSpecified.includes(schemaFound)) {
+      if (schemasFound.includes(schemaName) || schemasFound.includes(schemaSpecified)) {
         return false
       } else { 
         return true
@@ -70,7 +73,7 @@ const _structuredDataTest = (structuredData, options) => {
 
     let schemaGroups = (Object(validSchemas).hasOwnProperty(schemaName)) ? ['Schema.org', schemaName] : [schemaName]
     
-    const _addTestsForProperties = (name, groups, type, props, path) => {
+    const _addTestsForProperties = (name, groups, type, props, path, index) => {
       if (props) {
         Object.keys(props).map(propName => {
           // @TODO Add test to check if prop contents is valid
@@ -78,10 +81,10 @@ const _structuredDataTest = (structuredData, options) => {
           const pathToProp =  (Array.isArray(path)) ? path.concat(propName) : [propName]
 
           if (typeof(propValue) === 'object') {
-            _addTestsForProperties(name, groups, type, propValue, pathToProp)
+            _addTestsForProperties(name, groups, type, propValue, pathToProp, index)
           } else {
-            let testPath = `${name}[0]` + pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `."${pathItem}"`).join('')
-            let description = pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `.${pathItem}`).join('').replace(/^\./, '')
+            const testPath = `${name}[${index}]` + pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `."${pathItem}"`).join('')
+            const description = pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `.${pathItem}`).join('').replace(/^\./, '')
             tests.push({
               test: testPath,
               schema: name,
@@ -107,12 +110,12 @@ const _structuredDataTest = (structuredData, options) => {
         const schemaInstances = structuredData[structuredDataType][schemaName]
 
         if (schemaInstances.length === 1) {
-          _addTestsForSchema(tests, schemaName, schemaGroups, structuredDataType)
-          _addTestsForProperties(schemaName, schemaGroups, structuredDataType, schemaInstances[0])
+          _addTestsForSchema(tests, schemaName, schemaGroups, structuredDataType, 0)
+          _addTestsForProperties(schemaName, schemaGroups, structuredDataType, schemaInstances[0], null, 0)
         } else {
           schemaInstances.map((schemaInstance, i) => {
-            _addTestsForSchema(tests, schemaName, schemaGroups.concat(`#${i}`), structuredDataType)
-            _addTestsForProperties(schemaName, schemaGroups.concat(`#${i}`), structuredDataType, schemaInstance)
+            _addTestsForSchema(tests, schemaName, schemaGroups.concat(`#${i}`), structuredDataType, i)
+            _addTestsForProperties(schemaName, schemaGroups.concat(`#${i}`), structuredDataType, schemaInstance, null, i)
           })
         }
       } else {
@@ -425,6 +428,8 @@ const structuredDataTestHtml = async (html, options) => {
 
 const structuredDataTest = async (input, options) => {
   if (typeof(input) === 'string') {
+    // If is a string…
+    // Assumed to be URL or HTML
     if (validator.isURL(input)) {
       // @TODO Improve URL error handling
       const url = input
@@ -441,14 +446,17 @@ const structuredDataTest = async (input, options) => {
       return structuredDataTestHtml(html, options)
     }
   } else if (Buffer.isBuffer(input)) {
+    // If is a buffer…
     // Convert buffer to string
     const html = input.toString('utf8')
     return structuredDataTestHtml(html, options)
   } else if (isStream.readable(input)) {
+    // If is a readable stream…
     // Convert readable stream to string
     const html = await getStream(input)
     return structuredDataTestHtml(html, options)
   } else {
+    // Else ??
     const structuredData = input
     return _structuredDataTest(structuredData, options)
   }
@@ -533,9 +541,9 @@ const getTestsFromPreset = (preset, structuredData, testGroup) => {
 }
 
 // Add a test for any schema explicitly specified (or that was detected)
-const _addTestsForSchema = (tests, name, groups, type) => {
+const _addTestsForSchema = (tests, name, groups, type, index) => {
   tests.push({
-    test: name,
+    test: `${name}[${(typeof(index) === 'undefined') ? '*': index}]`,
     schema: name,
     type: type || 'any',
     group: name,

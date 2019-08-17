@@ -1,0 +1,1905 @@
+{
+  "tests": [
+    {
+      "test": "\"twitter:card\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:card",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:site\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:site",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:title\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:title",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:description\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:description",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:creator\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:creator",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:image\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:image",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:image:alt\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:image:alt",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:domain\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:domain",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"url\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"name\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "name",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"publisher Organization\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "publisher Organization",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0]",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "schema in rdfa",
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"@context\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"@type\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"headline\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "headline",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"author\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "author",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"datePublished\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "datePublished",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"image\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "image",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"publisher\".\"@context\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "publisher.@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"publisher\".\"@type\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "publisher.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"publisher\".\"logo\".\"@context\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "publisher.logo.@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"publisher\".\"logo\".\"@type\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "publisher.logo.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"publisher\".\"logo\".\"url\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "publisher.logo.url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"publisher\".\"name\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "publisher.name",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"url\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0]",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "schema in microdata",
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"@context\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"@type\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"headline\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "headline",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"author\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "author",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"datePublished\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "datePublished",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"image\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "image",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"publisher\".\"@context\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "publisher.@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"publisher\".\"@type\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "publisher.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"publisher\".\"logo\".\"@context\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "publisher.logo.@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"publisher\".\"logo\".\"@type\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "publisher.logo.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"publisher\".\"logo\".\"url\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "publisher.logo.url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"publisher\".\"name\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "publisher.name",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"url\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[1]",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "schema in microdata",
+      "passed": true
+    },
+    {
+      "test": "Article[1].\"@context\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[1].\"@type\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[1].\"headline\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "headline",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[1].\"author\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "author",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[1].\"datePublished\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "datePublished",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[1].\"image\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "image",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0]",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "schema in microdata",
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"@context\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"@type\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"author\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "author",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"associatedMedia\".\"@context\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "associatedMedia.@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"associatedMedia\".\"@type\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "associatedMedia.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"associatedMedia\".\"url\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "associatedMedia.url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"image\".\"@context\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "image.@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"image\".\"@type\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "image.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"image\".\"url\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "image.url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"publisher\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "publisher",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"Organization\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "Organization",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0]",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "schema in jsonld",
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"@context\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"@type\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"headline\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "headline",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"author\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "author",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"url\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"image\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "image",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"datePublished\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "datePublished",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"publisher\".\"@type\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "publisher.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"publisher\".\"name\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "publisher.name",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"publisher\".\"logo\".\"@type\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "publisher.logo.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"publisher\".\"logo\".\"url\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "publisher.logo.url",
+      "info": true,
+      "passed": true
+    }
+  ],
+  "passed": [
+    {
+      "test": "NewsArticle[0]",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "schema in rdfa",
+      "passed": true
+    },
+    {
+      "test": "Article[0]",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "schema in microdata",
+      "passed": true
+    },
+    {
+      "test": "Article[1]",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "schema in microdata",
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0]",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "schema in microdata",
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0]",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "schema in jsonld",
+      "passed": true
+    }
+  ],
+  "failed": [],
+  "warnings": [],
+  "info": [
+    {
+      "test": "\"twitter:card\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:card",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:site\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:site",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:title\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:title",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:description\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:description",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:creator\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:creator",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:image\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:image",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:image:alt\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:image:alt",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"twitter:domain\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "twitter:domain",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"url\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"name\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "name",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "\"publisher Organization\"",
+      "type": "metatag",
+      "group": "Metatags",
+      "description": "publisher Organization",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"@context\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"@type\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"headline\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "headline",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"author\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "author",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"datePublished\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "datePublished",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"image\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "image",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"publisher\".\"@context\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "publisher.@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"publisher\".\"@type\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "publisher.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"publisher\".\"logo\".\"@context\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "publisher.logo.@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"publisher\".\"logo\".\"@type\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "publisher.logo.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"publisher\".\"logo\".\"url\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "publisher.logo.url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"publisher\".\"name\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "publisher.name",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "NewsArticle[0].\"url\"",
+      "schema": "NewsArticle",
+      "type": "rdfa",
+      "group": "NewsArticle",
+      "groups": [
+        "Schema.org",
+        "NewsArticle"
+      ],
+      "description": "url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"@context\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"@type\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"headline\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "headline",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"author\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "author",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"datePublished\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "datePublished",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"image\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "image",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"publisher\".\"@context\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "publisher.@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"publisher\".\"@type\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "publisher.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"publisher\".\"logo\".\"@context\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "publisher.logo.@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"publisher\".\"logo\".\"@type\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "publisher.logo.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"publisher\".\"logo\".\"url\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "publisher.logo.url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"publisher\".\"name\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "publisher.name",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[0].\"url\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#0"
+      ],
+      "description": "url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[1].\"@context\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[1].\"@type\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[1].\"headline\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "headline",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[1].\"author\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "author",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[1].\"datePublished\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "datePublished",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "Article[1].\"image\"",
+      "schema": "Article",
+      "type": "microdata",
+      "group": "Article",
+      "groups": [
+        "Schema.org",
+        "Article",
+        "#1"
+      ],
+      "description": "image",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"@context\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"@type\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"author\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "author",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"associatedMedia\".\"@context\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "associatedMedia.@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"associatedMedia\".\"@type\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "associatedMedia.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"associatedMedia\".\"url\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "associatedMedia.url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"image\".\"@context\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "image.@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"image\".\"@type\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "image.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"image\".\"url\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "image.url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"publisher\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "publisher",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "SocialMediaPosting[0].\"Organization\"",
+      "schema": "SocialMediaPosting",
+      "type": "microdata",
+      "group": "SocialMediaPosting",
+      "groups": [
+        "Schema.org",
+        "SocialMediaPosting"
+      ],
+      "description": "Organization",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"@context\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "@context",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"@type\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"headline\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "headline",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"author\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "author",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"url\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "url",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"image\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "image",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"datePublished\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "datePublished",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"publisher\".\"@type\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "publisher.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"publisher\".\"name\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "publisher.name",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"publisher\".\"logo\".\"@type\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "publisher.logo.@type",
+      "info": true,
+      "passed": true
+    },
+    {
+      "test": "ReportageNewsArticle[0].\"publisher\".\"logo\".\"url\"",
+      "schema": "ReportageNewsArticle",
+      "type": "jsonld",
+      "group": "ReportageNewsArticle",
+      "groups": [
+        "Schema.org",
+        "ReportageNewsArticle"
+      ],
+      "description": "publisher.logo.url",
+      "info": true,
+      "passed": true
+    }
+  ],
+  "skipped": [],
+  "groups": [
+    "Metatags",
+    "NewsArticle",
+    "Article",
+    "SocialMediaPosting",
+    "ReportageNewsArticle"
+  ],
+  "schemas": [
+    "NewsArticle",
+    "Article",
+    "SocialMediaPosting",
+    "ReportageNewsArticle"
+  ],
+  "structuredData": {
+    "metatags": {
+      "twitter:card": [
+        "summary_large_image"
+      ],
+      "twitter:site": [
+        "@twitter"
+      ],
+      "twitter:title": [
+        "Title text…"
+      ],
+      "twitter:description": [
+        "Description text…"
+      ],
+      "twitter:creator": [
+        "@twitter"
+      ],
+      "twitter:image": [
+        "http://example.com/image.png"
+      ],
+      "twitter:image:alt": [
+        "Description of image"
+      ],
+      "twitter:domain": [
+        "example.com"
+      ],
+      "url": [
+        "https://www.example.com/logo.png",
+        "http://example.com/path-to-article-image.jpg",
+        "https://www.example.com/logo.png"
+      ],
+      "name": [
+        "ACME",
+        "ACME"
+      ],
+      "publisher Organization": [
+        "ACME"
+      ]
+    },
+    "microdata": {
+      "Article": [
+        {
+          "@context": "http://schema.org/",
+          "@type": "Article",
+          "headline": "Example Headline in Microdata",
+          "author": "A Smith",
+          "datePublished": "2019-01-01",
+          "image": "http://example.com/path-to-article-image.jpg",
+          "publisher": {
+            "@context": "https://schema.org/",
+            "@type": "Organization",
+            "logo": {
+              "@context": "https://schema.org/",
+              "@type": "ImageObject",
+              "url": "https://www.example.com/logo.png"
+            },
+            "name": "ACME"
+          },
+          "url": "http://example.com/path-to-article"
+        },
+        {
+          "@context": "http://schema.org/",
+          "@type": "Article",
+          "headline": "Second Headline in Microdata",
+          "author": "B Smith",
+          "datePublished": "2019-02-01",
+          "image": "http://example.com/path-to-article-2-image.jpg"
+        }
+      ],
+      "SocialMediaPosting": [
+        {
+          "@context": "http://schema.org/",
+          "@type": "SocialMediaPosting",
+          "author": "A Smith",
+          "associatedMedia": {
+            "@context": "http://schema.org/",
+            "@type": "ImageObject",
+            "url": "http://example.com/path-to-article-image.jpg"
+          },
+          "image": {
+            "@context": "http://schema.org/",
+            "@type": "ImageObject",
+            "url": "http://example.com/path-to-article-image.jpg"
+          },
+          "publisher": "ACME",
+          "Organization": "ACME"
+        }
+      ]
+    },
+    "rdfa": {
+      "NewsArticle": [
+        {
+          "@context": "http://schema.org/",
+          "@type": "NewsArticle",
+          "headline": "Example Headline in RDFa",
+          "author": "B Smith",
+          "datePublished": "2019-01-01",
+          "image": "http://example.com/path-to-article-image.jpg",
+          "publisher": {
+            "@context": "https://schema.org/",
+            "@type": "Organization",
+            "logo": {
+              "@context": "https://schema.org/",
+              "@type": "ImageObject",
+              "url": "https://www.example.com/logo.png"
+            },
+            "name": "ACME"
+          },
+          "url": "http://example.com/path-to-article"
+        }
+      ]
+    },
+    "jsonld": {
+      "ReportageNewsArticle": [
+        {
+          "@context": "http://schema.org",
+          "@type": "ReportageNewsArticle",
+          "headline": "Example Headline in JSON-LD",
+          "author": "C Smith",
+          "url": "http://example.com/path-to-article",
+          "image": "http://example.com/path-to-article-image.jpg",
+          "datePublished": "2019-01-01",
+          "publisher": {
+            "@type": "Organization",
+            "name": "ACME News",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://www.example.com/logo.png"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "options": {
+    "html": "<html>\n  <head>\n    <meta name=\"twitter:card\" content=\"summary_large_image\">\n    <meta name=\"twitter:site\" content=\"@twitter\">\n    <meta name=\"twitter:title\" content=\"Title text…\">\n    <meta name=\"twitter:description\" content=\"Description text…\">\n    <meta name=\"twitter:creator\" content=\"@twitter\">\n    <meta name=\"twitter:image\" content=\"http://example.com/image.png\">\n    <meta name=\"twitter:image:alt\" content=\"Description of image\" />\n    <meta name=\"twitter:domain\" content=\"example.com\">\n  </head>\n  <body>\n    <!-- Microdata -->\n    <div itemscope itemtype=\"http://schema.org/Article\">\n      <h1 itemprop=\"headline\">Example Headline in Microdata</h1>\n      <p>\n        Author: <span itemprop=\"author\">A Smith</span>\n      </p>\n      <p>\n        Published On: <span itemprop=\"datePublished\">2019-01-01</span>\n      <p>\n      <img itemprop=\"image\" src=\"http://example.com/path-to-article-image.jpg\" alt=\"Image description\"/>\n      <p>\n        Article text…\n      </p>\n      <div itemprop=\"publisher\" itemscope itemtype=\"https://schema.org/Organization\">\n        <div itemprop=\"logo\" itemscope itemtype=\"https://schema.org/ImageObject\">\n          <meta itemprop=\"url\" content=\"https://www.example.com/logo.png\"/>\n        </div>\n        <meta itemprop=\"name\" content=\"ACME\"/>\n      </div>\n      <link itemprop=\"url\" href=\"http://example.com/path-to-article\"/>\n    </div>\n\n    <!-- Second article with microdata to test handling of multiple instances of the same type -->\n    <div itemscope itemtype=\"http://schema.org/Article\">\n      <h1 itemprop=\"headline\">Second Headline in Microdata</h1>\n      <p>\n        Author: <span itemprop=\"author\">B Smith</span>\n      </p>\n      <p>\n        Published On: <span itemprop=\"datePublished\">2019-02-01</span>\n      <p>\n      <img itemprop=\"image\" src=\"http://example.com/path-to-article-2-image.jpg\" alt=\"Image description\"/>\n      <p>\n        Article text…\n      </p>\n      <!--\n      <div itemprop=\"publisher\" itemscope itemtype=\"https://schema.org/Organization\">\n        <div itemprop=\"logo\" itemscope itemtype=\"https://schema.org/ImageObject\">\n          <meta itemprop=\"url\" content=\"https://www.example.com/logo.png\"/>\n        </div>\n        <meta itemprop=\"name\" content=\"ACME\"/>\n      </div>\n      <link itemprop=\"url\" href=\"http://example.com/path-to-article-2\"/>\n      -->\n    </div>\n\n    <!-- Microdata with itemprop values that specify multiple properties -->\n    <div itemscope itemtype=\"http://schema.org/SocialMediaPosting\">\n      <figure itemprop=\"associatedMedia image\" itemscope itemtype=\"http://schema.org/ImageObject\">\n        <meta itemprop=\"url\" content=\"http://example.com/path-to-article-image.jpg\"/>\n      </figure>\n      <meta itemprop=\"publisher Organization\" content=\"ACME\"/>\n      <p>\n        Author: <span itemprop=\"author\">A Smith</span>\n      </p>\n    </div>\n\n    <!-- RDFa -->\n    <div vocab=\"http://schema.org/\" typeof=\"NewsArticle\">\n      <h1 property=\"headline\">Example Headline in RDFa</h1>\n      <p>\n        Author: <span property=\"author\">B Smith</span>\n      </p>\n      <p>\n        Published On: <span property=\"datePublished\">2019-01-01</span>\n      <p>\n      <img property=\"image\" src=\"http://example.com/path-to-article-image.jpg\" alt=\"Image description\"/>\n      <p>\n        Article text…\n      </p>\n      \n      <div property=\"publisher\" vocab=\"https://schema.org/\" typeof=\"Organization\">\n        <div property=\"logo\" vocab=\"https://schema.org/\" typeof=\"ImageObject\">\n          <meta property=\"url\" content=\"https://www.example.com/logo.png\"/>\n        </div>\n        <meta property=\"name\" content=\"ACME\"/>\n      </div>\n\n      <link property=\"url\" href=\"http://example.com/path-to-article\"/>\n      </div>\n    </div>\n\n    <!-- JSON-LD -->\n    <script type=\"application/ld+json\">\n      {\n        \"@context\": \"http://schema.org\",\n        \"@type\": \"ReportageNewsArticle\",\n        \"headline\": \"Example Headline in JSON-LD\",\n        \"author\": \"C Smith\",\n        \"url\": \"http://example.com/path-to-article\",\n        \"image\": \"http://example.com/path-to-article-image.jpg\",\n        \"datePublished\": \"2019-01-01\",\n        \"publisher\": {\n          \"@type\": \"Organization\",\n          \"name\": \"ACME News\",\n          \"logo\": {\n            \"@type\": \"ImageObject\",\n            \"url\": \"https://www.example.com/logo.png\"\n          }\n        }\n      }\n    </script>\n  </body>\n</html>",
+    "presets": [],
+    "schemas": []
+  }
+}

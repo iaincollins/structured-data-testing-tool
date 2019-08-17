@@ -27,7 +27,7 @@ This utility uses [web-auto-extractor](https://www.npmjs.com/package/web-auto-ex
 ### Command Line Interface
 
 ```
-Usage: sdtt --url <url> [--presets <presets>] [--schemas <schemas>]
+Usage: sdtt --url <url> [--presets <presets>] [--schemas <schemas]
 
 Options:
   -u, --url      Inspect a URL
@@ -35,20 +35,27 @@ Options:
   -p, --presets  Test for specific markup from a list of presets
   -s, --schemas  Test for a specific schema from a list of schemas
   -i, --info     Show more detailed information about structured data found
+  -o, --output   Output test results to a file
   -h, --help     Show help
   -v, --version  Show version number
 
+Usage: sdtt --url <url> [--presets <presets>] [--schemas <schemas]
+
 Examples:
-  sdtt --url "https://example.com/article"       Inspect a URL
-  sdtt --url <url> --presets "Twitter,Facebook"  Test a URL for specific metatags
-  sdtt --url <url> --presets "SocialMedia"       Test a URL for social media metatags
-  sdtt --url <url> --presets "Google"            Test a URL for markup inspected by Google
-  sdtt --url <url> --schemas "Article"           Test a URL for the Article schema
-  sdtt --url <url> --schemas "jsonld:Article"    Test a URL for the Article schema in JSON-LD
-  sdtt --url <url> --schemas "microdata:Article" Test a URL for the Article schema in microdata/HTML
-  sdtt --url <url> --schemas "rdfa:Article"      Test a URL for the Article schema in RDFa
-  sdtt --presets                                 List all built-in presets
-  sdtt --schemas                                 List all supported schemas
+  sdtt --url "https://example.com/article"                Inspect a URL
+  sdtt --url <url> --presets SocialMedia                  Test a URL for social media metatags
+  sdtt --url <url> --presets Google                       Test a URL for markup inspected by Google
+  sdtt --url <url> --presets "Twitter,Facebook"           Test a URL with multiple presets
+  sdtt --url <url> -p Twitter -p Facebook                 Test a URL with multiple presets (alternative)
+  sdtt --url <url> --schemas Article                      Test a URL for the Article schema
+  sdtt --url <url> --schemas "jsonld:Article"             Test a URL for the Article schema in JSON-LD
+  sdtt --url <url> --schemas "microdata:Article"          Test a URL for the Article schema in microdata/HTML
+  sdtt --url <url> --schemas "rdfa:Article"               Test a URL for the Article schema in RDFa
+  sdtt --url <url> --schemas "Article,WPHeader,WPFooter"  Test a URL for multiple schemas
+  sdtt --url <url> -s Article -s WPHeader -s WPFooter     Test a URL for multiple schemas (alternative)
+  sdtt --url <url> --output results.json                  Output test results to a JSON file
+  sdtt --presets                                          List all built-in presets
+  sdtt --schemas                                          List all supported schemas
 ```
 
 Inspect a URL to see what markup is found:
