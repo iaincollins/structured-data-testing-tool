@@ -250,6 +250,7 @@ const _test = (test, json) => {
   try {
     path = test.test
     const pathValue = jmespath.search(json, path)
+    test.value = pathValue
 
     if (typeof test.expect === 'undefined' || test.expect === true) {
       // If 'expect' is 'true' then a pathValue should exist.
@@ -311,7 +312,7 @@ const _test = (test, json) => {
         type: 'INCORRECT_VALUE',
         message: `Incorrect value for "${path}"`,
         expected: test.expect,
-        found: pathValuele
+        found: pathValue
       }
     }
   } catch (e) {
