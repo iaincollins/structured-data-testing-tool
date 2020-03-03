@@ -1,12 +1,12 @@
 # Structured Data Testing Tool
 
-Helps inspect and test web pages for Structured Data.
+Inspect and test web pages for Structured Data.
 
-This tool is designed to allow both easy ad-hoc testing and automated testing of structured data - especially in bulk or as part of a CD/CI pipeline.
-
-This utility uses [web-auto-extractor](https://www.npmjs.com/package/web-auto-extractor) and [jmespath](https://www.npmjs.com/package/jmespath).
+Includes both a Command Line Interface for easy ad-hoc testing of URLs and library with extendable API for use when writing tests or building other tools.
 
 ## Install
+
+To install the command line tool (`sdtt`), include the `-g` (global) flag when installing:
 
     npm i structured-data-testing-tool -g
 
