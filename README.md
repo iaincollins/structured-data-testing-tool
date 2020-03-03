@@ -204,22 +204,25 @@ The built-in presets only cover some use cases and are only able to check if val
 With the API you can use [JMESPath query syntax](http://jmespath.org) to define your own tests to check for additional properties and specific values. You can mix and match tests with presets.
 
 ```javascript
-const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
+const testUrl = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
 
 const options = {
   tests: [
     // Check 'NewsArticle' schema exists in JSON-LD
     { test: 'NewsArticle', expect: true, type: 'jsonld' },
-     // Expect specific value for 'url' property, fail if value doesn't 
-    { test: 'NewsArticle[*].url', expect: url },match
-    // Warn but don't fail if test doesn't pass
-    { test: 'NewsArticle[*].mainEntityOfPage', expect: url, warning: true },
-    // Test for twitter meta tag with specific value
+
+    // Check a 'NewsArticle' schema exists with 'url' property set to the value of the  variable 'url'
+    { test: 'NewsArticle[*].url', expect: testUrl },
+
+    // A similar check as above, but won't fail (only warn) if the test doesn't pass
+    { test: 'NewsArticle[*].mainEntityOfPage', expect: testUrl, warning: true },
+
+    // Test for a Twitter meta tag with specific value
     { test: '"twitter:domain"' expect: 'www.bbc.co.uk', type: 'metatag' }
   ]
 }
 
-structuredDataTest(url, options)
+structuredDataTest(testUrl, options)
 .then(response => { /* … */ })
 .catch(err => { /* … */ })
 ```
@@ -228,7 +231,7 @@ structuredDataTest(url, options)
 
 A preset is a collection of tests.
 
-There are built-in presets you can use, you can list them with `--presets` option using the CLI. You can also easily define your own custom presets.
+There are built-in presets you can use, you can list them with `--presets` option using the CLI. You can also easily define your own custom presets when using the API. The Command Line Interface only supports built-in presets.
 
 Presets must have a `name` (which should ideally be unique, but does not have to be) and `description` and an array of `test` objects in `tests`. Both `name` and `description` be arbitrary strings, `tests` should be an array of valid `test` objects.
 
@@ -254,10 +257,10 @@ const MyCustomPreset = {
     { test: '"twitter:card"', type: 'metatag' },
     { test: '"twitter:domain"', expect: 'www.bbc.co.uk', type: 'metatag', }
   ],
-  // Other preset options:
+  // Additional options you can use in a preset:
   // group: 'My Group Name', // A group name can be used to group tests in a preset (defaults to preset name)
-  // schema: 'NewsArticle', // Specify a schema if all the tests in the preset apply to a specific schema
-  // presets: [] // Any preset can also contain other presets
+  // schema: 'NewsArticle', // Specify a schema at the top level if all the tests in the preset apply to the same schema
+  // presets: [] // A preset can also invoke other presets, making it easy to re-use custom tests
   // conditional: {} // Define a conditional `test`, which is evaluated to determine if the preset should run
 }
 
