@@ -1,9 +1,8 @@
-# Publishes to NPM (npmjs.com) and GitHub's package registry
+# Publishes module to registry when a new release is created.
 #
 # The following secrets need to be configured for this workflow:
 #
 # * NPM_TOKEN - Auth token from npmjs.com
-# * GITHUB_NPM_SCOPE - Scope to use when publishing to GitHub's registry (eg "@username")
 
 name: Publish to NPM
 
@@ -36,17 +35,18 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-          registry-url: https://npm.pkg.github.com/
-          scope: '${{secrets.GITHUB_NPM_SCOPE}}'
-      - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+# Disabled as this job doesn't seem to work
+#  publish-gpr:
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-node@v1
+#        with:
+#          node-version: 12
+#          registry-url: https://npm.pkg.github.com/
+#          scope: '${{secrets.GITHUB_NPM_SCOPE}}'
+#      - run: npm ci
+#      - run: npm publish
+#        env:
+#          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
