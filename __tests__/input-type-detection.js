@@ -9,8 +9,9 @@ const {
 } = require('../index')
 const presets = require('../presets')
 
-const testFile = '__tests__/fixtures/example.html'
-const html = fs.readFileSync(testFile)
+const testHTML = '__tests__/fixtures/example.html'
+const html = fs.readFileSync(testHTML)
+const testJSON = fs.readFileSync('__tests__/fixtures/example.json')
 
 describe('Input type detection', () => {
   beforeAll(async () => {
@@ -25,7 +26,7 @@ describe('Input type detection', () => {
 
   test('should auto-detect when input is a buffer', async () => {
     const result = await new Promise((resolve) => {
-      fs.readFile(testFile, async (err, buffer) => {
+      fs.readFile(testHTML, async (err, buffer) => {
         return resolve(await structuredDataTest(buffer, { presets: [ presets.Google ]}))
       })
     })
@@ -34,9 +35,16 @@ describe('Input type detection', () => {
   })
 
   test('should auto-detect when input is a readable stream', async () => {
-    const buffer = fs.createReadStream(testFile)
+    const buffer = fs.createReadStream(testHTML)
     const result = await structuredDataTest(buffer, { presets: [ presets.Google ]})
     expect(result.passed.length).toBeGreaterThan(10)
+    expect(result.failed.length).toEqual(0)
+  })
+
+  test('should auto-detect when input is JSON string', async () => {
+    const result = await structuredDataTest(testJSON)
+    expect(result.passed.length).toEqual(1)
+    expect(result.optional.length).toEqual(19)
     expect(result.failed.length).toEqual(0)
   })
 

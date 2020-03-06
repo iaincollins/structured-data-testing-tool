@@ -418,7 +418,20 @@ const _findSchemas = (structuredData) => {
 const structuredDataTestUrl = async (url, options) => {
   const res = await fetch(url)
   const html = await res.text()
-  return structuredDataTestHtml(html, { url, res, ...options })
+  return structuredDataTestString(html, { url, res, ...options })
+}
+
+const structuredDataTestString = async (input, options) => {
+  // Try to parse the string input as a JSON object.
+  //
+  // If it is a JSON object, then wrap it in <script> tags and then parse it as HTML.
+  // If it is not, then assume it is HTML and try to parse it as it is.
+  //
+  // This is potentially computationally expensive, but making the call that 
+  // performance concerns are secondary to utility in the case of this tool.
+  let html = input
+  try { html = JSON.parse(input) ? `<script type="application/ld+json">${input}</script>` : input } catch (e) {  }
+  return structuredDataTestHtml(html, options)
 }
 
 const structuredDataTestHtml = async (html, options) => {
@@ -444,18 +457,18 @@ const structuredDataTest = async (input, options) => {
       return structuredDataTestUrl(url, options)
     } else {
       const html = input
-      return structuredDataTestHtml(html, options)
+      return structuredDataTestString(html, options)
     }
   } else if (Buffer.isBuffer(input)) {
     // If is a buffer…
     // Convert buffer to string
     const html = input.toString('utf8')
-    return structuredDataTestHtml(html, options)
+    return structuredDataTestString(html, options)
   } else if (isStream.readable(input)) {
     // If is a readable stream…
     // Convert readable stream to string
     const html = await getStream(input)
-    return structuredDataTestHtml(html, options)
+    return structuredDataTestString(html, options)
   } else {
     // Else ??
     const structuredData = input
@@ -557,5 +570,6 @@ module.exports = {
   _structuredDataTest,
   structuredDataTest,
   structuredDataTestUrl,
+  structuredDataTestString,
   structuredDataTestHtml
 }
