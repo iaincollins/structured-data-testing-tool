@@ -136,7 +136,7 @@ Statistics
       Schema in RDFa: 0
   Schema.org schemas: ReportageNewsArticle
        Other schemas: 0
-    Test groups run : 4
+     Test groups run: 4
      Total tests run: 28
 
 Results

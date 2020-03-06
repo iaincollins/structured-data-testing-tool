@@ -106,8 +106,7 @@ function _flattenSchemaOrgTree(srcObj, targetObj, depth) {
       process.exit(1)
     }
     
-    const data = JSON.stringify(schemas)
-    fs.writeFileSync(outputFile, data)
+    fs.writeFileSync(outputFile, JSON.stringify(schemas, null, 2))
     console.log(`Saved ${numberOfSchemasFound} schemas from schema.org to 'schemas.json'.`)
   } catch (e) {
     console.error(e)
