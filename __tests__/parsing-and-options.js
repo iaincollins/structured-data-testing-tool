@@ -1,99 +1,35 @@
-
 const fs = require('fs')
 const fetch = require('node-fetch')
+
 const {
-  _structuredDataTest,
   structuredDataTest,
-  structuredDataTestUrl,
-  structuredDataTestHtml
+  structuredDataTestUrl
 } = require('../index')
 const presets = require('../presets')
 
-
-// @FIXME Split out this single catch-all example file to test multiple scenarios separately
 const testFile = '__tests__/fixtures/example.html'
 const html = fs.readFileSync(testFile)
 
+// Used to hold the test result that is used across these tests
 let structuredDataTestResult = null
 
-describe('Structured Data parsing', () => {
+describe('Parsing and options', () => {
   beforeAll(async () => {
     // Mock fetch request
     fetch.resetMocks()
     fetch.mockResponse(html);
 
-    // Current test uses single example file
+    // @TODO This test uses a single fixture for all tests
     // Ideally there would be multiple different fixtures that more robustly
-    // test different scenarios, but this is is a practical approach that
-    // improves coverage easily for now with minimal effort
+    // test different scenarios, but this is is a practical approach that gives
+    // good coverage with minimal effort.
     await structuredDataTest(html, { presets: [ presets.Google, presets.Twitter ]})
-    .then(response => {
-      structuredDataTestResult = response
-    })
-    .catch(err => {
-      structuredDataTestResult = err.res
-    })
+    .then(response => { structuredDataTestResult = response })
+    .catch(err => { structuredDataTestResult = err.res })
   })
 
   afterAll(() => {
     fetch.resetMocks()
-  })
-
-  test('should auto-detect and return structured data schemas found', async () => {
-    expect(structuredDataTestResult.schemas.length).toEqual(4)
-    expect(structuredDataTestResult.failed.length).toEqual(0)
-  })
-
-  test('should auto-detect when input is HTML and validate all schemas found', async () => {
-    expect(structuredDataTestResult.passed.length).toBeGreaterThan(10)
-    expect(structuredDataTestResult.failed.length).toEqual(0)
-  })
-  
-  test('should auto-detect when input is a string', async () => {
-    const result = await structuredDataTest(html.toString(), { presets: [ presets.Google ]})
-    expect(result.passed.length).toBeGreaterThan(10)
-    expect(result.failed.length).toEqual(0)
-  })
-
-  test('should auto-detect when input is a buffer', async () => {
-    const result = await new Promise((resolve) => {
-      fs.readFile(testFile, async (err, buffer) => {
-        return resolve(await structuredDataTest(buffer, { presets: [ presets.Google ]}))
-      })
-    })
-    expect(result.passed.length).toBeGreaterThan(10)
-    expect(result.failed.length).toEqual(0)
-  })
-
-  test('should auto-detect when input is a readable stream', async () => {
-    const buffer = fs.createReadStream(testFile)
-    const result = await structuredDataTest(buffer, { presets: [ presets.Google ]})
-    expect(result.passed.length).toBeGreaterThan(10)
-    expect(result.failed.length).toEqual(0)
-  })
-
-  test('should auto-detect when input is an HTTP URL', async () => {
-    const result = await structuredDataTest('http://example.com', { presets: [ presets.Google ]})
-    expect(result.passed.length).toBeGreaterThan(10)
-    expect(result.failed.length).toEqual(0)
-  })
-
-  test('should auto-detect when input is an HTTPS URL', async () => {
-    const result = await structuredDataTest('https://example.com', { presets: [ presets.Google ]})
-    expect(result.passed.length).toBeGreaterThan(10)
-    expect(result.failed.length).toEqual(0)
-  })  
-
-  test('should work when explicitly invoked with HTML', async () => {
-    const result = await structuredDataTestHtml(html, { presets: [ presets.Google ]})
-    expect(result.passed.length).toBeGreaterThan(10)
-    expect(result.failed.length).toEqual(0)
-  })
-
-  test('should work when explicitly invoked with a URL', async () => {
-    const result = await structuredDataTestUrl('https://example.com', { presets: [ presets.Google ]})
-    expect(result.passed.length).toBeGreaterThan(10)
-    expect(result.failed.length).toEqual(0)
   })
 
   // @FIXME This test covers too much at once, should split out error handling checks

@@ -431,7 +431,7 @@ const structuredDataTest = async (input, options) => {
   if (typeof(input) === 'string') {
     // If is a string…
     // Assumed to be URL or HTML
-    if (validator.isURL(input)) {
+    if (validator.isURL(input, { require_tld: false })) {
       // @TODO Improve URL error handling
       const url = input
       const res = await fetch(url)

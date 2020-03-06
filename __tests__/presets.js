@@ -1,5 +1,6 @@
 
 const fs = require('fs')
+
 const { structuredDataTest } = require('../index')
 const presets = require('../presets')
 
