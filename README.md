@@ -13,11 +13,11 @@ To install the command line tool (`sdtt`), include the `-g` (global) flag when i
 ## Features
 
 * Command Line Interface (`sdtt`) and API that can be used with any test framework.
-* Input can be URL, load markup from a file or be passed HTML via a string, buffer or stream.
+* Accepts a URL, file or string, buffer or stream containing HTML or JSON.
 * Automatically detects all Schema.org schemas, in HTML (`microdata`), `JSON-LD` and `RDFa`.
 * Can test `<meta>` tags (and custom schemas) for specific tags / fields / values.
 * Built-in presets for testing for Twitter, Facebook and Google structured data.
-* Create your own re-useable, custom presets to test custom schemas or write tests specific to your site.
+* Support creation of custom presets to test any schema or tests specific to your site.
 * Use with a headless browser to test Structured Data injected by client side JavaScript (e.g. Google Tag Manager).
 
 ## Usage
@@ -52,6 +52,8 @@ Examples:
   sdtt --url <url> --schemas "Article,WPHeader,WPFooter"  Test a URL for multiple schemas
   sdtt --url <url> -s Article -s WPHeader -s WPFooter     Test a URL for multiple schemas (alternative)
   sdtt --url <url> --output results.json                  Output test results to a JSON file
+  sdtt --file <path-to-file>.html                         Test file containing HTML
+  sdtt --file <path-to-file>.json                         Test file containing JSON-LD
   sdtt --presets                                          List all built-in presets
   sdtt --schemas                                          List all supported schemas
 ```
