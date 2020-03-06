@@ -196,6 +196,8 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
   .example(chalk.cyan(`$0 --url <url> --schemas "Article,WPHeader,WPFooter"`), chalk.grey('Test a URL for multiple schemas'))
   .example(chalk.cyan(`$0 --url <url> -s Article -s WPHeader -s WPFooter`), chalk.grey('Test a URL for multiple schemas (alternative)'))
   .example(chalk.cyan(`$0 --url <url> --output results.json`), chalk.grey('Output test results to a JSON file'))
+  .example(chalk.cyan(`$0 --file <path-to-file>.html`), chalk.grey('Test file containing HTML'))
+  .example(chalk.cyan(`$0 --file <path-to-file>.json`), chalk.grey('Test file containing JSON-LD'))
   .example(chalk.cyan(`$0 --presets`), chalk.grey('List all built-in presets'))
   .example(chalk.cyan(`$0 --schemas`), chalk.grey('List all supported schemas'))
   .wrap(120)
