@@ -365,25 +365,25 @@ The value for `test` should be a valid [JMESPath query](http://jmespath.org).
 
 Examples of JMESPath queries:
 
-`Article`  
+`Article`
 Test `Article` schema found.
 
-`Article[*].url`  
+`Article[*].url`
 Test `url` property of any `Article` schema found.
 
-`Article[0].headline`  
+`Article[0].headline`
 Test `headline` property of first `Article` schema found.
 
-`Article[1].headline`  
+`Article[1].headline`
 Test `headline` property of second `Article` schema found.
 
-`Article[*].publisher.name`  
+`Article[*].publisher.name`
 Test `name` value of `publisher` on any `Article` schema found.
 
-`Article[*].publisher."@type"`  
+`Article[*].publisher."@type"`
 Test `@type` value of `publisher` on any `Article` schema found.
 
-`"twitter:image" || "twitter:image:src"`  
+`"twitter:image" || "twitter:image:src"`
 Check for a metatag named either `twitter:image` -or- `twitter:image:src`
 
 Tips:
@@ -480,7 +480,7 @@ Required: false
 Default: undefined
 ```
 
-You can pass a string for `group` value to indicate how tests should be grouped when displaying results. You do not need to specify a group if tests an in a preset, by default the preset name will be used.
+You can pass a string for the `group` value to indicate how tests should be grouped when displaying results. You do not need to specify a group if tests are in a preset, by default the preset name will be used.
 
 #### groups
 ```
@@ -506,12 +506,14 @@ This is intended as an option to control how tests are grouped when displaying r
 
 If a page uses JavaScript with client side rendering to generate Structured Data, you can use a tool like [Puppeteer](https://github.com/GoogleChrome/puppeteer) (a headless Chrome API) to fetch the HTML and allow any client side JavaScript to run and then test the rendered page with the Structured Data Testing Tool.
 
-Note:
+This can be used to test pages that rely on client side injection with tools like Google Tag Manager to add Structured Data to pages.
+
+Notes:
 
 * Puppeteer is a large package (~272 MB) and must be installed separately.
 * You can only use Puppeteer with the API, not the Command Line Interface.
 
-Example of how to use `puppeteer` with `structured-data-testing-tool` :
+Example of how to use `puppeteer` with `structured-data-testing-tool` to write a test that relies on client side JavaScript:
 
 ```javascript
 const { structuredDataTest } = require('structured-data-testing-tool')
