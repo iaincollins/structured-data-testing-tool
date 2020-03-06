@@ -1,21 +1,23 @@
+const schema = 'ClaimReview'
+
 const ClaimReview = {
-  name: 'ClaimReview',
+  name: schema,
   description: 'A fact-checking review of claims made (or reported) in some creative work (referenced via itemReviewed).',
-  schema: 'ClaimReview',
+  schema: schema,
   conditional: {
-    test: 'ClaimReview'
+    test: schema
   },
   tests: [
     // Expected by Google
-    { test: `ClaimReview` },
-    { test: `ClaimReview[*]."@type"`, expect: 'ClaimReview' },
-    { test: `ClaimReview[*].url` },
-    { test: `ClaimReview[*].reviewRating` },
-    { test: `ClaimReview[*].claimReviewed` },
+    { test: `${schema}` },
+    { test: `${schema}[*]."@type"`, expect: schema },
+    { test: `${schema}[*].url` },
+    { test: `${schema}[*].reviewRating` },
+    { test: `${schema}[*].claimReviewed` },
     // Warnings
-    { test: `ClaimReview[*].author`, warning: true },
-    { test: `ClaimReview[*].datePublished`, warning: true },
-    { test: `ClaimReview[*].itemReviewed`, warning: true },
+    { test: `${schema}[*].author`, warning: true },
+    { test: `${schema}[*].datePublished`, warning: true },
+    { test: `${schema}[*].itemReviewed`, warning: true },
   ],
 }
 

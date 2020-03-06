@@ -5,7 +5,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:card",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -13,7 +13,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:site",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -21,7 +21,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:title",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -29,7 +29,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:description",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -37,7 +37,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:creator",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -45,7 +45,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:image",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -53,7 +53,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:image:alt",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -61,7 +61,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:domain",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -69,7 +69,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -77,7 +77,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "name",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -85,7 +85,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "publisher Organization",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -110,7 +110,7 @@
         "NewsArticle"
       ],
       "description": "@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -123,7 +123,7 @@
         "NewsArticle"
       ],
       "description": "@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -136,7 +136,7 @@
         "NewsArticle"
       ],
       "description": "headline",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -149,7 +149,7 @@
         "NewsArticle"
       ],
       "description": "author",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -162,7 +162,7 @@
         "NewsArticle"
       ],
       "description": "datePublished",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -175,7 +175,7 @@
         "NewsArticle"
       ],
       "description": "image",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -188,7 +188,7 @@
         "NewsArticle"
       ],
       "description": "publisher.@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -201,7 +201,7 @@
         "NewsArticle"
       ],
       "description": "publisher.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -214,7 +214,7 @@
         "NewsArticle"
       ],
       "description": "publisher.logo.@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -227,7 +227,7 @@
         "NewsArticle"
       ],
       "description": "publisher.logo.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -240,7 +240,7 @@
         "NewsArticle"
       ],
       "description": "publisher.logo.url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -253,7 +253,7 @@
         "NewsArticle"
       ],
       "description": "publisher.name",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -266,7 +266,7 @@
         "NewsArticle"
       ],
       "description": "url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -293,7 +293,7 @@
         "#0"
       ],
       "description": "@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -307,7 +307,7 @@
         "#0"
       ],
       "description": "@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -321,7 +321,7 @@
         "#0"
       ],
       "description": "headline",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -335,7 +335,7 @@
         "#0"
       ],
       "description": "author",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -349,7 +349,7 @@
         "#0"
       ],
       "description": "datePublished",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -363,7 +363,7 @@
         "#0"
       ],
       "description": "image",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -377,7 +377,7 @@
         "#0"
       ],
       "description": "publisher.@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -391,7 +391,7 @@
         "#0"
       ],
       "description": "publisher.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -405,7 +405,7 @@
         "#0"
       ],
       "description": "publisher.logo.@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -419,7 +419,7 @@
         "#0"
       ],
       "description": "publisher.logo.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -433,7 +433,7 @@
         "#0"
       ],
       "description": "publisher.logo.url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -447,7 +447,7 @@
         "#0"
       ],
       "description": "publisher.name",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -461,7 +461,7 @@
         "#0"
       ],
       "description": "url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -488,7 +488,7 @@
         "#1"
       ],
       "description": "@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -502,7 +502,7 @@
         "#1"
       ],
       "description": "@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -516,7 +516,7 @@
         "#1"
       ],
       "description": "headline",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -530,7 +530,7 @@
         "#1"
       ],
       "description": "author",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -544,7 +544,7 @@
         "#1"
       ],
       "description": "datePublished",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -558,7 +558,7 @@
         "#1"
       ],
       "description": "image",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -583,7 +583,7 @@
         "SocialMediaPosting"
       ],
       "description": "@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -596,7 +596,7 @@
         "SocialMediaPosting"
       ],
       "description": "@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -609,7 +609,7 @@
         "SocialMediaPosting"
       ],
       "description": "author",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -622,7 +622,7 @@
         "SocialMediaPosting"
       ],
       "description": "associatedMedia.@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -635,7 +635,7 @@
         "SocialMediaPosting"
       ],
       "description": "associatedMedia.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -648,7 +648,7 @@
         "SocialMediaPosting"
       ],
       "description": "associatedMedia.url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -661,7 +661,7 @@
         "SocialMediaPosting"
       ],
       "description": "image.@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -674,7 +674,7 @@
         "SocialMediaPosting"
       ],
       "description": "image.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -687,7 +687,7 @@
         "SocialMediaPosting"
       ],
       "description": "image.url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -700,7 +700,7 @@
         "SocialMediaPosting"
       ],
       "description": "publisher",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -713,7 +713,7 @@
         "SocialMediaPosting"
       ],
       "description": "Organization",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -738,7 +738,7 @@
         "ReportageNewsArticle"
       ],
       "description": "@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -751,7 +751,7 @@
         "ReportageNewsArticle"
       ],
       "description": "@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -764,7 +764,7 @@
         "ReportageNewsArticle"
       ],
       "description": "headline",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -777,7 +777,7 @@
         "ReportageNewsArticle"
       ],
       "description": "author",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -790,7 +790,7 @@
         "ReportageNewsArticle"
       ],
       "description": "url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -803,7 +803,7 @@
         "ReportageNewsArticle"
       ],
       "description": "image",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -816,7 +816,7 @@
         "ReportageNewsArticle"
       ],
       "description": "datePublished",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -829,7 +829,7 @@
         "ReportageNewsArticle"
       ],
       "description": "publisher.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -842,7 +842,7 @@
         "ReportageNewsArticle"
       ],
       "description": "publisher.name",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -855,7 +855,7 @@
         "ReportageNewsArticle"
       ],
       "description": "publisher.logo.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -868,7 +868,7 @@
         "ReportageNewsArticle"
       ],
       "description": "publisher.logo.url",
-      "info": true,
+      "optional": true,
       "passed": true
     }
   ],
@@ -938,13 +938,13 @@
   ],
   "failed": [],
   "warnings": [],
-  "info": [
+  "optional": [
     {
       "test": "\"twitter:card\"",
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:card",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -952,7 +952,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:site",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -960,7 +960,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:title",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -968,7 +968,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:description",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -976,7 +976,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:creator",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -984,7 +984,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:image",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -992,7 +992,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:image:alt",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1000,7 +1000,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "twitter:domain",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1008,7 +1008,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1016,7 +1016,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "name",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1024,7 +1024,7 @@
       "type": "metatag",
       "group": "Metatags",
       "description": "publisher Organization",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1037,7 +1037,7 @@
         "NewsArticle"
       ],
       "description": "@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1050,7 +1050,7 @@
         "NewsArticle"
       ],
       "description": "@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1063,7 +1063,7 @@
         "NewsArticle"
       ],
       "description": "headline",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1076,7 +1076,7 @@
         "NewsArticle"
       ],
       "description": "author",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1089,7 +1089,7 @@
         "NewsArticle"
       ],
       "description": "datePublished",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1102,7 +1102,7 @@
         "NewsArticle"
       ],
       "description": "image",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1115,7 +1115,7 @@
         "NewsArticle"
       ],
       "description": "publisher.@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1128,7 +1128,7 @@
         "NewsArticle"
       ],
       "description": "publisher.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1141,7 +1141,7 @@
         "NewsArticle"
       ],
       "description": "publisher.logo.@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1154,7 +1154,7 @@
         "NewsArticle"
       ],
       "description": "publisher.logo.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1167,7 +1167,7 @@
         "NewsArticle"
       ],
       "description": "publisher.logo.url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1180,7 +1180,7 @@
         "NewsArticle"
       ],
       "description": "publisher.name",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1193,7 +1193,7 @@
         "NewsArticle"
       ],
       "description": "url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1207,7 +1207,7 @@
         "#0"
       ],
       "description": "@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1221,7 +1221,7 @@
         "#0"
       ],
       "description": "@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1235,7 +1235,7 @@
         "#0"
       ],
       "description": "headline",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1249,7 +1249,7 @@
         "#0"
       ],
       "description": "author",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1263,7 +1263,7 @@
         "#0"
       ],
       "description": "datePublished",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1277,7 +1277,7 @@
         "#0"
       ],
       "description": "image",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1291,7 +1291,7 @@
         "#0"
       ],
       "description": "publisher.@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1305,7 +1305,7 @@
         "#0"
       ],
       "description": "publisher.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1319,7 +1319,7 @@
         "#0"
       ],
       "description": "publisher.logo.@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1333,7 +1333,7 @@
         "#0"
       ],
       "description": "publisher.logo.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1347,7 +1347,7 @@
         "#0"
       ],
       "description": "publisher.logo.url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1361,7 +1361,7 @@
         "#0"
       ],
       "description": "publisher.name",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1375,7 +1375,7 @@
         "#0"
       ],
       "description": "url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1389,7 +1389,7 @@
         "#1"
       ],
       "description": "@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1403,7 +1403,7 @@
         "#1"
       ],
       "description": "@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1417,7 +1417,7 @@
         "#1"
       ],
       "description": "headline",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1431,7 +1431,7 @@
         "#1"
       ],
       "description": "author",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1445,7 +1445,7 @@
         "#1"
       ],
       "description": "datePublished",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1459,7 +1459,7 @@
         "#1"
       ],
       "description": "image",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1472,7 +1472,7 @@
         "SocialMediaPosting"
       ],
       "description": "@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1485,7 +1485,7 @@
         "SocialMediaPosting"
       ],
       "description": "@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1498,7 +1498,7 @@
         "SocialMediaPosting"
       ],
       "description": "author",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1511,7 +1511,7 @@
         "SocialMediaPosting"
       ],
       "description": "associatedMedia.@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1524,7 +1524,7 @@
         "SocialMediaPosting"
       ],
       "description": "associatedMedia.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1537,7 +1537,7 @@
         "SocialMediaPosting"
       ],
       "description": "associatedMedia.url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1550,7 +1550,7 @@
         "SocialMediaPosting"
       ],
       "description": "image.@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1563,7 +1563,7 @@
         "SocialMediaPosting"
       ],
       "description": "image.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1576,7 +1576,7 @@
         "SocialMediaPosting"
       ],
       "description": "image.url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1589,7 +1589,7 @@
         "SocialMediaPosting"
       ],
       "description": "publisher",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1602,7 +1602,7 @@
         "SocialMediaPosting"
       ],
       "description": "Organization",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1615,7 +1615,7 @@
         "ReportageNewsArticle"
       ],
       "description": "@context",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1628,7 +1628,7 @@
         "ReportageNewsArticle"
       ],
       "description": "@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1641,7 +1641,7 @@
         "ReportageNewsArticle"
       ],
       "description": "headline",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1654,7 +1654,7 @@
         "ReportageNewsArticle"
       ],
       "description": "author",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1667,7 +1667,7 @@
         "ReportageNewsArticle"
       ],
       "description": "url",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1680,7 +1680,7 @@
         "ReportageNewsArticle"
       ],
       "description": "image",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1693,7 +1693,7 @@
         "ReportageNewsArticle"
       ],
       "description": "datePublished",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1706,7 +1706,7 @@
         "ReportageNewsArticle"
       ],
       "description": "publisher.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1719,7 +1719,7 @@
         "ReportageNewsArticle"
       ],
       "description": "publisher.name",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1732,7 +1732,7 @@
         "ReportageNewsArticle"
       ],
       "description": "publisher.logo.@type",
-      "info": true,
+      "optional": true,
       "passed": true
     },
     {
@@ -1745,7 +1745,7 @@
         "ReportageNewsArticle"
       ],
       "description": "publisher.logo.url",
-      "info": true,
+      "optional": true,
       "passed": true
     }
   ],

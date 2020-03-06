@@ -92,24 +92,58 @@ SocialMedia               Suggested markup for integration with social media sit
 $ sdtt --url https://www.bbc.co.uk/news/world-us-canada-49060410 --presets Google,SocialMedia
 Tests
 
-  Schema.org > ReportageNewsArticle - 100% (1 passed, 1 total)
+  Schema.org > ReportageNewsArticle - 100% (1 passed, 0 failed)
     ✓  schema in jsonld
+    •  @context
+    •  @type
+    •  url
+    •  publisher.@type
+    •  publisher.name
+    •  publisher.publishingPrinciples
+    •  publisher.logo.@type
+    •  publisher.logo.url
+    •  datePublished
+    •  dateModified
+    •  headline
+    •  image.@type
+    •  image.width
+    •  image.height
+    •  image.url
+    •  thumbnailUrl
+    •  author.@type
+    •  author.name
+    •  author.logo.@type
+    •  author.logo.url
+    •  author.noBylinesPolicy
+    •  mainEntityOfPage
+    •  video.@list[0].@type
+    •  video.@list[0].name
+    •  video.@list[0].description
+    •  video.@list[0].duration
+    •  video.@list[0].thumbnailUrl
+    •  video.@list[0].uploadDate
+    •  video.@list[1].@type
+    •  video.@list[1].name
+    •  video.@list[1].description
+    •  video.@list[1].duration
+    •  video.@list[1].thumbnailUrl
+    •  video.@list[1].uploadDate
 
-  Google > ReportageNewsArticle - 100% (12 passed, 12 total)
+  Google > ReportageNewsArticle > #0 (jsonld) - 100% (12 passed, 0 failed)
     ✓  ReportageNewsArticle
-    ✓  ReportageNewsArticle[*]."@type"
-    ✓  ReportageNewsArticle[*].author
-    ✓  ReportageNewsArticle[*].datePublished
-    ✓  ReportageNewsArticle[*].headline
-    ✓  ReportageNewsArticle[*].image
-    ✓  ReportageNewsArticle[*].publisher."@type"
-    ✓  ReportageNewsArticle[*].publisher.name
-    ✓  ReportageNewsArticle[*].publisher.logo
-    ✓  ReportageNewsArticle[*].publisher.logo.url
-    ✓  ReportageNewsArticle[*].dateModified
-    ✓  ReportageNewsArticle[*].mainEntityOfPage
+    ✓  @type
+    ✓  author
+    ✓  datePublished
+    ✓  headline
+    ✓  image
+    ✓  publisher.@type
+    ✓  publisher.name
+    ✓  publisher.logo
+    ✓  publisher.logo.url
+    ✓  dateModified
+    ✓  mainEntityOfPage
 
-  SocialMedia > Facebook - 100% (8 passed, 8 total)
+  Facebook - 100% (8 passed, 0 failed)
     ✓  must have page title
     ✓  must have page type
     ✓  must have url
@@ -119,7 +153,7 @@ Tests
     ✓  should have account username
     ✓  should have locale
 
-  SocialMedia > Twitter - 100% (7 passed, 7 total)
+  Twitter - 100% (7 passed, 0 failed)
     ✓  must have card type
     ✓  must have title
     ✓  must have description
@@ -136,16 +170,19 @@ Statistics
       Schema in RDFa: 0
   Schema.org schemas: ReportageNewsArticle
        Other schemas: 0
-     Test groups run: 4
-     Total tests run: 28
+     Test groups run: 5
+  Optional tests run: 71
+ Pass/Fail tests run: 28
 
 Results
 
-    Passed: 28 (100%)
-  Warnings: 0 (0%)
-    Failed: 0 (0%)
+    Passed: 28 	(100%)
+  Warnings: 0 	(0%)
+    Failed: 0 	(0%)
 
   ✓ 28 tests passed with 0 warnings.
+
+Use the option '-i' to display additional detail.
 ```
 
 ### API
@@ -404,16 +441,22 @@ When `warning` is set to `true`, if the test does not pass it will only result i
 
 The default is `false`, meaning if the test fails it will be counted as a failure.
 
-#### info
+#### optional
 ```
 Type: boolean
 Required: false
 Default: false
 ```
 
-When `info` is set to `true`, if the test passes it will not register as pass, but you can use `--info/-i` on the CLI or inspect the `info` property on the response from the API to see it.
+When the `optional` property is set to `true` on a test, a test will not count as either passed or failed, but the test will still be run and the result able to be inspected.
 
-The default is `false`. This option can be used in conjunction with `warning` if it should not be counted as a failed test if it does not pass.
+Optional tests do not count towards the total number of tests run, test passed or tests failed. They will show up in results in the Command Line Interface if they pass, but not if they fail; however passing optional tests appear differently to other tests in the results to make it clear they are optional checks. 
+
+You can use `--info/-i` on the CLI or inspect the `optional` property on the response from the API to see the result of any test that has `optional` property set on it. However, if an optional test fails because the property it was testing does not exist, it will not be displayed in the CLI. If a property is optional but recommended, use the `warning` option instead.
+
+Note: Strictly speaking, in principle no specific properties on Schema.org objects are "required" but in practice implementations by vendors like Google have some "required" or expected properties and also respect some "optional" properties; this option is useful for writing tests that don't fail if a valid, but not necessarily required, property is not found.
+
+The default is `false`.
 
 #### conditional
 ```
@@ -424,9 +467,11 @@ Default: undefined
 
 A `conditional` object can contain a conditional test to be run, to determine if the test itself should be run.
 
-If the conditional test fails, the test will not be run (and it will not be included in the test results). If the conditional test passes, the test will be run and the pass / fail / info / warning included in the results.
+If the conditional test fails, the test will not be run (and it will not be included in the test results). If the conditional test passes, the test will be run as it otherwise would be if the condition wasn't specified.
 
 This is considered advanced usage, to help avoid having to write overly complex test statements. Conditional test objects use the same syntax as regular test objects, but conditional tests are not included in the results.
+
+It is particularly useful for checking if it is appropriate to run a group of tests. For example, it is used by internal presets to check if a schema exists; if it does then all the tests for that schema are run (and required tests must pass), but if a schema does not exist then none of the tests for that schema are run.
 
 #### group
 ```

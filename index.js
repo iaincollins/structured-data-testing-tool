@@ -16,7 +16,7 @@ const _structuredDataTest = (structuredData, options) => {
   let testsPassed = [] // Only tests that passed
   let testsFailed = [] // Only tests that failed
   let testsWarning = [] // Only tests that generated warnings (technically non critical failures)
-  let testsInfo = [] // Only tests that generate info messages (technically passed, but not necessarily positive)
+  let testsOptional = [] // Optional tests (regardless if passed or failed; they do not count towards either)
   let testsSkipped = [] // Only that were skipped
 
   // Combine schemas found with any schemas specified.
@@ -49,7 +49,7 @@ const _structuredDataTest = (structuredData, options) => {
         type: 'metatag',
         group: 'Metatags',
         description: tag,
-        info: true
+        optional: true
       })
     })
   }
@@ -92,7 +92,7 @@ const _structuredDataTest = (structuredData, options) => {
               group: name,
               groups: groups,
               description,
-              info: true
+              optional: true
             })
           }
         })
@@ -202,8 +202,8 @@ const _structuredDataTest = (structuredData, options) => {
     if (test.error === null) delete test.error
 
     // Put test into appropriate array for response object
-    if (test.passed === true && test.info === true) {
-      testsInfo.push(test)
+    if (test.optional === true) {
+      testsOptional.push(test)
     } else if (test.passed === true) {
       testsPassed.push(test)
     } else if (test.warning) {
@@ -219,7 +219,7 @@ const _structuredDataTest = (structuredData, options) => {
     passed: testsPassed,
     failed: testsFailed,
     warnings: testsWarning,
-    info: testsInfo,
+    optional: testsOptional,
     skipped: testsSkipped,
     groups: testGroups,
     schemas: schemasFound.map(schema => { 
