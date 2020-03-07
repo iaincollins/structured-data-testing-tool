@@ -86,6 +86,7 @@ const _structuredDataTest = (structuredData, options) => {
           } else {
             const testPath = `${name}[${index}]` + pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `."${pathItem}"`).join('')
             const description = pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `.${pathItem}`).join('').replace(/^\./, '')
+            // As we do not have schema property validation in place, treat all autotoamted tests for properties as optional
             tests.push({
               test: testPath,
               schema: name,
@@ -246,9 +247,9 @@ const _structuredDataTest = (structuredData, options) => {
 
 const _test = (test, json) => {
   // TEST_DEFAULT_VALUE is useful to be able to set to normalize null/undefined/empty values
-  // Thi sis particularly useful when testing metadata properties which would otherwise have
+  // This is particularly useful when testing metadata properties which would otherwise have
   // different default values depending on the reason for a test failing, depending on if the
-  // property is missing, the value is missing or the value is empty.
+  // property is missing, the value is missing or if the value is empty.
   const TEST_DEFAULT_VALUE = ''
 
   let testPassed = false
@@ -270,9 +271,18 @@ const _test = (test, json) => {
       // If no value for expect then assume is a simple check to see it exists.
       // Note: It's okay if the value is zero, or false but it should not be empty!
       if (test.value !== 0 && test.value !== false && (!test.value || test.value.length === 0)) {
-        testError = {
-          type: 'MISSING_PROPERTY',
-          message: `Could not find "${path}"`,
+        if (test.autoDetected) {
+          // Auto Detected properties by definition must exist, so if
+          // the test fail it can only be because they have no value.
+          testError = {
+            type: 'NULL',
+            message: `No value found for "${path}"`,
+          }
+        } else {
+          testError = {
+            type: 'NOT_FOUND',
+            message: `Could not find "${path}"`,
+          }
         }
       } else {
         testPassed = true
@@ -284,7 +294,7 @@ const _test = (test, json) => {
       } else {
         testError = {
           type: 'PROPERTY_SHOULD_NOT_EXIST',
-          message: `The property "${path}" should not be defined`,
+          message: `Property "${path}" should not be defined`,
         }
       }
     } else if (test.value && test.expect instanceof RegExp) {
@@ -323,7 +333,7 @@ const _test = (test, json) => {
       // If a value is found, but is does not match what we expect then fail
       testError = {
         type: 'INCORRECT_VALUE',
-        message: `Incorrect value for "${path}"`,
+        message: `Incorrect value found for "${path}"`,
         expected: test.expect,
         found: test.value,
       }
