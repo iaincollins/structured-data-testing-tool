@@ -49,7 +49,8 @@ const _structuredDataTest = (structuredData, options) => {
         type: 'metatag',
         group: 'Metatags',
         description: tag,
-        optional: true
+        optional: true,
+        autoDetected: true
       })
     })
   }
@@ -92,7 +93,8 @@ const _structuredDataTest = (structuredData, options) => {
               group: name,
               groups: groups,
               description,
-              optional: true
+              optional: true,
+              autoDetected: true
             })
           }
         })
@@ -261,7 +263,7 @@ const _test = (test, json) => {
 
     test.value = test.type === 'metatag'
       ? (pathValue && pathValue[0] && typeof pathValue[0] !== 'undefined') ? pathValue[0] : TEST_DEFAULT_VALUE
-      : pathValue
+      : (pathValue !== null) ? pathValue : TEST_DEFAULT_VALUE
 
     if (typeof test.expect === 'undefined' || test.expect === true) {
       // If 'expect' is 'true' then a pathValue should exist.
@@ -547,7 +549,9 @@ const getTestsFromPreset = (preset, structuredData, testGroup) => {
               test.test = test.test.replace(/(.*)?\[\*\]/, `${preset.schema}[${i}]`)
               test.type = dataType
               test.groups = groups
-              test.description = test.test.replace(/(.*)?\[\d\]\./, '').replace(/"/g, '')
+              if (!test.description)
+                test.description = test.test.replace(/(.*)?\[\d\]\./, '').replace(/"/g, '')
+              
               tests.push(test)
             })
           })
