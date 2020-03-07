@@ -91,7 +91,7 @@ describe('Parsing and options', () => {
       expect(result.passed.length).toBeGreaterThan(10)
       expect(result.failed.length).toEqual(0)
     } catch (e) {
-      console.error("Failing tests:", e.failed)
+      console.error("Failing tests:", e)
       throw e
     }
   })

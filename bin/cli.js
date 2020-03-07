@@ -9,7 +9,6 @@ const Package = require('../package')
 const { error, printTestResults, printSupportedPresets, printListSchemas } = require('../lib/cli')
 
 ;(async () => {
-
   let showHelp = false
   let showInfo = false
   let testInput = null
@@ -114,14 +113,14 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
     .then(res => {
       printTestResults(res, { showInfo })
       if (testOutput)
-        fs.writeFileSync(testOutput, JSON.stringify(err.res))
+        fs.writeFileSync(testOutput, JSON.stringify(err.res, null, 2))
       return process.exit()
     })
     .catch(err => {
       if (err.type === 'VALIDATION_FAILED') {
         printTestResults(err.res, { showInfo })
         if (testOutput)
-          fs.writeFileSync(testOutput, JSON.stringify(err.res))
+          fs.writeFileSync(testOutput, JSON.stringify(err.res, null, 2))
       } else {
         // Handle other errors (e.g. fetching URL)
         if (yargs.argv.file || yargs.argv.f) {

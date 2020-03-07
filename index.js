@@ -39,7 +39,7 @@ const _structuredDataTest = (structuredData, options) => {
   const metatags = {}
   Object.keys(structuredData.metatags).map(tag => {
     if (tag !== 'undefined')
-      metatags[tag] = structuredData.metatags[tag]
+      metatags[tag] = (structuredData.metatags[tag] !== 'undefined') ? structuredData.metatags[tag] : null
   })
 
   if (Object.keys(metatags).length > 0) {
@@ -243,20 +243,31 @@ const _structuredDataTest = (structuredData, options) => {
 }
 
 const _test = (test, json) => {
+  // TEST_DEFAULT_VALUE is useful to be able to set to normalize null/undefined/empty values
+  // Thi sis particularly useful when testing metadata properties which would otherwise have
+  // different default values depending on the reason for a test failing, depending on if the
+  // property is missing, the value is missing or the value is empty.
+  const TEST_DEFAULT_VALUE = ''
+
   let testPassed = false
   let testError = null
   let path = null
 
+  test.value = TEST_DEFAULT_VALUE
+
   try {
     path = test.test
     const pathValue = jmespath.search(json, path)
-    test.value = pathValue
+
+    test.value = test.type === 'metatag'
+      ? (pathValue && pathValue[0] && typeof pathValue[0] !== 'undefined') ? pathValue[0] : TEST_DEFAULT_VALUE
+      : pathValue
 
     if (typeof test.expect === 'undefined' || test.expect === true) {
       // If 'expect' is 'true' then a pathValue should exist.
       // If no value for expect then assume is a simple check to see it exists.
       // Note: It's okay if the value is zero, or false but it should not be empty!
-      if (pathValue !== 0 && pathValue !== false && (!pathValue || pathValue.length === 0)) {
+      if (test.value !== 0 && test.value !== false && (!test.value || test.value.length === 0)) {
         testError = {
           type: 'MISSING_PROPERTY',
           message: `Could not find "${path}"`,
@@ -266,25 +277,25 @@ const _test = (test, json) => {
       }
     } else if (test.expect === false) {
       // If 'expect' is 'false' then a pathValue SHOULD NOT exist
-      if (pathValue !== null) {
+      if ((pathValue === null) || (test.type === 'metatag' && pathValue && pathValue[0] && typeof pathValue[0] === 'undefined')) {
+        testPassed = true
+      } else {
         testError = {
           type: 'PROPERTY_SHOULD_NOT_EXIST',
           message: `The property "${path}" should not be defined`,
         }
-      } else {
-        testPassed = true
       }
-    } else if (pathValue && test.expect instanceof RegExp) {
+    } else if (test.value && test.expect instanceof RegExp) {
       // If test is a Regular Expression…
-      if (Array.isArray(pathValue)) {
+      if (Array.isArray(test.value)) {
         // If value is array and any key matches then test passes
-        pathValue.map(value => {
+        test.value.map(value => {
           if (value.match(test.expect))
             testPassed = true
         })
       } else {
         // If value is not an array, treat as a string
-        testPassed = pathValue.match(test.expect)
+        testPassed = test.value.match(test.expect)
       }
 
       if (!testPassed) {
@@ -292,16 +303,16 @@ const _test = (test, json) => {
           type: 'REGEXP_FAILED',
           message: `Failed RegExp test for "${path}"`,
           expected: test.expect,
-          found: pathValue
+          found: test.value
         }
       }
-    } else if (!pathValue || pathValue.length === 0) {
+    } else if (!test.value || test.value.length === 0) {
       // If item not found (or has no value) then error
       testError = {
         type: 'TEST_FAILED',
         message: `Test "${path}" failed`,
       }
-    } else if (pathValue == test.expect || (Array.isArray(pathValue) && pathValue.includes(test.expect))) {
+    } else if (test.value == test.expect || (Array.isArray(test.value) && test.value.includes(test.expect))) {
       // If value is found and matches what we expect…
       // …or in the case of metadata, if the returned value is an array 
       // and one of the items matches what we expect then the test passes
@@ -312,7 +323,7 @@ const _test = (test, json) => {
         type: 'INCORRECT_VALUE',
         message: `Incorrect value for "${path}"`,
         expected: test.expect,
-        found: pathValue
+        found: test.value,
       }
     }
   } catch (e) {
