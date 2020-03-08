@@ -140,9 +140,11 @@ const _structuredDataTest = (structuredData, options) => {
   // This is a recursive function scoped to this function
   const _addTestsFromPresets = (presets, structuredData, tests, testsSkipped, testGroups) => {
     presets.forEach(preset => {
-      if (!preset.name) {
+      if (!preset)
+        throw new Error(`Invalid preset specified`)
+
+      if (!preset.name)
         throw new Error(`Preset specified does not have a 'name' (required)`)
-      }
 
       const groups = (Array.isArray(testGroups)) ? testGroups.concat(preset.name) : [preset.name]
 

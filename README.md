@@ -195,32 +195,42 @@ You can integrate Structured Data Testing Tool with a CD/CI pipeline by using th
 
 ```javascript
 const { structuredDataTest } = require('structured-data-testing-tool')
-const { ReportageNewsArticle, Twitter, Facebook } = require('structured-data-testing-tool/presets')
+const { Google, Twitter, Facebook } = require('structured-data-testing-tool/presets')
 
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
+ 
+let result
 
-structuredDataTest(url, { presets: [ ReportageNewsArticle, Twitter, Facebook ] })
+structuredDataTest(url, { 
+  // Check for compliance with Google, Twitter and Facebook recommendations
+  presets: [ Google, Twitter, Facebook ],
+  // Check the page includes a specific Schema (see https://schema.org/docs/full.html for a list)
+  schemas: [ 'ReportageNewsArticle' ]
+})
 .then(res => {
-  // If you end up here, then there were no errors
-  console.log("All tests passed.")
-  console.log('Passed:',res.passed.length)
-  console.log('Failed:',res.failed.length)
-  console.log('Warnings:',res.warnings.length)
+  console.log('✅ All tests passed!')
+  result = res
 })
 .catch(err => {
-  // If any test fails, the promise is rejected
   if (err.type === 'VALIDATION_FAILED') {
-    console.log("Some tests failed.")
-    console.log('Passed:',err.res.passed.length)
-    console.log('Failed:',err.res.failed.length)
-    console.log('Warnings:',err.res.warnings.length)  
-    // Loop over validation errors
-    err.res.failed.forEach(test => {
-      console.error(test)
-    })
+    console.log('❌ Some tests failed.')
+    result = err.res
   } else {
-    // Handle other errors here (e.g. an error fetching a URL)
-    console.log(err)
+    console.log(err) // Handle other errors here (e.g. an error fetching a URL)
+  }
+})
+.finally(() => {
+  if (result) {
+    console.log(
+      `Passed: ${result.passed.length},`,
+      `Failed: ${result.failed.length},`,
+      `Warnings: ${result.warnings.length}`,
+    )
+    console.log(`Schemas found: ${result.schemas.join(',')}`)
+
+    // Loop over validation errors
+    if (result.failed.length > 0)
+      console.log("⚠️  Errors:\n", result.failed.map(test => test))
   }
 })
 ```

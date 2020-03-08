@@ -1,0 +1,41 @@
+const { structuredDataTest } = require('structured-data-testing-tool')
+const { Google, Twitter, Facebook } = require('structured-data-testing-tool/presets')
+
+const urls = [
+  'https://www.bbc.co.uk/news/world-us-canada-49060410',
+  'https://www.nytimes.com/2020/03/08/world/coronavirus-news.html',
+  'https://www.ft.com/content/75583754-5fab-11ea-b0ab-339c2307bcd4',
+  'https://news.sky.com/story/coronavirus-italy-sees-largest-daily-rise-in-deaths-and-confirmed-cases-11953192'
+]
+ 
+urls.forEach(url => {
+  let result
+  structuredDataTest(url, { 
+    presets: [ Google, Twitter, Facebook ],
+  })
+  .then(res => {
+    console.log(`✅ ${url}`)
+    result = res
+  })
+  .catch(err => {
+    if (err.type === 'VALIDATION_FAILED') {
+      console.log(`❌ ${url}`)
+      result = err.res
+    } else {
+      console.log(err) // Handle other errors here (e.g. an error fetching a URL)
+    }
+  })
+  .finally(() => {
+    if (result) {
+      console.log(
+        `   Passed: ${result.passed.length},`,
+        `   Failed: ${result.failed.length},`,
+        `   Warnings: ${result.warnings.length}`,
+      )
+      console.log(`   Schemas found: ${result.schemas.join(',')}`)
+
+      // Loop over validation errors
+      //if (result.failed.length > 0) console.log("⚠️  Errors:\n", result.failed.map(test => test))
+    }
+  })
+})
