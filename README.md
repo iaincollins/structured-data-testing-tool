@@ -195,7 +195,7 @@ You can integrate Structured Data Testing Tool with a CD/CI pipeline by using th
 
 ```javascript
 const { structuredDataTest } = require('structured-data-testing-tool')
-const { ReportageNewsArticle, Twitter, Facebook } = require('./presets')
+const { ReportageNewsArticle, Twitter, Facebook } = require('structured-data-testing-tool/presets')
 
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
 
