@@ -110,15 +110,15 @@ const { error, printTestResults, printSupportedPresets, printListSchemas } = req
   if (testInput && !showHelp) {
     // Run test
     await structuredDataTest(testInput, testOptions)
-    .then(res => {
-      printTestResults(res, { showInfo })
+    .then(async (res) => {
+      await printTestResults(res, { showInfo })
       if (testOutput)
         fs.writeFileSync(testOutput, JSON.stringify(err.res, null, 2))
       return process.exit()
     })
-    .catch(err => {
+    .catch(async (err) => {
       if (err.type === 'VALIDATION_FAILED') {
-        printTestResults(err.res, { showInfo })
+        await printTestResults(err.res, { showInfo })
         if (testOutput)
           fs.writeFileSync(testOutput, JSON.stringify(err.res, null, 2))
       } else {

@@ -4,6 +4,10 @@
  * a list of schemas from Schema.org and saving them to a file which
  * is then included with the module, so the list can be referenced
  * quickly and without a run time dependency on schema.org.
+ * 
+ * @TODO It may be possible to replace this script that something
+ * that uses the metadata in the schema.org directory (which is
+ * a CSV export).
  */
 const fs = require('fs')
 const fetch = require('node-fetch')
