@@ -6,7 +6,13 @@ const isStream = require('is-stream')
 const getStream = require('get-stream')
 const { schemas: validSchemas } = require('./lib/schemas')
 
-const _structuredDataTest = (structuredData, options) => {  
+const _structuredDataTest = (structuredData, options) => {
+  // By default, will auto-detect data structures and test them for validity
+  // If you want to avoid this (e.g. and only perform explicit tests you pass)
+  // you can set this to false when using the API to disable this feature.
+  // This may mean you miss some errors but may make it easier to debug issues.
+  const auto = (options && options.auto === false) ? false : true
+
   const presetsSpecified = (options && options.presets) ? options.presets : []
   const schemasSpecified = (options && options.schemas) ? options.schemas : []
   const schemasFound = _findSchemas(structuredData) // Find schemas in structuredData
@@ -20,21 +26,28 @@ const _structuredDataTest = (structuredData, options) => {
   let testsSkipped = [] // Only that were skipped
 
   // Combine schemas found with any schemas specified.
-  // Schemas found automatically take precedent, as we know the type for them already
-  // (jsonld, microdata, rdfa, etc) so can easily add the specific tests for them.
-  const arrayOfSchemas = schemasFound.concat(
-    schemasSpecified.filter(schemaSpecified => {
-      let [ structuredDataType, schemaName ] = schemaSpecified.split(':')
-      if (!schemaName)
-        schemaName = structuredDataType
+  let arrayOfSchemas = []
+  if (auto === true) {
+    // When auto is true, automatically combine schemas found with schemas explicitly specified.
+    // Schemas found automatically actually take precedent, as we know the type for them already
+    // (jsonld, microdata, rdfa, etc) so can easily add the specific tests for them.
+    arrayOfSchemas = schemasFound.concat(
+      schemasSpecified.filter(schemaSpecified => {
+        let [ structuredDataType, schemaName ] = schemaSpecified.split(':')
+        if (!schemaName)
+          schemaName = structuredDataType
 
-      if (schemasFound.includes(schemaName) || schemasFound.includes(schemaSpecified)) {
-        return false
-      } else { 
-        return true
-      }
-    })
-  )
+        if (schemasFound.includes(schemaName) || schemasFound.includes(schemaSpecified)) {
+          return false
+        } else { 
+          return true
+        }
+      })
+    )
+  } else {
+    // When auto is false, only test schemas explicitly specified.
+    arrayOfSchemas = schemasSpecified
+  }
 
   const metatags = {}
   Object.keys(structuredData.metatags).map(tag => {

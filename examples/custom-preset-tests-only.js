@@ -1,16 +1,23 @@
-// Basic example of how to test a URL with the API
+// Example of how to run tests for a custom preset only with the API
+// (with auto-detection of tests disabled, and no presets specified)
 const { structuredDataTest } = require('structured-data-testing-tool')
-const { Google, Twitter, Facebook } = require('structured-data-testing-tool/presets')
 
 const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
  
+const MyCustomPreset = {
+  name: 'My Custom Preset',
+  description: 'Test NewsArticle JSON-LD data is defined and twitter metadata was found',
+  tests: [
+    { test: 'ReportageNewsArticle', type: 'jsonld'},
+    { test: 'ReportageNewsArticle[*].mainEntityOfPage', type: 'jsonld', expect: url },
+  ],
+}
+
 let result
 
 structuredDataTest(url, { 
-  // Check for compliance with Google, Twitter and Facebook recommendations
-  presets: [ Google, Twitter, Facebook ],
-  // Check the page includes a specific Schema (see https://schema.org/docs/full.html for a list)
-  schemas: [ 'ReportageNewsArticle' ]
+  presets: [ MyCustomPreset ],
+  auto: false
 })
 .then(res => {
   console.log('✅ All tests passed!')

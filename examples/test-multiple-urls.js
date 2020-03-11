@@ -1,3 +1,4 @@
+// Example of how to test multiple URLs with the API
 const { structuredDataTest } = require('structured-data-testing-tool')
 const { Google, Twitter, Facebook } = require('structured-data-testing-tool/presets')
 

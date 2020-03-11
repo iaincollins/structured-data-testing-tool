@@ -300,9 +300,9 @@ const url = 'https://www.bbc.co.uk/news/world-us-canada-49060410'
 // This test shows how you can use different types of tests in one preset.
 const MyCustomPreset = {
   name: 'My Custom Preset', // Required
-  description: 'Test NewsArticle JSON-LD data is defined and twitter metadata was found', // Required
+  description: 'Test ReportageNewsArticle JSON-LD data is defined and twitter metadata was found', // Required
   tests: [ // Required (unless 'presets' is specified)
-    { test: 'NewsArticle', type: 'jsonld', schema: 'NewsArticle' },
+    { test: 'ReportageNewsArticle', type: 'jsonld' },
     { test: '"twitter:card"', type: 'metatag' },
     { test: '"twitter:domain"', expect: 'www.bbc.co.uk', type: 'metatag', }
   ],
@@ -314,7 +314,15 @@ const MyCustomPreset = {
 }
 
 const options = {
-  presets: [ MyCustomPreset ]
+  // The 'presets' argument should be an array of preset objects
+  presets: [ MyCustomPreset ],
+  // If you just want to detect a schema exists, you can populate the
+  // the 'schemas' option with a list of schema names (as strings).
+  schemas: [ 'ReportageNewsArticle' ],
+  // By default, any structured data detected will automatically be tested.
+  // Set 'auto' to 'false' if you want to disable this (defaults to 'true').
+  // This may mean you miss some errors, but make make debugging easier.
+  auto: false
 }
 
 structuredDataTest(url, options)
