@@ -70,6 +70,31 @@ describe('Parsing and options', () => {
     }
   })
 
+  test(`should not automatically run tests for structured data found when the 'auto' option is set to 'false'`, async () => {
+    const options = {
+      tests: [
+        { test: 'ReportageNewsArticle', expect: true },
+        { test: 'ReportageNewsArticle[*]."@type"', expect: 'ReportageNewsArticle' },
+        { test: 'ReportageNewsArticle[*]."@context"', expect: 'http://schema.org' },
+        { test: 'ReportageNewsArticle[*].url', expect: 'http://example.com/path-to-article', type: 'any' },
+        { test: 'ReportageNewsArticle[*].headline', expect: 'Example Headline in JSON-LD', type: 'jsonld' },
+        { test: 'Article[*].headline', expect: 'Example Headline in Microdata', type: 'microdata' },
+        { test: 'NewsArticle[*].headline', expect: 'Example Headline in RDFa', type: 'rdfa' },
+        { test: '"twitter:card"', expect: 'summary_large_image', type: 'metatag' }
+      ],
+      auto: false
+    }
+    try {
+      const result = await structuredDataTestUrl("https://example.com", options)
+      expect(result.passed.length).toEqual(8)
+      expect(result.failed.length).toEqual(0)
+    } catch (e) {
+      console.error("Failing tests:", e.failed)
+      throw e
+    }
+  })
+
+
   test('should run all tests passed as options and for any schemas found and any presets specified', async () => {
     const options = {
       tests: [
