@@ -25,8 +25,9 @@ structuredDataTest(url, {
 })
 .catch(err => {
   if (err.type === 'VALIDATION_FAILED') {
-    console.log('❌ Some tests failed.')
     result = err.res
+    console.log('❌ Some tests failed.')
+    console.log("⚠️  Errors:\n", result.failed.map(test => test))
   } else {
     console.log(err) // Handle other errors here (e.g. an error fetching a URL)
   }
@@ -39,9 +40,5 @@ structuredDataTest(url, {
       `Warnings: ${result.warnings.length}`,
     )
     console.log(`Schemas found: ${result.schemas.join(',')}`)
-
-    // Loop over validation errors
-    if (result.failed.length > 0)
-      console.log("⚠️  Errors:\n", result.failed.map(test => test))
   }
 })

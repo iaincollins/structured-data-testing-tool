@@ -11,19 +11,19 @@ const urls = [
  
 urls.forEach(url => {
   let result
-  structuredDataTest(url, { 
+  structuredDataTest(url, {
     presets: [ Google, Twitter, Facebook ],
   })
   .then(res => {
-    console.log(`✅ ${url}`)
     result = res
+    console.log(`✅ ${url}`)
   })
   .catch(err => {
     if (err.type === 'VALIDATION_FAILED') {
-      console.log(`❌ ${url}`)
       result = err.res
+      console.log(`❌ ${url}`)
     } else {
-      console.log(err) // Handle other errors here (e.g. an error fetching a URL)
+      console.error(err) // Handle other errors here (e.g. an error fetching a URL)
     }
   })
   .finally(() => {
@@ -34,9 +34,6 @@ urls.forEach(url => {
         `   Warnings: ${result.warnings.length}`,
       )
       console.log(`   Schemas found: ${result.schemas.join(',')}`)
-
-      // Loop over validation errors
-      //if (result.failed.length > 0) console.log("⚠️  Errors:\n", result.failed.map(test => test))
     }
   })
 })
