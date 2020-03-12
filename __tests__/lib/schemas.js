@@ -18,6 +18,6 @@ describe.only('Schema library', () => {
     const schema = await getSchema('NewsArticle')
     expect(schema.name).toEqual('NewsArticle')
     expect(schema.classes).toEqual(["NewsArticle", "Article", "CreativeWork", "Thing"])
-    expect(Object.keys(schema.properties).length).toEqual(121)
+    expect(Object.keys(schema.properties).length).toEqual(125)
   })
 })

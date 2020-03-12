@@ -10,19 +10,14 @@ const presets = require('../presets')
 const testFile = '__tests__/fixtures/example.html'
 const html = fs.readFileSync(testFile)
 
-// Used to hold the test result that is used across these tests
 let structuredDataTestResult = null
 
 describe('Parsing and options', () => {
   beforeAll(async () => {
-    // Mock fetch request
     fetch.resetMocks()
-    fetch.mockResponse(html);
+    fetch.mockResponse(html)
 
-    // @TODO This test uses a single fixture for all tests
-    // Ideally there would be multiple different fixtures that more robustly
-    // test different scenarios, but this is is a practical approach that gives
-    // good coverage with minimal effort.
+    // @TODO This test uses a single fixture for multiple tests (split fixtures and tests off)
     await structuredDataTest(html, { presets: [ presets.Google, presets.Twitter ]})
     .then(response => { structuredDataTestResult = response })
     .catch(err => { structuredDataTestResult = err.res })
@@ -32,8 +27,6 @@ describe('Parsing and options', () => {
     fetch.resetMocks()
   })
 
-  // @FIXME This test covers too much at once, should split out error handling checks
-  // @FIXME This test also tests ever preset for coverage - that should move to the presets test file
   test('should validate all structured data schemas found as well as any presets specified and handle errors correctly', async () => {
     // Should validate schemas found, but also find errors as Facebook schema should not
     // be present in the example, but is passed as a preset so the test should fail.
@@ -65,7 +58,7 @@ describe('Parsing and options', () => {
       expect(result.passed.length).toBeGreaterThan(8)
       expect(result.failed.length).toEqual(0)
     } catch (e) {
-      console.error("Failing tests:", e.failed)
+      console.error("Failing tests:", e.res.failed)
       throw e
     }
   })
@@ -87,6 +80,7 @@ describe('Parsing and options', () => {
     try {
       const result = await structuredDataTestUrl("https://example.com", options)
       expect(result.passed.length).toEqual(8)
+      expect(result.warnings.length).toEqual(0)
       expect(result.failed.length).toEqual(0)
     } catch (e) {
       console.error("Failing tests:", e.failed)
@@ -125,7 +119,7 @@ describe('Parsing and options', () => {
   // https://github.com/glitchdigital/structured-data-testing-tool/issues/4
   test('should be able to detect complex structured data', async () => {
     expect(structuredDataTestResult.structuredData.microdata.SocialMediaPosting[0].publisher).toEqual('ACME')
-    expect(structuredDataTestResult.structuredData.microdata.SocialMediaPosting[0].Organization).toEqual('ACME')
+    expect(structuredDataTestResult.structuredData.microdata.SocialMediaPosting[0].sourceOrganization).toEqual('ACME')
     expect(structuredDataTestResult.structuredData.microdata.SocialMediaPosting[0].image.url).toEqual('http://example.com/path-to-article-image.jpg')
     expect(structuredDataTestResult.structuredData.microdata.SocialMediaPosting[0].associatedMedia.url).toEqual('http://example.com/path-to-article-image.jpg')
   })

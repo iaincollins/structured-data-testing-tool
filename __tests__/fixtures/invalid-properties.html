@@ -1,0 +1,32 @@
+<html>
+  <body>
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "ReportageNewsArticle",
+        "headline": "Example Headline in JSON-LD",
+        "author": "C Smith",
+        "invalidProperty1": "ABC123",
+        "invalidProperty2": {
+          "invalidValue1": "ABC123",
+          "invalidValue2": "DEF456"
+        },
+        "mainEntityOfPage": "http://example.com/path-to-article",
+        "image": "http://example.com/path-to-article-image.jpg",
+        "datePublished": "2019-01-01",
+        "dateModified": "2019-01-01",
+        "publisher": {
+          "@type": "Organization",
+          "name": "ACME News",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.example.com/logo.png",
+            "caption": "ACME News Logo",
+            "invalidProperty3": "ABC123"
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

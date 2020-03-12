@@ -15,9 +15,8 @@ const testJSON = fs.readFileSync('__tests__/fixtures/example.json')
 
 describe('Input type detection', () => {
   beforeAll(async () => {
-    // Mock fetch request
     fetch.resetMocks()
-    fetch.mockResponse(html);
+    fetch.mockResponse(html)
   })
 
   afterAll(() => {
@@ -43,8 +42,8 @@ describe('Input type detection', () => {
 
   test('should auto-detect when input is JSON string', async () => {
     const result = await structuredDataTest(testJSON)
-    expect(result.passed.length).toEqual(1)
-    expect(result.optional.length).toEqual(19)
+    expect(result.passed.length).toEqual(6)
+    expect(result.warnings.length).toEqual(0)
     expect(result.failed.length).toEqual(0)
   })
 
