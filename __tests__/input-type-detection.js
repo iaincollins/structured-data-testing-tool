@@ -42,7 +42,7 @@ describe('Input type detection', () => {
 
   test('should auto-detect when input is JSON string', async () => {
     const result = await structuredDataTest(testJSON)
-    expect(result.passed.length).toEqual(6)
+    expect(result.passed.length).toEqual(8)
     expect(result.warnings.length).toEqual(0)
     expect(result.failed.length).toEqual(0)
   })

@@ -104,7 +104,7 @@ const _structuredDataTest = async (structuredData, options) => {
 
       let schemaGroups = (Object(validSchemas).hasOwnProperty(schemaName)) ? ['Schema.org', schemaName] : [schemaName]
       
-      const _addTestsForProperties = (name, groups, type, props, path, index) => {
+      const _addTestsForSchemaOrgProperties = (name, groups, type, props, path, index) => {
         if (props) {
           const schemaProperties = schemasWithProperties[name].properties
 
@@ -112,7 +112,7 @@ const _structuredDataTest = async (structuredData, options) => {
           // (and warnings for schemas)
           for (const schemaProperty in schemaProperties) {
             if (props[schemaProperty]) {
-              if (path === null) {
+              //if (path === null) {
                 // @FIXME Only top high level properties!
                 const pathToProp =  (Array.isArray(path)) ? path.concat(schemaProperty) : [schemaProperty]
                 const testPath = `${name}[${index}]` + pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `."${pathItem}"`).join('')
@@ -142,23 +142,21 @@ const _structuredDataTest = async (structuredData, options) => {
                   pending,
                   autoDetected: true
                 })
-              }
+            //  }
             }
           }
 
           for (const propName of Object.keys(props)) {
             const propValue = props[propName]
             const pathToProp =  Array.isArray(path) ? path.concat(propName) : [propName]
+            const testPath = `${name}[${index}]` + pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `."${pathItem}"`).join('')
+            let description = pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `.${pathItem}`).join('').replace(/^\./, '')
             const highestLevelProp = pathToProp[0]
-
-            if (typeof(propValue) === 'object') {
-              _addTestsForProperties(name, groups, type, propValue, pathToProp, index)
-            } else {
-              const testPath = `${name}[${index}]` + pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `."${pathItem}"`).join('')
-              let description = pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `.${pathItem}`).join('').replace(/^\./, '')
-
-              if (!schemaProperties[highestLevelProp]) {
-                // @FIXME Only top high level properties!
+    
+            if (!schemaProperties[highestLevelProp]) {
+              // @FIXME Currently only flags errors if top level proper does not exist
+              // i.e. does not find invalud properties in nested schemas
+              if (path === null) {
                 tests.push({
                   test: testPath,
                   schema: name,
@@ -170,20 +168,10 @@ const _structuredDataTest = async (structuredData, options) => {
                   autoDetected: true
                 })
               }
-
-              if (path === null) {
-                tests.push({
-                  test: testPath,
-                  schema: name,
-                  type: structuredDataType || 'any',
-                  group: name,
-                  groups: groups,
-                  description,
-                  optional: true,
-                  autoDetected: true
-                })
+            } else {
+              if (typeof(propValue) === 'object') {
+                _addTestsForSchemaOrgProperties(name, groups, type, propValue, pathToProp, index)
               } else {
-                // As we do not have schema property validation in place, treat all autotoamted tests for properties as optional
                 tests.push({
                   test: testPath,
                   schema: name,
@@ -196,6 +184,7 @@ const _structuredDataTest = async (structuredData, options) => {
                 })
               }
             }
+          
           }
         }
       }
@@ -211,16 +200,16 @@ const _structuredDataTest = async (structuredData, options) => {
           const schemaInstances = structuredData[structuredDataType][schemaName]
 
           if (schemaInstances.length === 1) {
-            _addTestsForSchema(tests, schemaName, schemaGroups, structuredDataType, 0)
-            _addTestsForProperties(schemaName, schemaGroups, structuredDataType, schemaInstances[0], null, 0)
+            _addTestsForSchemaOrgSchema(tests, schemaName, schemaGroups, structuredDataType, 0)
+            _addTestsForSchemaOrgProperties(schemaName, schemaGroups, structuredDataType, schemaInstances[0], null, 0)
           } else {
             schemaInstances.map((schemaInstance, i) => {
-              _addTestsForSchema(tests, schemaName, schemaGroups.concat(`#${i}`), structuredDataType, i)
-              _addTestsForProperties(schemaName, schemaGroups.concat(`#${i}`), structuredDataType, schemaInstance, null, i)
+              _addTestsForSchemaOrgSchema(tests, schemaName, schemaGroups.concat(`#${i}`), structuredDataType, i)
+              _addTestsForSchemaOrgProperties(schemaName, schemaGroups.concat(`#${i}`), structuredDataType, schemaInstance, null, i)
             })
           }
         } else {
-          _addTestsForSchema(tests, schemaName, schemaGroups, structuredDataType)
+          _addTestsForSchemaOrgSchema(tests, schemaName, schemaGroups, structuredDataType)
         }
       } else {
         if (!schemaTestsWithoutType.includes(schemaName))
@@ -231,7 +220,7 @@ const _structuredDataTest = async (structuredData, options) => {
     schemaTestsWithoutType.forEach(schemaName => {
       if (!schemaTestsWithType.includes(schemaName)) {
         const schemaGroups = (Object(validSchemas).hasOwnProperty(schemaName)) ? ['Schema.org', schemaName] : [schemaName]
-        _addTestsForSchema(tests, schemaName, schemaGroups)
+        _addTestsForSchemaOrgSchema(tests, schemaName, schemaGroups)
       }
     })
 
@@ -702,7 +691,7 @@ const getTestsFromPreset = (preset, structuredData, testGroup) => {
 }
 
 // Add a test for any schema explicitly specified (or that was detected)
-const _addTestsForSchema = (tests, name, groups, type, index) => {
+const _addTestsForSchemaOrgSchema = (tests, name, groups, type, index) => {
   tests.push({
     test: `${name}[${(typeof(index) === 'undefined') ? '*': index}]`,
     schema: name,

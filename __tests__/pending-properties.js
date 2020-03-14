@@ -32,7 +32,7 @@ describe('Draft Schema.org properties', () => {
     .catch(err => err.res)
     
     expect(result.schemas.length).toEqual(1)
-    expect(result.passed.length).toEqual(6)
+    expect(result.passed.length).toEqual(8)
     expect(result.warnings.length).toEqual(2)
     expect(result.failed.length).toEqual(0)
   })

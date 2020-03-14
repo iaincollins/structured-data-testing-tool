@@ -10,7 +10,7 @@ const WebPage = {
   tests: [
     { test: schema },
     { test: `${schema}[*]."@type"`, expect: schema },
-    // Optional properties supported by Google (not an exhaustive list!)
+    // Optional properties supported by Google (not an exhaustive list)
     { test: `${schema}[*].name`, optional: true },
     { test: `${schema}[*].description`, optional: true },
     { test: `${schema}[*].url`, optional: true },
@@ -21,6 +21,7 @@ const WebPage = {
     { test: `${schema}[*].publisher.name`, optional: true },
     { test: `${schema}[*].publisher.logo`, optional: true },
     { test: `${schema}[*].publisher.logo.url`, optional: true },
+    { test: `${schema}[*].image`, optional: true },
   ]
 }
 
