@@ -20,6 +20,7 @@ const DiscussionForumPosting = require('./google/schemas/CreativeWork/SocialMedi
 const Google = {
   name: 'Google',
   description: 'Check for common markup used by Google',
+  url: 'https://developers.google.com/search/docs/guides/intro-structured-data',
   presets: [
     ...Object.keys(WebPage).map(schema => WebPage[schema]),
     ...Object.keys(ClaimReview).map(schema => ClaimReview[schema]),

@@ -2,6 +2,7 @@
 const Twitter = {
   name: 'Twitter',
   description: 'Suggested metatags for Twitter',
+  url: 'https://developer.twitter.com/en/docs/tweets/optimize-with-cards',
   tests: [
     { test: `"twitter:card"`, type: 'metatag', description: 'must have card type' },
     { test: `"twitter:title"`, type: 'metatag', description: 'must have title' },

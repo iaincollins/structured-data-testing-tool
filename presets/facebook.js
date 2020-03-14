@@ -2,6 +2,7 @@
 const Facebook = {
   name: 'Facebook',
   description: 'Suggested metatags for Facebook',
+  url: 'https://developers.facebook.com/docs/sharing/webmasters',
   tests: [
     { test: `"og:title"`, type: 'metatag', description: 'must have page title' },
     { test: `"og:type"`, type: 'metatag', description: 'must have page type' },

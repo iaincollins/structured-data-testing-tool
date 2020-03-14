@@ -132,6 +132,7 @@ const _structuredDataTest = async (structuredData, options) => {
                 tests.push({
                   test: testPath,
                   schema: name,
+                  url: `https://schema.org/${name}`,
                   type: structuredDataType || 'any',
                   group: name,
                   groups: groups,
@@ -235,7 +236,7 @@ const _structuredDataTest = async (structuredData, options) => {
     })
 
     // This is a recursive function scoped to this function
-    const _addTestsFromPresets = (presets, structuredData, tests, testsSkipped, testGroups) => {
+    const _addTestsFromPresets = (presets, structuredData, tests, testsSkipped, testGroups, parentPresetUrl) => {
       presets.forEach(preset => {
         if (!preset)
           throw new Error(`Invalid preset specified`)
@@ -244,6 +245,8 @@ const _structuredDataTest = async (structuredData, options) => {
           throw new Error(`Preset specified does not have a 'name' (required)`)
 
         const groups = (Array.isArray(testGroups)) ? testGroups.concat(preset.name) : [preset.name]
+
+        let presetUrl = preset.url || parentPresetUrl || null
 
         let ignorePreset = false
 
@@ -270,6 +273,12 @@ const _structuredDataTest = async (structuredData, options) => {
                 skipTest = true
             }
 
+            // If the test doesn't have an explict URL assigned to it but the preset does
+            // then assign the URL on the preset (which should point to documentation for
+            // preset) to the test, so it is easily acessible when displaying results.
+            if (!test.url && presetUrl)
+              test.url = presetUrl
+
             if (skipTest) {
               testsSkipped.push(test)
             } else {
@@ -279,9 +288,9 @@ const _structuredDataTest = async (structuredData, options) => {
         }
 
         // If the preset has other presets associated with it, apply them too.
-        if (preset.presets) {
-          _addTestsFromPresets(preset.presets, structuredData, tests, testsSkipped, groups)
-        }
+        if (preset.presets)
+          _addTestsFromPresets(preset.presets, structuredData, tests, testsSkipped, groups, presetUrl)
+
       })
     }
     
@@ -663,7 +672,13 @@ const getTestsFromPreset = (preset, structuredData, testGroup) => {
               test.groups = groups
               if (!test.description)
                 test.description = test.test.replace(/(.*)?\[\d\]\./, '').replace(/"/g, '')
-              
+
+              // If the test doesn't have an explict URL assigned to it but the preset does
+              // then assign the URL on the preset (which should point to documentation for
+              // preset) to the test, so it is easily acessible when displaying results.
+              if (!test.url && preset.url)
+                test.url = preset.url
+
               tests.push(test)
             })
           })
@@ -674,6 +689,11 @@ const getTestsFromPreset = (preset, structuredData, testGroup) => {
     // If preset does not have a schema, then return only the tests in the preset
     preset.tests.forEach(test => {
       _setTestGroup(test, preset)
+      // If the test doesn't have an explict URL assigned to it but the preset does
+      // then assign the URL on the preset (which should point to documentation for
+      // preset) to the test, so it is easily acessible when displaying results.
+      if (!test.url && preset.url)
+        test.url = preset.url
       tests.push(test)
     })
   }
