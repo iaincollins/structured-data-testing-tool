@@ -31,12 +31,35 @@ describe('Should flag invalid properties', () => {
     .then(response => response)
     .catch(err => err.res)
 
+    const expectedTestsPassed = [
+      'ReportageNewsArticle[0]',
+      'ReportageNewsArticle[0]."@context"',
+      'ReportageNewsArticle[0]."@type"',
+      'ReportageNewsArticle[0]."author"',
+      'ReportageNewsArticle[0]."dateModified"',
+      'ReportageNewsArticle[0]."datePublished"',
+      'ReportageNewsArticle[0]."headline"',
+      'ReportageNewsArticle[0]."publisher"',
+      'ReportageNewsArticle[0]."image"',
+      'ReportageNewsArticle[0]."mainEntityOfPage"',
+      'ReportageNewsArticle[0]."publisher"."@type"',
+      'ReportageNewsArticle[0]."publisher"."name"',
+      'ReportageNewsArticle[0]."publisher"."logo"."@type"',
+      'ReportageNewsArticle[0]."publisher"."logo"."url"'
+    ]
+
+    const testsPassed = result.passed.map(testsPassed => {
+      return testsPassed.test;
+    })
+
+    expect(testsPassed).toEqual(expectedTestsPassed)
+
     expect(result.schemas.length).toEqual(1)
-    expect(result.passed.length).toEqual(14)
     expect(result.warnings.length).toEqual(0)
     expect(result.failed.length).toBeGreaterThan(1)
   })
 
+  // @TODO Enable this when validation of nested properties is supported
   test.skip('should warn when invalid properties are found in nested schema objects', async () => {
     const result = await structuredDataTest(html)
     .then(response => response)
@@ -45,6 +68,11 @@ describe('Should flag invalid properties', () => {
     expect(result.schemas.length).toEqual(1)
     expect(result.passed.length).toBeGreaterThan(10)
     expect(result.warnings.length).toEqual(0)
+
+    // Currently finds 2, but should find either 3, 4 or 5 (depending on how they are counted).
+    // Validation of poperties in nested schema is not yet supported, so it is not able to find
+    // the invalid property 'publisher > invalidProperty3' that is in the fixture.
+    // The goal is that this should be supported in a future release.
     expect(result.failed.length).toEqual(4)
   })
 

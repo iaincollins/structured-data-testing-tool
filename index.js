@@ -34,7 +34,7 @@ const _structuredDataTest = async (structuredData, options) => {
       // (jsonld, microdata, rdfa, etc) so can easily add the specific tests for them.
       arrayOfSchemas = schemasFound.concat(
         schemasSpecified.filter(schemaSpecified => {
-          let [ structuredDataType, schemaName ] = schemaSpecified.split(':')
+          let [ structuredDataType, schemaName ] = _getSchemaTypeAndName(schemaSpecified)
           if (!schemaName)
             schemaName = structuredDataType
 
@@ -53,7 +53,7 @@ const _structuredDataTest = async (structuredData, options) => {
     const schemasWithProperties = {}
     await Promise.all(
       arrayOfSchemas.map(async schema => {
-        let [ structuredDataType, schemaName ] = schema.split(':')
+        let [ structuredDataType, schemaName ] = _getSchemaTypeAndName(schema)
 
         if (!schemaName) {
           schemaName = structuredDataType
@@ -92,13 +92,8 @@ const _structuredDataTest = async (structuredData, options) => {
       // A schema can just be the schema name like 'Article', but it can also be 
       // 'jsonld:Article', 'microdata:Article' or 'rdfa:Article' if you wanted to check
       // for a schema specified on a page in a particular way.
-      let [ structuredDataType, schemaName ] = schema.split(':')
+      let [ structuredDataType, schemaName ] = _getSchemaTypeAndName(schema)
 
-      if (!schemaName) {
-        schemaName = structuredDataType
-        structuredDataType = null
-      }
-      
       // Add schema name to list of schemas
       schemas.push(schemaName)
 
@@ -106,6 +101,25 @@ const _structuredDataTest = async (structuredData, options) => {
       
       const _addTestsForSchemaOrgProperties = (name, groups, type, props, path, index) => {
         if (props) {
+          if (!schemasWithProperties[name]) {
+            // If a Schema name is not recognized *and* type / context / itemtype
+            // starts with https://schema.org then should result in a warning or error.
+            // @TODO Create help page to explain this warning.
+            tests.push({
+              test: `${name}[${index}]`,
+              schema: name,
+              //url: `http://example.com/errors/no-tests-found?${encodeURIComponent(name)}`,
+              type: structuredDataType || 'any',
+              group: name,
+              groups: groups,
+              expect: false,
+              description: 'No tests found for this schema',
+              warning: true,
+              autoDetected: true
+            })
+            return
+          }
+
           const schemaProperties = schemasWithProperties[name].properties
 
           // Automatically add tests for every valid schema proeprty found
@@ -114,12 +128,12 @@ const _structuredDataTest = async (structuredData, options) => {
             if (props[schemaProperty]) {
               //if (path === null) {
                 // @FIXME Only top high level properties!
-                const pathToProp =  (Array.isArray(path)) ? path.concat(schemaProperty) : [schemaProperty]
+                const pathToProp =  Array.isArray(path) ? path.concat(schemaProperty) : [schemaProperty]
                 const testPath = `${name}[${index}]` + pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `."${pathItem}"`).join('')
                 let warning = false
-                let expect = true
+                let expect = schemaProperties[schemaProperty].expect || true
                 let pending = false
-                let description = pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `.${pathItem}`).join('').replace(/^\./, '')
+                let description = schemaProperties[schemaProperty].description || pathToProp.map(pathItem => (/^\d+$/.test(pathItem)) ? `[${pathItem}]` : `.${pathItem}`).join('').replace(/^\./, '')
                 
                 if (schemaProperties[schemaProperty].pending) {
                   description = `${description} is draft schema property`,
@@ -155,15 +169,21 @@ const _structuredDataTest = async (structuredData, options) => {
     
             if (!schemaProperties[highestLevelProp]) {
               // @FIXME Currently only flags errors if top level proper does not exist
-              // i.e. does not find invalud properties in nested schemas
+              // i.e. does not find invalid properties in nested schemas
               if (path === null) {
+                // Does not error if finds a prop named 'text' on microdata, as that
+                // property is added automatically when parsing HTML objects (e.g.
+                // is effectively the 'innerHTML' of the element and is allowed).
+                if (propName === 'text' && type === 'microdata')
+                  return
+
                 tests.push({
                   test: testPath,
                   schema: name,
                   type: structuredDataType || 'any',
                   group: name,
                   groups: groups,
-                  description: `${description} is not a valid schema property`,
+                  description: `${description} is not a valid schema property ${type}`,
                   expect: false,
                   autoDetected: true
                 })
@@ -199,17 +219,16 @@ const _structuredDataTest = async (structuredData, options) => {
         if (structuredData[structuredDataType][schemaName]) {
           const schemaInstances = structuredData[structuredDataType][schemaName]
 
-          if (schemaInstances.length === 1) {
-            _addTestsForSchemaOrgSchema(tests, schemaName, schemaGroups, structuredDataType, 0)
-            _addTestsForSchemaOrgProperties(schemaName, schemaGroups, structuredDataType, schemaInstances[0], null, 0)
-          } else {
-            schemaInstances.map((schemaInstance, i) => {
-              _addTestsForSchemaOrgSchema(tests, schemaName, schemaGroups.concat(`#${i}`), structuredDataType, i)
-              _addTestsForSchemaOrgProperties(schemaName, schemaGroups.concat(`#${i}`), structuredDataType, schemaInstance, null, i)
-            })
-          }
+          schemaInstances.map((schemaInstance, i) => {
+            // Only add Schema.org tests for schemas found that are schema.org schemas or if Schema was explcitly specified to be tested
+            if (_isSchemaOrgSchema(schemaInstance) || schemasSpecified.includes(schemaName)) {
+              _addTestsForSchemaOrgSchema(tests, schemaName, schemaGroups.concat(`#${i} (${structuredDataType})`), structuredDataType, i)
+              _addTestsForSchemaOrgProperties(schemaName, schemaGroups.concat(`#${i} (${structuredDataType})`), structuredDataType, schemaInstance, null, i)
+            }
+          })
         } else {
           _addTestsForSchemaOrgSchema(tests, schemaName, schemaGroups, structuredDataType)
+          _addTestsForSchemaOrgProperties(schemaName, schemaGroups.concat(`#0 (${structuredDataType})`), structuredDataType, null, null, 0)
         }
       } else {
         if (!schemaTestsWithoutType.includes(schemaName))
@@ -323,8 +342,8 @@ const _structuredDataTest = async (structuredData, options) => {
       skipped: testsSkipped,
       groups: testGroups,
       schemas: schemasFound.map(schema => { 
-        const splitResult = schema.split(':')
-        return (splitResult[1]) ? splitResult[1] : splitResult[0]
+        let [ type, name ] = _getSchemaTypeAndName(schema)
+        return name
       }),
       structuredData,
       options,
@@ -407,12 +426,12 @@ const _test = (test, json) => {
         })
       } else {
         // If value is not an array, treat as a string
-        testPassed = test.value.match(test.expect)
+        testPassed = Boolean(test.value.match(test.expect))
       }
 
       if (!testPassed) {
         testError = {
-          type: 'REGEXP_FAILED',
+          type: 'INVALID_VALUE',
           message: `Failed RegExp test for "${path}"`,
           expected: test.expect,
           found: test.value
@@ -529,6 +548,7 @@ const _findSchemas = (structuredData) => {
   microdata.map(schema => {
     if (schema !== 'undefined' && !schemas.includes(schema)) schemas.push(`microdata:${schema}`)
   })
+
 
   const jsonld = Object.keys(structuredData.jsonld)
   jsonld.map(schema => {
@@ -690,6 +710,32 @@ const getTestsFromPreset = (preset, structuredData, testGroup) => {
   return tests
 }
 
+function _isSchemaOrgSchema(schema) {
+  if (schema['@context'] && schema['@context'].match(/^(http|https):\/\/schema.org/))
+    return true
+
+  if (schema['@type'] && schema['@type'].match(/^(http|https):\/\/schema.org/))
+    return true
+
+  return false
+}
+
+function _getSchemaTypeAndName(schema) {
+  let structuredDataType = null
+  let schemaName = schema
+
+  if (schemaName.match(/^jsonld:/))
+    [structuredDataType, schemaName] = [ 'jsonld', schema.replace(/^jsonld:/, '').replace(/^http:\/\/schema\.org\//, '') ]
+
+  if (schemaName.match(/^rdfa:/))
+    [structuredDataType, schemaName] = [ 'rdfa', schema.replace(/^rdfa:/, '').replace(/^http:\/\/schema\.org\//, '') ]
+
+  if (schemaName.match(/^microdata:/))
+    [structuredDataType, schemaName] = [ 'microdata', schema.replace(/^microdata:/, '').replace(/^http:\/\/schema\.org\//, '') ]
+
+  return [structuredDataType, schemaName]
+}
+
 // Add a test for any schema explicitly specified (or that was detected)
 const _addTestsForSchemaOrgSchema = (tests, name, groups, type, index) => {
   tests.push({
@@ -698,7 +744,7 @@ const _addTestsForSchemaOrgSchema = (tests, name, groups, type, index) => {
     type: type || 'any',
     group: name,
     groups: groups,
-    description: (type) ? `schema in ${type}` : `schema found`
+    description: (type) ? `Schema found in ${type}` : `Schema found`
   })
 }
 
