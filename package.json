@@ -8,6 +8,7 @@
     "sdtt": "bin/cli.js"
   },
   "scripts": {
+    "build": "npx pkg bin/cli.js",
     "update": "node bin/update-schema-list.js",
     "test": "jest --verbose --coverage"
   },
@@ -35,7 +36,8 @@
   "devDependencies": {
     "husky": "^3.0.1",
     "jest": "^25.1.0",
-    "jest-fetch-mock": "^2.1.2"
+    "jest-fetch-mock": "^2.1.2",
+    "pkg": "^4.4.7"
   },
   "jest": {
     "automock": false,

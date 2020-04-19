@@ -1,5 +1,5 @@
 #! /usr/bin/env node
-const yargs = require(`yargs`)
+const yargs = require('yargs')
 const chalk = require('chalk')
 const fs = require('fs')
 const { structuredDataTest } = require('../index')
