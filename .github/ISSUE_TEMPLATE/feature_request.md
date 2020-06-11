@@ -11,7 +11,7 @@ assignees: ''
 A clear and concise description of the feature being proposed.
 
 **Purpose of proposed feature**
-A clear and concise description description of why this feature is nesseary and what problems it solves.
+A clear and concise description description of why this feature is necessary and what problems it solves.
 
 **Detail of the proposed**
 A detailed description of how the proposal might work (if you have one).
