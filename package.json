@@ -29,7 +29,7 @@
     "is-stream": "^2.0.0",
     "jmespath": "^0.15.0",
     "node-fetch": "^2.6.0",
-    "validator": "^11.0.0",
+    "validator": "^13.7.0",
     "web-auto-extractor": "^1.0.17",
     "yargs": "^13.2.4"
   },
